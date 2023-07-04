@@ -24,6 +24,7 @@ public Integer registroCandidato(String nombre, String apellidoP, String apellid
     usuario.setNombre(nombre);
     usuario.setCorreoElectronico(correoElectronico);
     usuario.setContraseña(contraseña);
+    usuario.setTipoUsuario(2);
     usuario = usuarioRepository.save(usuario);
 
     Candidato candidato = new Candidato();

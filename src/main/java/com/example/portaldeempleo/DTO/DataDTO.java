@@ -8,9 +8,11 @@ public String nombre;
 public String apellidoP;
 public String apellidoM;
 public String correoElectronico;
-public String contraseña;
+public String contrasena;
 public String telefono;
 public Integer edad;
+
+public Integer tipoUsuario;
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -60,12 +62,12 @@ public Integer edad;
         this.correoElectronico = correoElectronico;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getTelefono() {
@@ -82,5 +84,13 @@ public Integer edad;
 
     public void setEdad(Integer edad) {
         this.edad = edad;
+    }
+
+    public Integer getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(Integer tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

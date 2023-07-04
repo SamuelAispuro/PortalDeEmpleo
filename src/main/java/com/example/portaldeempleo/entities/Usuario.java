@@ -17,6 +17,8 @@ public class Usuario {
 
     @Column(name="contraseña")
     private String contraseña;
+    @Column(name="tipousuario")
+    private Integer tipoUsuario;
 
 
 
@@ -52,4 +54,11 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
+    public Integer getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(Integer tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 }
