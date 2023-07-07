@@ -14,7 +14,7 @@ public class Vacante {
 
 
     @Column(name="nombrevacante")
-    private String nombre;
+    private String nombreVacante;
 
     @Column(name="especialistarequerido")
     private String especialista;
@@ -52,7 +52,7 @@ public class Vacante {
 
     @ManyToOne(
             fetch = FetchType.EAGER,
-            optional = false
+            optional = true
     )
     @JoinColumn(name="id_empleador")
    private Empleador empleador;
@@ -66,12 +66,12 @@ public class Vacante {
         this.id_vacante = id_vacante;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreVacante() {
+        return nombreVacante;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreVacante(String nombreVacante) {
+        this.nombreVacante = nombreVacante;
     }
 
     public String getEspecialista() {
@@ -161,4 +161,6 @@ public class Vacante {
     public void setEmpleador(Empleador empleador) {
         this.empleador = empleador;
     }
+
+
 }
