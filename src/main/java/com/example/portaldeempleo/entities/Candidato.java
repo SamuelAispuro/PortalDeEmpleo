@@ -9,23 +9,13 @@ public class Candidato {
     @Column(name="id_candidato")
     private Integer id_candidato;
 
-    /*Por definir
-    private int id_tipoUsuario=0;*/
     @OneToOne
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
-    @Column(name="apellidop")
-    private String apellidoP;
-
-    @Column(name="apellidom")
-    private String apellidoM;
-
     @Column(name="edad")
     private Integer edad;
 
-    @Column(name="telefono")
-    private String telefono;
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -43,22 +33,6 @@ public class Candidato {
         this.usuario = usuario;
     }
 
-    public String getApellidoP() {
-        return apellidoP;
-    }
-
-    public void setApellidoP(String apellidoP) {
-        this.apellidoP = apellidoP;
-    }
-
-    public String getApellidoM() {
-        return apellidoM;
-    }
-
-    public void setApellidoM(String apellidoM) {
-        this.apellidoM = apellidoM;
-    }
-
     public Integer getEdad() {
         return edad;
     }
@@ -67,12 +41,5 @@ public class Candidato {
         this.edad = edad;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 
 }

@@ -20,6 +20,15 @@ public class Usuario {
     @Column(name="tipousuario")
     private Integer tipoUsuario;
 
+    @Column(name="apellidop")
+    private String apellidoP;
+
+    @Column(name="apellidoM")
+    private String apellidoM;
+
+    @Column(name="telefono")
+    private String telefono;
+
 
 
     public Integer getId_usuario() {
@@ -60,5 +69,29 @@ public class Usuario {
 
     public void setTipoUsuario(Integer tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getApellidoP() {
+        return apellidoP;
+    }
+
+    public void setApellidoP(String apellidoP) {
+        this.apellidoP = apellidoP;
+    }
+
+    public String getApellidoM() {
+        return apellidoM;
+    }
+
+    public void setApellidoM(String apellidoM) {
+        this.apellidoM = apellidoM;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

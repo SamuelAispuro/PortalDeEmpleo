@@ -24,14 +24,14 @@ public Integer registroCandidato(String nombre, String apellidoP, String apellid
     usuario.setNombre(nombre);
     usuario.setCorreoElectronico(correoElectronico);
     usuario.setContraseña(contraseña);
+    usuario.setApellidoP(apellidoP);
+    usuario.setApellidoM(apellidoM);
+    usuario.setTelefono(telefono);
     usuario.setTipoUsuario(2);
     usuario = usuarioRepository.save(usuario);
 
     Candidato candidato = new Candidato();
     candidato.setUsuario(usuario);
-    candidato.setApellidoP(apellidoP);
-    candidato.setApellidoM(apellidoM);
-    candidato.setTelefono(telefono);
     candidato.setEdad(edad);
     candidato = candidatoRepository.save(candidato);
 
@@ -43,11 +43,6 @@ public List<Candidato> obtenerTodos(){
     return this.candidatoRepository.findAll();
 }
 
-//login
-     public Usuario login(String correoElectronico, String contraseña){
-    Usuario usuarioEncontrado = this.usuarioRepository.findByCorreoElectronicoAndContraseña(correoElectronico, contraseña);
 
-    return usuarioEncontrado;
-     }
 
 }
