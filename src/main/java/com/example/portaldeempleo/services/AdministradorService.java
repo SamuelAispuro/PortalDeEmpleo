@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.services;
 
+import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.Administrador;
 import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Usuario;
@@ -16,6 +17,7 @@ public class AdministradorService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+
     // metodo para registrar un administrador
 
     public Integer registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña){
@@ -27,7 +29,7 @@ public class AdministradorService {
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
         usuario.setTelefono(telefono);
-        usuario.setTipoUsuario(1);
+        usuario.setTipoUsuario(1); //"1" es el tipo de usuario de un administrador
         usuario = usuarioRepository.save(usuario);
 
         Administrador administrador = new Administrador();
@@ -37,7 +39,11 @@ public class AdministradorService {
         return administrador.getId_administrador();
     }
 
+    //Metodo para eliminar un usuario
+    public void eliminarUsuario(Integer id_usuario){
+    usuarioRepository.deleteById(id_usuario);
 
+    }
 
 
 }

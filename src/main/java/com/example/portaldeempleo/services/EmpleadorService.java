@@ -29,7 +29,7 @@ public class EmpleadorService {
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
         usuario.setTelefono(telefono);
-        usuario.setTipoUsuario(3);
+        usuario.setTipoUsuario(3); //"3" es el tipo de usuario de un empleador
         usuario = usuarioRepository.save(usuario);
 
         Empleador empleador = new Empleador();

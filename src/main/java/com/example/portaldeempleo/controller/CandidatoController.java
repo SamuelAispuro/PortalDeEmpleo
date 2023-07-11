@@ -1,8 +1,6 @@
 package com.example.portaldeempleo.controller;
 
 import com.example.portaldeempleo.DTO.DataDTO;
-import com.example.portaldeempleo.DTO.RespuestaDTO;
-import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.services.CandidatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

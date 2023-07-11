@@ -1,5 +1,9 @@
 package com.example.portaldeempleo.entities;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="candidato")
 public class Candidato {
@@ -9,13 +13,15 @@ public class Candidato {
     @Column(name="id_candidato")
     private Integer id_candidato;
 
+    @Column(name="edad")
+    private Integer edad;
+
     @OneToOne
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
-    @Column(name="edad")
-    private Integer edad;
-
+    @ManyToMany(mappedBy = "candidatos")
+    private List<Vacante> vacantes = new ArrayList<>();
 
     public Integer getId_candidato() {
         return id_candidato;

@@ -2,6 +2,9 @@ package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="vacante")
 public class Vacante {
@@ -40,8 +43,8 @@ public class Vacante {
     @Column(name="estatus")
     private Boolean estatus;
 
-    @Column(name="id_postulante")
-    private Integer id_postulante;
+    @Column(name="id_candidato")
+    private Integer id_candidato;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
@@ -56,6 +59,12 @@ public class Vacante {
     )
     @JoinColumn(name="id_empleador")
    private Empleador empleador;
+
+    @ManyToMany
+    @JoinTable(name="postulaciones",
+    joinColumns = @JoinColumn(name="id_vacante"),
+    inverseJoinColumns = @JoinColumn(name="id_candidato"))
+    private List<Candidato> candidatos = new ArrayList<>();
 
 
     public Integer getId_vacante() {
@@ -138,12 +147,20 @@ public class Vacante {
         this.estatus = estatus;
     }
 
-    public Integer getId_postulante() {
-        return id_postulante;
+    public Integer getId_candidato() {
+        return id_candidato;
     }
 
-    public void setId_postulante(Integer id_postulante) {
-        this.id_postulante = id_postulante;
+    public void setId_candidato(Integer id_candidato) {
+        this.id_candidato = id_candidato;
+    }
+
+    public List<Candidato> getCandidatos() {
+        return candidatos;
+    }
+
+    public void setCandidatos(List<Candidato> candidatos) {
+        this.candidatos = candidatos;
     }
 
     public Empresa getEmpresa() {
