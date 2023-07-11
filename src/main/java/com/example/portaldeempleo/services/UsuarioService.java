@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.services;
 
+import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.repositories.CandidatoRepository;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
@@ -19,4 +20,9 @@ public class UsuarioService {
         return usuarioEncontrado;
     }
 
+
+    //Validacion de correo
+   /* public RespuestaDTO validCorreo(String correoElectronico){
+
+    }*/
 }

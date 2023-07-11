@@ -23,6 +23,9 @@ public class UsuarioController {
 
         Usuario usuarioEncontrado = this.usuarioService.login(requestData.getCorreoElectronico(), requestData.getContrasena());
         RespuestaDTO respuesta = new RespuestaDTO();
+        //if (requestData.getCorreoElectronico() != null)
+
+
         if (usuarioEncontrado != null){
             usuarioEncontrado.setContraseña(null);
             respuesta.setEstatus(true);

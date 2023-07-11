@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.controller;
 
 import com.example.portaldeempleo.DTO.DataDTO;
+import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.services.AdministradorService;
 import com.example.portaldeempleo.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class AdministradorController {
     public void eliminarUsuario(@PathVariable Integer id_usuario){
     this.administradorService.eliminarUsuario(id_usuario);
     }
-
+    //Obtener datos de usuario por correo
+    @GetMapping("/obtenerUsuario/{correoElectronico}")
+    public Usuario obtenerUsuario(@PathVariable String correoElectronico){
+        Usuario usuarioEncontrado = this.administradorService.obtenerUsuario(correoElectronico);
+        return usuarioEncontrado;
+    }
 }
