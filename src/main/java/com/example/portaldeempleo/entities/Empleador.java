@@ -26,11 +26,6 @@ public class Empleador {
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
-    @Column(name="imagenperfil")
-    private byte[] imagenPerfil;
-
-    @Column(name="imagenportada")
-    private byte[] imagenPortada;
 
     /*@OneToMany(
             fetch = FetchType.EAGER,
@@ -64,19 +59,4 @@ public class Empleador {
         this.usuario = usuario;
     }
 
-    public byte[] getImagenPerfil() {
-        return imagenPerfil;
-    }
-
-    public void setImagenPerfil(byte[] imagenPerfil) {
-        this.imagenPerfil = imagenPerfil;
-    }
-
-    public byte[] getImagenPortada() {
-        return imagenPortada;
-    }
-
-    public void setImagenPortada(byte[] imagenPortada) {
-        this.imagenPortada = imagenPortada;
-    }
 }

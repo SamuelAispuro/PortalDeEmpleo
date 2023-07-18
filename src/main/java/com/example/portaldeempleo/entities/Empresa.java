@@ -28,7 +28,7 @@ public class Empresa {
     @Column(name="descripcion")
     private String descripcion;
 
-    /*@Column(name="id_reseña")
+    /*@Column(name="id_reseña")fg
     private Reseña id_reseña;*/
 
     public Integer getId_empresa() {

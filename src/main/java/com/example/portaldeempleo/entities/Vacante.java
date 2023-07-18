@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,6 @@ public class Vacante {
 
     @Column(name="horario")
     private String horario;
-
-    @Column(name="id_tipohorario")
-    private Integer id_tipoHorario;
-
-    @Column(name="id_modalidadtrabajo")
-    private Integer id_modalidadTrabajo;
-
-    @Column(name="id_tipocontratacion")
-    private Integer id_tipoContratacion;
 
     @Column(name="id_localidad")
     private Integer id_localidad;
@@ -65,6 +57,26 @@ public class Vacante {
     joinColumns = @JoinColumn(name="id_vacante"),
     inverseJoinColumns = @JoinColumn(name="id_candidato"))
     private List<Candidato> candidatos = new ArrayList<>();
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            optional = true
+    )
+    @JoinColumn(name="id_tipohorario")
+    private TipoHorario tipoHorario;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            optional = true
+    )
+    @JoinColumn(name="id_tipocontratacion")
+    private TipoContratacion tipoContratacion;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            optional = true
+    )
+    @JoinColumn(name="id_modalidadtrabajo")
+    private ModalidadTrabajo modalidadTrabajo;
 
 
     public Integer getId_vacante() {
@@ -105,30 +117,6 @@ public class Vacante {
 
     public void setHorario(String horario) {
         this.horario = horario;
-    }
-
-    public Integer getId_tipoHorario() {
-        return id_tipoHorario;
-    }
-
-    public void setId_tipoHorario(Integer id_tipoHorario) {
-        this.id_tipoHorario = id_tipoHorario;
-    }
-
-    public Integer getId_modalidadTrabajo() {
-        return id_modalidadTrabajo;
-    }
-
-    public void setId_modalidadTrabajo(Integer id_modalidadTrabajo) {
-        this.id_modalidadTrabajo = id_modalidadTrabajo;
-    }
-
-    public Integer getId_tipoContratacion() {
-        return id_tipoContratacion;
-    }
-
-    public void setId_tipoContratacion(Integer id_tipoContratacion) {
-        this.id_tipoContratacion = id_tipoContratacion;
     }
 
     public Integer getId_localidad() {
@@ -179,5 +167,27 @@ public class Vacante {
         this.empleador = empleador;
     }
 
+    public TipoHorario getTipoHorario() {
+        return tipoHorario;
+    }
 
+    public void setTipoHorario(TipoHorario tipoHorario) {
+        this.tipoHorario = tipoHorario;
+    }
+
+    public TipoContratacion getTipoContratacion() {
+        return tipoContratacion;
+    }
+
+    public void setTipoContratacion(TipoContratacion tipoContratacion) {
+        this.tipoContratacion = tipoContratacion;
+    }
+
+    public ModalidadTrabajo getModalidadTrabajo() {
+        return modalidadTrabajo;
+    }
+
+    public void setModalidadTrabajo(ModalidadTrabajo modalidadTrabajo) {
+        this.modalidadTrabajo = modalidadTrabajo;
+    }
 }

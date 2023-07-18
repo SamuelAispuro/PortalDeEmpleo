@@ -6,6 +6,8 @@ import com.example.portaldeempleo.entities.Administrador;
 import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.repositories.AdministradorRepository;
+import com.example.portaldeempleo.repositories.CandidatoRepository;
+import com.example.portaldeempleo.repositories.PostulacionRepository;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,12 @@ public class AdministradorService {
     AdministradorRepository administradorRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
-
+    @Autowired
+    CandidatoRepository candidatoRepository;
+    @Autowired
+    PostulacionRepository postulacionRepository;
+    @Autowired
+    PasswordEncryption passwordEncryption;
 
     // metodo para registrar un administrador
 
@@ -28,7 +35,7 @@ public class AdministradorService {
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setCorreoElectronico(correoElectronico);
-        usuario.setContraseña(contraseña);
+        usuario.setContraseña(passwordEncryption.encryptText(contraseña));
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
         usuario.setTelefono(telefono);
@@ -44,7 +51,14 @@ public class AdministradorService {
 
     //Metodo para eliminar un usuario
     public void eliminarUsuario(Integer id_usuario){
-    usuarioRepository.deleteById(id_usuario);
+        Usuario usuario = usuarioRepository.findById(id_usuario).orElse(null);
+        if(usuario.getTipoUsuario() == 2){
+           Candidato candidato = candidatoRepository.findByUsuario(usuario);
+           postulacionRepository.deleteWithRelationsById(candidato);
+           candidatoRepository.deleteById(candidato.getId_candidato());
+            usuarioRepository.deleteById(id_usuario);
+        }
+
 
     }
     //Obtener datos de un usuario por correo

@@ -17,6 +17,8 @@ public class EmpleadorService {
     EmpleadorRepository empleadorRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    PasswordEncryption passwordEncryption;
 
     //Metodo para registrar un empleador
 
@@ -25,7 +27,7 @@ public class EmpleadorService {
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setCorreoElectronico(correoElectronico);
-        usuario.setContraseña(contraseña);
+        usuario.setContraseña(passwordEncryption.encryptText(contraseña));
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
         usuario.setTelefono(telefono);

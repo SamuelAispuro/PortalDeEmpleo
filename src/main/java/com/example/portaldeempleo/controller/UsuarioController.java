@@ -23,19 +23,27 @@ public class UsuarioController {
 
         Usuario usuarioEncontrado = this.usuarioService.login(requestData.getCorreoElectronico(), requestData.getContrasena());
         RespuestaDTO respuesta = new RespuestaDTO();
-        //if (requestData.getCorreoElectronico() != null)
+        if (requestData.getCorreoElectronico() != null && requestData.getCorreoElectronico() != "" && requestData.getContrasena() != null && requestData.getContrasena() != ""){
 
+            if (usuarioEncontrado != null){
+                usuarioEncontrado.setContraseña(null);
+                respuesta.setEstatus(true);
+                respuesta.setMensaje("Usuario logeado correctamente");
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+                respuesta.setEstatus(false);
+                respuesta.setMensaje("No se encontro un usuario con estos datos");
+                return new ResponseEntity<>(respuesta,HttpStatus.OK);
+            }
 
-        if (usuarioEncontrado != null){
-            usuarioEncontrado.setContraseña(null);
-            respuesta.setEstatus(true);
-            respuesta.setMensaje("Usuario logeado correctamente");
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }else{
+            respuesta.setMensaje("Los campos no pueden ser enviados en blanco, intentalo nuevamente");
             respuesta.setEstatus(false);
-            respuesta.setMensaje("No se encontro un usuario con estos datos");
-            return new ResponseEntity<>(respuesta,HttpStatus.OK);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }
+
+
+
 
     }
 

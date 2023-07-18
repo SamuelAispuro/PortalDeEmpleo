@@ -24,26 +24,31 @@ public class CandidatoService {
     VacanteRepository vacanteRepository;
     @Autowired
     PostulacionRepository postulacionRepository;
+    @Autowired
+    PasswordEncryption passwordEncryption;
 
     //metodo para registrar un candidato
-public Integer registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña ,Integer edad){
+public Integer registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña ,Integer edad/*, Integer Localidad*/){
 
-    Usuario usuario = new Usuario();
-    usuario.setNombre(nombre);
-    usuario.setCorreoElectronico(correoElectronico);
-    usuario.setContraseña(contraseña);
-    usuario.setApellidoP(apellidoP);
-    usuario.setApellidoM(apellidoM);
-    usuario.setTelefono(telefono);
-    usuario.setTipoUsuario(2); //"2" es el tipo de usuario de un candidato
-    usuario = usuarioRepository.save(usuario);
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setCorreoElectronico(correoElectronico);
+        usuario.setContraseña(passwordEncryption.encryptText(contraseña));
+        usuario.setApellidoP(apellidoP);
+        usuario.setApellidoM(apellidoM);
+        usuario.setTelefono(telefono);
+        usuario.setTipoUsuario(2); //"2" es el tipo de usuario de un candidato
+        usuario = usuarioRepository.save(usuario);
 
-    Candidato candidato = new Candidato();
-    candidato.setUsuario(usuario);
-    candidato.setEdad(edad);
-    candidato = candidatoRepository.save(candidato);
+        Candidato candidato = new Candidato();
+        candidato.setUsuario(usuario);
+        //candidato.setLocalidad(localidad);
+        candidato.setEdad(edad);
+        candidato = candidatoRepository.save(candidato);
 
-    return candidato.getId_candidato();
+        return candidato.getId_candidato();
+
+
 }
 
 

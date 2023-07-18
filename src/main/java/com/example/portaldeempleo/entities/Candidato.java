@@ -21,7 +21,9 @@ public class Candidato {
     Usuario usuario;
 
     @ManyToMany(mappedBy = "candidatos")
-    private List<Vacante> vacantes = new ArrayList<>();
+    private List<Vacante> postulaciones = new ArrayList<>();
+    @ManyToMany(mappedBy = "candidatos")
+    private List<Idioma> idiomas = new ArrayList<>();
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -47,5 +49,19 @@ public class Candidato {
         this.edad = edad;
     }
 
+    public List<Vacante> getPostulaciones() {
+        return postulaciones;
+    }
 
+    public void setPostulaciones(List<Vacante> postulaciones) {
+        this.postulaciones = postulaciones;
+    }
+
+    public List<Idioma> getIdiomas() {
+        return idiomas;
+    }
+
+    public void setIdiomas(List<Idioma> idiomas) {
+        this.idiomas = idiomas;
+    }
 }

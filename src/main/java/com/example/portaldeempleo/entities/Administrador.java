@@ -15,11 +15,6 @@ public class Administrador {
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
-    @Column(name="imagenperfil")
-    private byte[] imagenPerfil;
-
-    @Column(name="imagenportada")
-    private byte[] imagenPortada;
 
     /*@Column(name="id_peticion")
     private Peticion peticion;*/
@@ -46,19 +41,4 @@ public class Administrador {
         this.usuario = usuario;
     }
 
-    public byte[] getImagenPerfil() {
-        return imagenPerfil;
-    }
-
-    public void setImagenPerfil(byte[] imagenPerfil) {
-        this.imagenPerfil = imagenPerfil;
-    }
-
-    public byte[] getImagenPortada() {
-        return imagenPortada;
-    }
-
-    public void setImagenPortada(byte[] imagenPortada) {
-        this.imagenPortada = imagenPortada;
-    }
 }

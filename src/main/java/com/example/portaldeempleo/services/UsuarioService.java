@@ -12,17 +12,15 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    PasswordEncryption passwordEncryption;
 
     //login
     public Usuario login(String correoElectronico, String contraseña){
-        Usuario usuarioEncontrado = this.usuarioRepository.findByCorreoElectronicoAndContraseña(correoElectronico, contraseña);
+        Usuario usuarioEncontrado = this.usuarioRepository.findByCorreoElectronicoAndContraseña(correoElectronico, passwordEncryption.encryptText(contraseña));
 
         return usuarioEncontrado;
     }
 
 
-    //Validacion de correo
-   /* public RespuestaDTO validCorreo(String correoElectronico){
-
-    }*/
 }
