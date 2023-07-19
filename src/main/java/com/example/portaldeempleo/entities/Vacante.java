@@ -29,53 +29,56 @@ public class Vacante {
     @Column(name="horario")
     private String horario;
 
-    @Column(name="id_localidad")
-    private Integer id_localidad;
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            optional = true
+    )
+    @JoinColumn(name="id_municipio", updatable = false)
+    private Municipio municipio;
 
     @Column(name="estatus")
     private Boolean estatus;
-
-    @Column(name="id_candidato")
-    private Integer id_candidato;
+    @Column(name="descripcion")
+    private String descripcion;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = false
     )
-    @JoinColumn(name="id_empresa")
+    @JoinColumn(name="id_empresa", updatable = false)
     private Empresa empresa;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_empleador")
+    @JoinColumn(name="id_empleador", updatable = false)
    private Empleador empleador;
 
     @ManyToMany
     @JoinTable(name="postulaciones",
-    joinColumns = @JoinColumn(name="id_vacante"),
-    inverseJoinColumns = @JoinColumn(name="id_candidato"))
+    joinColumns = @JoinColumn(name="id_vacante", updatable = false),
+    inverseJoinColumns = @JoinColumn(name="id_candidato", updatable = false))
     private List<Candidato> candidatos = new ArrayList<>();
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_tipohorario")
+    @JoinColumn(name="id_tipohorario", updatable = false)
     private TipoHorario tipoHorario;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_tipocontratacion")
+    @JoinColumn(name="id_tipocontratacion", updatable = false)
     private TipoContratacion tipoContratacion;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_modalidadtrabajo")
+    @JoinColumn(name="id_modalidadtrabajo", updatable = false)
     private ModalidadTrabajo modalidadTrabajo;
 
 
@@ -119,28 +122,12 @@ public class Vacante {
         this.horario = horario;
     }
 
-    public Integer getId_localidad() {
-        return id_localidad;
-    }
-
-    public void setId_localidad(Integer id_localidad) {
-        this.id_localidad = id_localidad;
-    }
-
     public Boolean getEstatus() {
         return estatus;
     }
 
     public void setEstatus(Boolean estatus) {
         this.estatus = estatus;
-    }
-
-    public Integer getId_candidato() {
-        return id_candidato;
-    }
-
-    public void setId_candidato(Integer id_candidato) {
-        this.id_candidato = id_candidato;
     }
 
     public List<Candidato> getCandidatos() {
@@ -189,5 +176,21 @@ public class Vacante {
 
     public void setModalidadTrabajo(ModalidadTrabajo modalidadTrabajo) {
         this.modalidadTrabajo = modalidadTrabajo;
+    }
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

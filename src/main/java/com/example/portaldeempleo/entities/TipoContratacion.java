@@ -11,7 +11,7 @@ public class TipoContratacion {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id_contratacion")
+    @Column(name="id_tipocontratacion")
     private Integer id_contratacion;
 
     @Column(name="horario")

@@ -11,7 +11,6 @@ public String correoElectronico;
 public String contrasena;
 public String telefono;
 public Integer edad;
-public Integer localidad;
 
 public Integer tipoUsuario;
 
@@ -95,11 +94,5 @@ public Integer tipoUsuario;
         this.tipoUsuario = tipoUsuario;
     }
 
-    /*public Integer getLocalidad() {
-        return localidad;
-    }
 
-    public void setLocalidad(Integer localidad) {
-        this.localidad = localidad;
-    }*/
 }
