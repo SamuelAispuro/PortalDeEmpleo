@@ -15,7 +15,7 @@ public class TipoHorario {
     private Integer id_tipoHorario;
 
     @Column(name="dias")
-    private Integer dias;
+    private String dias;
 
     @OneToMany(
             fetch = FetchType.EAGER,
@@ -33,11 +33,11 @@ public class TipoHorario {
         this.id_tipoHorario = id_tipoHorario;
     }
 
-    public Integer getDias() {
+    public String getDias() {
         return dias;
     }
 
-    public void setDias(Integer dias) {
+    public void setDias(String dias) {
         this.dias = dias;
     }
 

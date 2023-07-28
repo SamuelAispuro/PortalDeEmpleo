@@ -1,18 +1,52 @@
 package com.example.portaldeempleo.DTO;
 
+import com.example.portaldeempleo.entities.Municipio;
+
 public class DataDTO {
 
-public Integer id_candidato;
-public Integer id_usuario;
-public String nombre;
-public String apellidoP;
-public String apellidoM;
-public String correoElectronico;
-public String contrasena;
-public String telefono;
-public Integer edad;
+private Integer id_candidato;
+private Integer id_usuario;
+private String nombre;
+private String apellidoP;
+private String apellidoM;
+private String correoElectronico;
+private String contrasena;
+private String telefono;
+private Integer edad;
+private Integer id_municipio;
+private Integer id_estado;
+private String domicilio;
+private String centroEducativo;
+private String puestoActual;
+private Integer id_documentoCv;
+private String descripcion;
 
-public Integer tipoUsuario;
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getPuestoActual() {
+        return puestoActual;
+    }
+
+    public void setPuestoActual(String puestoActual) {
+        this.puestoActual = puestoActual;
+    }
+
+    public Integer getId_documentoCv() {
+        return id_documentoCv;
+    }
+
+    public void setId_documentoCv(Integer id_documentoCv) {
+        this.id_documentoCv = id_documentoCv;
+    }
+
+    private Integer tipoUsuario;
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -86,6 +120,22 @@ public Integer tipoUsuario;
         this.edad = edad;
     }
 
+    public Integer getId_municipio() {
+        return id_municipio;
+    }
+
+    public void setId_municipio(Integer id_municipio) {
+        this.id_municipio = id_municipio;
+    }
+
+    public Integer getId_estado() {
+        return id_estado;
+    }
+
+    public void setId_estado(Integer id_estado) {
+        this.id_estado = id_estado;
+    }
+
     public Integer getTipoUsuario() {
         return tipoUsuario;
     }
@@ -94,5 +144,19 @@ public Integer tipoUsuario;
         this.tipoUsuario = tipoUsuario;
     }
 
+    public String getDomicilio() {
+        return domicilio;
+    }
 
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getCentroEducativo() {
+        return centroEducativo;
+    }
+
+    public void setCentroEducativo(String centroEducativo) {
+        this.centroEducativo = centroEducativo;
+    }
 }

@@ -81,6 +81,8 @@ public class Vacante {
     @JoinColumn(name="id_modalidadtrabajo", updatable = false)
     private ModalidadTrabajo modalidadTrabajo;
 
+    @Transient
+    private Integer id_postulacion;
 
     public Integer getId_vacante() {
         return id_vacante;
@@ -192,5 +194,13 @@ public class Vacante {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Integer getId_postulacion() {
+        return id_postulacion;
+    }
+
+    public void setId_postulacion(Integer id_postulacion) {
+        this.id_postulacion = id_postulacion;
     }
 }

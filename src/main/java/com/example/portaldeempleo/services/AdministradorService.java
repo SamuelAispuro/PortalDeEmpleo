@@ -30,15 +30,15 @@ public class AdministradorService {
 
     // metodo para registrar un administrador
 
-    public Integer registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña){
-
+    public Administrador registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String contraseña){
+    Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
+    if(usuarioEncontrado == null) {
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setCorreoElectronico(correoElectronico);
         usuario.setContraseña(passwordEncryption.encryptText(contraseña));
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
-        usuario.setTelefono(telefono);
         usuario.setTipoUsuario(1); //"1" es el tipo de usuario de un administrador
         usuario = usuarioRepository.save(usuario);
 
@@ -46,24 +46,29 @@ public class AdministradorService {
         administrador.setUsuario(usuario);
         administrador = administradorRepository.save(administrador);
 
-        return administrador.getId_administrador();
+        return administrador;
+    }
+    return null;
     }
 
     //Metodo para eliminar un usuario
     public void eliminarUsuario(Integer id_usuario){
         Usuario usuario = usuarioRepository.findById(id_usuario).orElse(null);
-        if(usuario.getTipoUsuario() == 2){
-           Candidato candidato = candidatoRepository.findByUsuario(usuario);
-           postulacionRepository.deleteWithRelationsById(candidato);
-           candidatoRepository.deleteById(candidato.getId_candidato());
-            usuarioRepository.deleteById(id_usuario);
-        }
-
-
+        usuario.setEstatusUsuario(false);
+        usuario = usuarioRepository.save(usuario);
     }
     //Obtener datos de un usuario por correo
     public Usuario obtenerUsuario(String correoElectronico){
        Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronico(correoElectronico);
         return usuarioEncontrado;
+    }
+    //Obtener datos completos de un usuario por correo
+    public Object obtenerUsuarioCompleto(String correoElectronico){
+        Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronico(correoElectronico);
+        Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+        candidatoEncontrado.getEstado().setMunicipios(null);
+
+
+        return candidatoEncontrado;
     }
 }

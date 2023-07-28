@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface PostulacionRepository extends JpaRepository<Postulacion, Integer> {
     public void deleteByCandidato (Candidato candidato);
@@ -15,4 +17,9 @@ public interface PostulacionRepository extends JpaRepository<Postulacion, Intege
     @Modifying
     @Query("DELETE FROM Postulacion p WHERE p.candidato = :candidato")
     void deleteWithRelationsById(Candidato candidato);
+
+    public Postulacion findByCandidato(Candidato candidato);
+
+    public List<Postulacion> findAllByCandidato(Candidato candidato);
+
 }

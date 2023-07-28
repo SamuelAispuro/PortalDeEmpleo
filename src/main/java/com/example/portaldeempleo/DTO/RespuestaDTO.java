@@ -1,6 +1,9 @@
 package com.example.portaldeempleo.DTO;
 
+
+
 public class RespuestaDTO {
+
 
     public String mensaje;
     public boolean estatus;

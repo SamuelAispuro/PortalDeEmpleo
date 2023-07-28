@@ -36,13 +36,13 @@ public class VacanteController {
 
     }
     //Eliminar vacante
-    @DeleteMapping("/eliminarVacante/{id}")
+    @DeleteMapping("/eliminarVacante/{id_vacante}")
     public String eliminarVacante(@PathVariable Integer id_vacante){
     this.vacanteService.eliminarVacante(id_vacante);
     return "Vacante eliminada exitosamente";
     }
     //Obtener vacante por id
-    @GetMapping("/obtenerVacantePorId/{id}")
+    @GetMapping("/obtenerVacantePorId/{id_vacante}")
     public ResponseEntity<Vacante> obtenerVacantePorId(@PathVariable Integer id_vacante){
     Vacante vacante = this.vacanteService.obtenerVacantePorId(id_vacante);
 

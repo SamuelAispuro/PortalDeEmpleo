@@ -21,7 +21,7 @@ public class Estado {
             cascade = CascadeType.ALL
 
     )
-    @JoinColumn(name="id_municipio", updatable=false)
+    @JoinColumn(name="id_estado", updatable=false)
     private List<Municipio> municipios = new ArrayList<>();
 
     public Integer getId_estado() {
@@ -38,5 +38,13 @@ public class Estado {
 
     public void setNombreEstado(String nombreEstado) {
         this.nombreEstado = nombreEstado;
+    }
+
+    public List<Municipio> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Municipio> municipios) {
+        this.municipios = municipios;
     }
 }

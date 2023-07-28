@@ -29,7 +29,29 @@ public class Usuario {
     @Column(name="telefono")
     private String telefono;
 
+    @Column(name="estatususuario")
+    private Boolean estatusUsuario;
+    @Column(name="imagenperfil")
+    private String rutaImagenPerfil;
+    @Column(name="imagenportada")
+    private String rutaImagenPortada;
 
+
+    public String getRutaImagenPerfil() {
+        return rutaImagenPerfil;
+    }
+
+    public void setRutaImagenPerfil(String rutaImagenPerfil) {
+        this.rutaImagenPerfil = rutaImagenPerfil;
+    }
+
+    public String getRutaImagenPortada() {
+        return rutaImagenPortada;
+    }
+
+    public void setRutaImagenPortada(String rutaImagenPortada) {
+        this.rutaImagenPortada = rutaImagenPortada;
+    }
 
     public Integer getId_usuario() {
         return id_usuario;
@@ -93,5 +115,13 @@ public class Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Boolean getEstatusUsuario() {
+        return estatusUsuario;
+    }
+
+    public void setEstatusUsuario(Boolean estatusUsuario) {
+        this.estatusUsuario = estatusUsuario;
     }
 }

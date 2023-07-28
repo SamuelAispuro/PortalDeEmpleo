@@ -2,7 +2,10 @@ package com.example.portaldeempleo.controller;
 
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespRegDTO;
+import com.example.portaldeempleo.entities.Administrador;
+import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Usuario;
+import com.example.portaldeempleo.repositories.CandidatoRepository;
 import com.example.portaldeempleo.services.AdministradorService;
 import com.example.portaldeempleo.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +21,27 @@ public class AdministradorController {
     AdministradorService administradorService;
     @Autowired
     UsuarioService usuarioService;
+    @Autowired
+    CandidatoRepository candidatoRepository;
+
 
     //Registrar administrador
     @PutMapping("/registroAdministrador")
     public ResponseEntity<?> registroAdministrador(@RequestBody DataDTO administradorDTO){
         Integer id_administrador = 0;
+        Administrador administrador = new Administrador();
         RespRegDTO respuesta = new RespRegDTO();
         if (administradorDTO.getNombre() != null && administradorDTO.getNombre() != "" && administradorDTO.getApellidoP() != null && administradorDTO.getApellidoP() != "" && administradorDTO.getApellidoM() != null && administradorDTO.getApellidoM() != ""
-                && administradorDTO.getCorreoElectronico() != null && administradorDTO.getCorreoElectronico() != "" && administradorDTO.getTelefono() != null && administradorDTO.getTelefono() != "" && administradorDTO.getContrasena() != null && administradorDTO.getContrasena() != "") {
+                && administradorDTO.getCorreoElectronico() != null && administradorDTO.getCorreoElectronico() != "" && administradorDTO.getContrasena() != null && administradorDTO.getContrasena() != "") {
 
-            id_administrador = this.administradorService.registroAdministrador(administradorDTO.getNombre(), administradorDTO.getApellidoP(), administradorDTO.getApellidoM(), administradorDTO.getCorreoElectronico(), administradorDTO.getTelefono(), administradorDTO.getContrasena());
-            return new ResponseEntity<>(id_administrador, HttpStatus.OK);
+            administrador = this.administradorService.registroAdministrador(administradorDTO.getNombre(), administradorDTO.getApellidoP(), administradorDTO.getApellidoM(), administradorDTO.getCorreoElectronico(), administradorDTO.getContrasena());
+            if(administrador != null) {
+            return new ResponseEntity<>(administrador, HttpStatus.OK);
+        }else{
+                respuesta.setMensaje("Correo ya registrado");
+                respuesta.setEstatus("ERROR");
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }
         }else{
             respuesta.setMensaje("No puedes hacer el registro de usuario si dejas algun campo en blanco, vuelve a intentarlo");
             respuesta.setEstatus("ERROR");
@@ -51,7 +64,7 @@ public class AdministradorController {
         }
     }catch(Exception e){
         RespRegDTO respuesta = new RespRegDTO();
-        respuesta.setMensaje("Error al intentar eliminar el usuario");
+        respuesta.setMensaje("No se encontró un usuario con este ID");
         respuesta.setEstatus("ERROR");
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -63,4 +76,14 @@ public class AdministradorController {
         Usuario usuarioEncontrado = this.administradorService.obtenerUsuario(correoElectronico);
         return usuarioEncontrado;
     }
+
+    //Obtener usuario Completo por correo
+    @GetMapping("/obtenerUsuarioCompleto/{correoElectronico}")
+    public ResponseEntity<?> obtenerUsuarioCompleto(@PathVariable String correoElectronico){
+
+        Object candidatoEncontrado = this.administradorService.obtenerUsuarioCompleto(correoElectronico);
+
+        return new ResponseEntity<>(candidatoEncontrado, HttpStatus.OK);
+    }
+
 }
