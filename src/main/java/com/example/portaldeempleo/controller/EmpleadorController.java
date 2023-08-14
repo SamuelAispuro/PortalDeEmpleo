@@ -20,26 +20,30 @@ public class EmpleadorController {
     //Registrar empleador
     @PutMapping("/registroEmpleador")
     public ResponseEntity<?> registroEmpleador(@RequestBody DataDTO empleadorDTO) {
-        Integer id_empleador = 0;
         Empleador empleador = new Empleador();
         RespRegDTO respuesta = new RespRegDTO();
+        try{
         if (empleadorDTO.getNombre() != null && empleadorDTO.getNombre() != "" && empleadorDTO.getApellidoP() != null && empleadorDTO.getApellidoP() != "" && empleadorDTO.getApellidoM() != null && empleadorDTO.getApellidoM() != ""
-                && empleadorDTO.getCorreoElectronico() != null && empleadorDTO.getCorreoElectronico() != "" && empleadorDTO.getContrasena() != null && empleadorDTO.getContrasena() != "" && empleadorDTO.getEdad() != null){
+                && empleadorDTO.getCorreoElectronico() != null && empleadorDTO.getCorreoElectronico() != "" && empleadorDTO.getContrasena() != null && empleadorDTO.getContrasena() != "") {
 
-            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getContrasena());
-            if(empleador != null) {
-                return new ResponseEntity<>(empleador, HttpStatus.OK);
-            }else{
+            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getContrasena(), empleadorDTO.getTelefono());
+            if (empleador != null) {
+                respuesta.setMensaje("Cuenta creada exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            } else {
                 respuesta.setMensaje("Correo ya registrado");
-                respuesta.setEstatus("ERROR");
+                respuesta.setEstatus(false);
                 return new ResponseEntity<>(respuesta, HttpStatus.OK);
             }
-    }else{
+        } else {
             respuesta.setMensaje("No puedes hacer el registro de usuario si dejas algun campo en blanco, vuelve a intentarlo");
-            respuesta.setEstatus("ERROR");
+            respuesta.setEstatus(false);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }
-
+    }catch(Exception e){
+            return new ResponseEntity<>("Algo salio mal, intentalo de nuevo mas tarde",HttpStatus.OK);
+        }
     }
     //Obtener todos los empleadores
     @GetMapping("/obtenerEmpleadoresTodos")

@@ -28,6 +28,7 @@ public class UsuarioService {
     private String rutaLocal;
     //login
     public Usuario login(String correoElectronico, String contraseña){
+
         Usuario usuarioEncontrado = this.usuarioRepository.findByCorreoElectronicoAndContraseñaAndEstatusUsuario(correoElectronico, passwordEncryption.encryptText(contraseña),true);
 
         return usuarioEncontrado;
@@ -98,9 +99,18 @@ public class UsuarioService {
         return "Archivo guardado exitosamente";
     }
 
+    //Guardar o modificar imagen de perfil
+    public Usuario guardarImagen(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada){
+        Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
 
-
-
-
+        if(rutaImagenPerfil != null && rutaImagenPerfil != ""){
+            usuarioEncontrado.setRutaImagenPerfil(rutaImagenPerfil);
+        }
+        if(rutaImagenPortada != null && rutaImagenPortada != ""){
+            usuarioEncontrado.setRutaImagenPortada(rutaImagenPortada);
+        }
+        usuarioEncontrado = usuarioRepository.save(usuarioEncontrado);
+        return usuarioEncontrado;
+    }
 }
 

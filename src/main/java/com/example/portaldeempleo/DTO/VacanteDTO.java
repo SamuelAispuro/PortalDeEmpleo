@@ -23,6 +23,19 @@ public class VacanteDTO {
      private ModalidadTrabajo modalidadTrabajo;
      private Integer id_modalidadTrabajo;
      private String descripcion;
+     private String domicilio;
+
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
 
     public String getNombreVacante() {
         return nombreVacante;

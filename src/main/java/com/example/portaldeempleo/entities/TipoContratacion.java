@@ -12,7 +12,7 @@ public class TipoContratacion {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_tipocontratacion")
-    private Integer id_contratacion;
+    private Integer id_tipoContratacion;
 
     @Column(name="horario")
     private String horario;
@@ -25,12 +25,12 @@ public class TipoContratacion {
     @JoinColumn(name="id_vacante", updatable=false)
     private List<Vacante> tipoContratacion_vacantes = new ArrayList<>();
 
-    public Integer getId_contratacion() {
-        return id_contratacion;
+    public Integer getId_tipoContratacion() {
+        return id_tipoContratacion;
     }
 
-    public void setId_contratacion(Integer id_contratacion) {
-        this.id_contratacion = id_contratacion;
+    public void setId_tipoContratacion(Integer id_tipoContratacion) {
+        this.id_tipoContratacion = id_tipoContratacion;
     }
 
     public String getHorario() {

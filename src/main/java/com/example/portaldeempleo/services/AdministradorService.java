@@ -4,11 +4,9 @@ import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.Administrador;
 import com.example.portaldeempleo.entities.Candidato;
+import com.example.portaldeempleo.entities.Empleador;
 import com.example.portaldeempleo.entities.Usuario;
-import com.example.portaldeempleo.repositories.AdministradorRepository;
-import com.example.portaldeempleo.repositories.CandidatoRepository;
-import com.example.portaldeempleo.repositories.PostulacionRepository;
-import com.example.portaldeempleo.repositories.UsuarioRepository;
+import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,8 @@ public class AdministradorService {
     PostulacionRepository postulacionRepository;
     @Autowired
     PasswordEncryption passwordEncryption;
+    @Autowired
+    EmpleadorRepository empleadorRepository;
 
     // metodo para registrar un administrador
 
@@ -39,6 +39,7 @@ public class AdministradorService {
         usuario.setContraseña(passwordEncryption.encryptText(contraseña));
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
+        usuario.setEstatusUsuario(true);
         usuario.setTipoUsuario(1); //"1" es el tipo de usuario de un administrador
         usuario = usuarioRepository.save(usuario);
 
@@ -65,10 +66,32 @@ public class AdministradorService {
     //Obtener datos completos de un usuario por correo
     public Object obtenerUsuarioCompleto(String correoElectronico){
         Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronico(correoElectronico);
-        Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
-        candidatoEncontrado.getEstado().setMunicipios(null);
+        if(usuarioEncontrado==null){
+            return null;
+        }
+        Object objetoEncontrado = new Object();
+        if(usuarioEncontrado.getTipoUsuario()==2) {
+
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.getEstado().setMunicipios(null);
+            candidatoEncontrado.setPostulaciones(null);
+            candidatoEncontrado.getMunicipio().setVacantes_municipios(null);
+             objetoEncontrado = candidatoEncontrado;
+        }
+        if(usuarioEncontrado.getTipoUsuario()==3){
+
+            Empleador empleadorEncontrado = empleadorRepository.findByUsuario(usuarioEncontrado);
+            empleadorEncontrado.setVacantes(null);
+            objetoEncontrado = empleadorEncontrado;
+        }
+        if(usuarioEncontrado.getTipoUsuario()==1){
+
+            Administrador administradorEncontrado = administradorRepository.findByUsuario(usuarioEncontrado);
+            objetoEncontrado = administradorEncontrado;
+        }
 
 
-        return candidatoEncontrado;
+
+        return objetoEncontrado;
     }
 }

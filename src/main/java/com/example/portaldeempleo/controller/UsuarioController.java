@@ -1,8 +1,7 @@
 package com.example.portaldeempleo.controller;
 
-import com.example.portaldeempleo.DTO.DataDTO;
-import com.example.portaldeempleo.DTO.LoginDTO;
-import com.example.portaldeempleo.DTO.RespuestaDTO;
+import com.example.portaldeempleo.DTO.*;
+
 import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
 import com.example.portaldeempleo.services.UsuarioService;
@@ -51,44 +50,33 @@ public class UsuarioController {
             respuesta.setEstatus(false);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }
-
-        //
-
-
     }
 
     //Obtener usuario por ID
     @GetMapping("/obtenerUsuarioPorId/{id}")
     public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer id) {
-        Usuario usuarioEncontrado = new Usuario();
-        usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
-        return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
+        try {
+            if (id != null && id > 0) {
+                Usuario usuarioEncontrado = new Usuario();
+                usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
+                return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("El id enviado no es válido", HttpStatus.OK);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>("Algo salio mal, intentelo de nuevo", HttpStatus.OK);
+        }
     }
 
-    //Agregar o modificar una foto (perfil)
-    @PostMapping("/subirImagenPerfil")
-    public ResponseEntity<?> subirImagenPerfil(@RequestParam String id, @RequestParam MultipartFile imagen) throws IOException {
-        // Verificar que se haya enviado una imagen
-        if (imagen == null || imagen.isEmpty()) {
-            return new ResponseEntity<>("Debe enviar una imagen", HttpStatus.BAD_REQUEST);
-        }
-
-        String respuesta = usuarioService.subirFotoPerfil(imagen,id);
+    //Guardar o modificar foto de perfil de un usuario
+    @PutMapping("/guardarImagenes")
+    public ResponseEntity<?> guardarImagenes(@RequestBody DataDTO usuarioDTO){
+        RespUsuDTO respuesta = new RespUsuDTO();
+        Usuario usuarioModificado = this.usuarioService.guardarImagen(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada());
+        respuesta.setUsuarioModificado(usuarioModificado);
+        respuesta.setEstatus(true);
+        respuesta.setMensaje("Cambio realizado correctamente");
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-
-    }
-
-    //Agregar o modificar una foto (portada)
-    @PostMapping("/subirImagenPortada")
-    public ResponseEntity<?> subirImagenPortada(@RequestParam String id, @RequestParam MultipartFile imagen) throws IOException {
-        // Verificar que se haya enviado una imagen
-        if (imagen == null || imagen.isEmpty()) {
-            return new ResponseEntity<>("Debe enviar una imagen", HttpStatus.BAD_REQUEST);
-        }
-
-        String respuesta = usuarioService.subirFotoPortada(imagen,id);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-
     }
 
 

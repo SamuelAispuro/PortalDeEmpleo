@@ -24,18 +24,21 @@ public class EmpleadorService {
 
     //Metodo para registrar un empleador
 
-    public Empleador registroEmpleador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String contraseña){
+    public Empleador registroEmpleador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String contraseña,String telefono){
         Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
         if(usuarioEncontrado == null) {
             Usuario usuario = new Usuario();
             usuario.setNombre(nombre);
             usuario.setCorreoElectronico(correoElectronico);
+            usuario.setTelefono(telefono);
             usuario.setContraseña(passwordEncryption.encryptText(contraseña));
             usuario.setApellidoP(apellidoP);
             usuario.setApellidoM(apellidoM);
+            usuario.setEstatusUsuario(true);
             usuario.setTipoUsuario(3); //"3" es el tipo de usuario de un empleador
             usuario = usuarioRepository.save(usuario);
 
+            //Se crea un objeto de tipo empleador y se le agrega la información capturada anteriormente.
             Empleador empleador = new Empleador();
             empleador.setUsuario(usuario);
             empleador = empleadorRepository.save(empleador);

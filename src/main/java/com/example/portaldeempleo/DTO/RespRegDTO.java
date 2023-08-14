@@ -2,7 +2,16 @@ package com.example.portaldeempleo.DTO;
 
 public class RespRegDTO {
     public String mensaje;
-    public String estatus;
+    public Boolean estatus;
+    private Boolean estatusBoolean;
+
+    public Boolean getEstatusBoolean() {
+        return estatusBoolean;
+    }
+
+    public void setEstatusBoolean(Boolean estatusBoolean) {
+        this.estatusBoolean = estatusBoolean;
+    }
 
     public String getMensaje() {
         return mensaje;
@@ -12,11 +21,11 @@ public class RespRegDTO {
         this.mensaje = mensaje;
     }
 
-    public String getEstatus() {
+    public Boolean getEstatus() {
         return estatus;
     }
 
-    public void setEstatus(String estatus) {
+    public void setEstatus(Boolean estatus) {
         this.estatus = estatus;
     }
 }

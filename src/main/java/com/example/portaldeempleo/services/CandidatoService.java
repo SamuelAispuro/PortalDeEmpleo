@@ -2,10 +2,7 @@ package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.entities.*;
-import com.example.portaldeempleo.repositories.CandidatoRepository;
-import com.example.portaldeempleo.repositories.PostulacionRepository;
-import com.example.portaldeempleo.repositories.UsuarioRepository;
-import com.example.portaldeempleo.repositories.VacanteRepository;
+import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,12 +27,18 @@ public class CandidatoService {
     PostulacionRepository postulacionRepository;
     @Autowired
     PasswordEncryption passwordEncryption;
+    @Autowired
+    MunicipioRepository municipioRepository;
+    @Autowired
+    EstadoRepository estadoRepository;
+
     @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
     private String rutaLocal;
 
     //metodo para registrar un candidato
-public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña , Integer edad, Integer id_municipio, Integer id_estado, String domicilio){
+public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña , Integer edad, Integer id_municipio, Integer id_estado, String domicilio,String puestoActual,String descripcion,String centroEducativo){
     Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
+    //Se crea un nuevo usuario y se le setean los datos ingresados por el usuario al momento del registro
      if(usuarioEncontrado==null) {
          Usuario usuario = new Usuario();
          usuario.setNombre(nombre);
@@ -44,16 +47,17 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
          usuario.setApellidoP(apellidoP);
          usuario.setApellidoM(apellidoM);
          usuario.setTelefono(telefono);
-         usuario.setTipoUsuario(2); //"2" es el tipo de usuario de un candidato
+         usuario.setEstatusUsuario(true); //true corresponde al estado activo de un usuario, false corresponde a un estado inactivo
+         usuario.setTipoUsuario(2); //"2" es el tipo de usuario de un candidato y se le asigna automaticamente al hacer uso de este servicio
          usuario.setEstatusUsuario(true);
          usuario = usuarioRepository.save(usuario);
-
+     //Se crean objetos de tipo estado y municipio para posteriormente setearselo a nuestro candidato
          Estado estado = new Estado();
          estado.setId_estado(id_estado);
 
          Municipio municipio = new Municipio();
          municipio.setId_municipio(id_municipio);
-
+     //Se crea un objeto de tipo candidato y se le setean los objetos anteriormente creados(usuario, estado y municipio)
          Candidato candidato = new Candidato();
 
          candidato.setMunicipio(municipio);
@@ -61,6 +65,10 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
          candidato.setUsuario(usuario);
          candidato.setEdad(edad);
          candidato.setDomicilio(domicilio);
+         candidato.setPuestoActual(puestoActual);
+         candidato.setDescripcion(descripcion);
+         candidato.setCentroEducativo(centroEducativo);
+
          candidato = candidatoRepository.save(candidato);
 
          return candidato;
@@ -71,72 +79,93 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
 }
     //Obtener candidato por ID
     public Candidato obtenerCandidatoPorId(Integer id){
+    //Se encuentra un candidato mediante su ID
     Candidato candidatoEncontrado = this.candidatoRepository.findById(id).orElse(null);
+    //Se nulean datos que contiene el onjeto candidato para que no cause errores de recursion infinita
     candidatoEncontrado.setPostulaciones(null);
+    candidatoEncontrado.getMunicipio().setEstado(null);
+    candidatoEncontrado.getMunicipio().setVacantes_municipios(null);
+    candidatoEncontrado.getEstado().setMunicipios(null);
+
     return candidatoEncontrado;
     }
 
     //Obtener postulaciones de un candidato
     public List<Postulacion> obtenerPostulacionesPorIdDeCandidato(Integer id){
-
+        //Se encuentra un candidato mediante su ID para posteriormente visualizar las vacantes a las que se ha postulado
         Candidato candidato = candidatoRepository.findById(id).orElse(null);
        List<Postulacion> listaPostulacionesCandidato = postulacionRepository.findAllByCandidato(candidato);
+       //Se itera la lista de postulaciones y se le nulean datos para que no ocasione errores de recursion infinita
         for(Postulacion postulacion:listaPostulacionesCandidato){
             postulacion.getCandidato().setPostulaciones(null);
             postulacion.getCandidato().getMunicipio().setVacantes_municipios(null);
-            postulacion.getCandidato().getMunicipio().setEstado(null);
             postulacion.getCandidato().getEstado().setMunicipios(null);
-            postulacion.getVacante().getEmpresa().setVacantes(null);
+            postulacion.getVacante().getEmpresa().setVacantes_empresa(null);
             postulacion.getVacante().setCandidatos(null);
             postulacion.getCandidato().setIdiomas(null);
-
-
-
+            postulacion.getVacante().getMunicipio().setVacantes_municipios(null);
+            postulacion.getVacante().getMunicipio().getEstado().setMunicipios(null);
+            postulacion.getVacante().getEmpleador().setVacantes(null);
+            postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
+            postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
+            postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         }
-
         return listaPostulacionesCandidato;
     }
     //Modificar un candidato
-    public Candidato modificarCandidato(String nombre, String apellidoP, String apellidoM,String domicilio, String descripcion, String centroEducativo, String puestoActual, Integer id_municipio, Integer id_estado, Integer id_candidato){
-    Candidato candidato = obtenerCandidatoPorId(id_candidato);
+    public Candidato modificarCandidato(Integer id_candidato,String nombre, String apellidoP, String apellidoM,String domicilio, String descripcion, String centroEducativo, String puestoActual, Integer id_municipio, Integer id_estado, String telefono, String profesion) throws Exception {
+        try{
+        Candidato candidato = obtenerCandidatoPorId(id_candidato);
 
-        if(nombre != null && nombre != ""){
+        if(candidato==null){
+            throw new Exception("No se encontro un candidato (null)");
+        }
+
+        //Se valida que los datos a modificar no vengan vacios, de ser así no se ejecutara la modificación
+        if (nombre != null && nombre != "") {
             candidato.getUsuario().setNombre(nombre);
         }
-        if(apellidoP != null && apellidoP != ""){
+        if (apellidoP != null && apellidoP != "") {
             candidato.getUsuario().setApellidoP(apellidoP);
         }
-        if(apellidoM != null && apellidoM != ""){
+        if (apellidoM != null && apellidoM != "") {
             candidato.getUsuario().setApellidoM(apellidoM);
         }
-        if(domicilio != null && domicilio != ""){
+        if (domicilio != null && domicilio != "") {
             candidato.setDomicilio(domicilio);
         }
-        if(descripcion != null && descripcion != ""){
+        if (descripcion != null && descripcion != "") {
             candidato.setDescripcion(descripcion);
         }
-        if(centroEducativo != null && centroEducativo != ""){
+        if (centroEducativo != null && centroEducativo != "") {
             candidato.setCentroEducativo(centroEducativo);
         }
-        if (puestoActual != null && puestoActual != ""){
+        if (puestoActual != null && puestoActual != "") {
             candidato.setPuestoActual(puestoActual);
         }
         Estado estado = new Estado();
-        if(id_estado != null && id_estado > 0){
-            estado.setId_estado(id_estado);
+        if (id_estado != null && id_estado > 0) {
+            estado = estadoRepository.findById(id_estado).orElse(null);
             candidato.setEstado(estado);
         }
-
-        if(id_municipio != null && id_municipio > 0) {
-            Municipio municipio = new Municipio();
-            municipio.setId_municipio(id_municipio);
-            municipio.setEstado(estado);
+        Municipio municipio = new Municipio();
+        if (id_municipio != null && id_municipio > 0) {
+            municipio = municipioRepository.findById(id_municipio).orElse(null);
             candidato.setMunicipio(municipio);
         }
+        if (telefono != null && telefono != "") {
+            candidato.getUsuario().setTelefono(telefono);
+        }
 
-
+        if (profesion != null && profesion != "") {
+            candidato.setProfesion(profesion);
+        }
         candidato = candidatoRepository.save(candidato);
+        candidato.setPostulaciones(null);
         return candidato;
+    }catch(Exception e){
+            throw new Exception("Algo salio mal, intentalo de nuevo mas tarde");
+        }
     }
 
     /**
@@ -149,11 +178,11 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
     public String subirFotoCv(MultipartFile imagen, String id_candidato) throws IOException {
         Candidato candidato = candidatoRepository.findById(Integer.parseInt(id_candidato)).orElse(null);
         File ruta = new File(rutaLocal+File.separator+candidato.getUsuario().getId_usuario()+File.separator+"CV");
-
+    //Se evalua que la ruta no exista, de ser asi se creará una nueva carpeta que contenga el archivo subido por el usuario
         if(ruta.exists() == false){
             ruta.mkdirs();
         }
-
+    //Se crea el archivo(carpeta) donde se almacenará la información subida por el usuario
         File archivoLocal = new File(rutaLocal+File.separator+candidato.getUsuario().getId_usuario()+File.separator+"CV"+File.separator+imagen.getOriginalFilename());
 
         FileOutputStream fos = new FileOutputStream(archivoLocal);

@@ -19,13 +19,19 @@ public class PostulacionController {
     // Postulación
     @PutMapping("/postulacion")
     public ResponseEntity<?> postulacion(@RequestBody PostDTO postulacionDTO) {
-    Postulacion postulacion = new Postulacion();
-    RespPostDTO respPostulacionDTO = new RespPostDTO();
-        postulacion = this.postulacionService.postulacion(postulacionDTO.getId_candidato(), postulacionDTO.getId_vacante());
-        respPostulacionDTO.setPostulacion(postulacion);
-        respPostulacionDTO.setEstatus(true);
+        RespPostDTO respPostulacionDTO = new RespPostDTO();
+        try {
+            Postulacion postulacion = new Postulacion();
 
-        return new ResponseEntity<>(respPostulacionDTO, HttpStatus.OK);
+            postulacion = this.postulacionService.postulacion(postulacionDTO.getId_candidato(), postulacionDTO.getId_vacante());
+            respPostulacionDTO.setPostulacion(postulacion);
+            respPostulacionDTO.setEstatus(true);
+            return new ResponseEntity<>(respPostulacionDTO, HttpStatus.OK);
+        } catch(Exception e){
+            respPostulacionDTO.setMensaje(e.getMessage());
+            respPostulacionDTO.setEstatus(false);
+            return new ResponseEntity<>(respPostulacionDTO, HttpStatus.OK);
+        }
     }
     //Eliminar una postulacion
     @DeleteMapping("/eliminarPostulacion/{id}")

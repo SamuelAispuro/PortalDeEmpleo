@@ -17,6 +17,9 @@ public class EstadoService {
     public List<Estado> obtenerListaEstados(){
         List<Estado> listaEstados = new ArrayList<>();
         listaEstados = estadoRepository.findAll();
+        for(Estado estado:listaEstados){
+            estado.setMunicipios(null);
+        }
         return listaEstados;
     }
 

@@ -26,11 +26,16 @@ public class Candidato {
     private String centroEducativo;
     @Column(name="documentocv")
     private String rutaCv;
+    @Column(name="profesion")
+    private String profesion;
+
 
     @OneToOne
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
+    @ManyToMany(mappedBy = "candidatos")
+    private List<Habilidad> habilidades = new ArrayList<>();
     @ManyToMany(mappedBy = "candidatos")
     private List<Vacante> postulaciones = new ArrayList<>();
     @ManyToMany(mappedBy = "candidatos")
@@ -143,5 +148,21 @@ public class Candidato {
 
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
+
+    public List<Habilidad> getHabilidades() {
+        return habilidades;
+    }
+
+    public void setHabilidades(List<Habilidad> habilidades) {
+        this.habilidades = habilidades;
     }
 }

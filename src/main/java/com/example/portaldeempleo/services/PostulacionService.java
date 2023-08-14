@@ -29,8 +29,16 @@ public class PostulacionService {
     }
 
     //Metodo para postularse a una vacante
-    public Postulacion postulacion(Integer id_candidato, Integer id_vacante){
+    public Postulacion postulacion(Integer id_candidato, Integer id_vacante) throws Exception {
     Candidato candidatoEncontrado = candidatoRepository.findById(id_candidato).orElse(null);
+
+    List<Postulacion> listaPostulacionesCandidato = postulacionRepository.findAllByCandidato(candidatoEncontrado);
+    for(Postulacion postulacion:listaPostulacionesCandidato){
+        if(postulacion.getVacante().getId_vacante() == id_vacante){
+            throw new Exception("El candidato ya se encuentra postulado a esta vacante");
+        }
+    }
+
     candidatoEncontrado.setUsuario(candidatoEncontrado.getUsuario());
     candidatoEncontrado.setMunicipio(candidatoEncontrado.getMunicipio());
     candidatoEncontrado.setEstado(candidatoEncontrado.getEstado());
@@ -46,11 +54,18 @@ public class PostulacionService {
         postulacion = postulacionRepository.save(postulacion);
 
         postulacion.getCandidato().setPostulaciones(null);
-        postulacion.getVacante().getEmpresa().setVacantes(null);
+        postulacion.getVacante().getEmpresa().setVacantes_empresa(null);
         postulacion.getVacante().setCandidatos(null);
         postulacion.getCandidato().getMunicipio().setEstado(null);
         postulacion.getCandidato().getMunicipio().setVacantes_municipios(null);
         postulacion.getCandidato().getEstado().setMunicipios(null);
+        postulacion.getCandidato().setIdiomas(null);
+        postulacion.getVacante().getMunicipio().setEstado(null);
+        postulacion.getVacante().getMunicipio().setVacantes_municipios(null);
+        postulacion.getVacante().getEmpleador().setVacantes(null);
+        postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
+        postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
+        postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         return postulacion;
     }
     //Eliminar una postulacion

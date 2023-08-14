@@ -24,7 +24,7 @@ public class VacanteController {
     public ResponseEntity<Integer> crearVacante(@RequestBody VacanteDTO vacanteDTO){
         Integer id_vacante = 0;
 
-        id_vacante =this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(),vacanteDTO.getSueldo(), vacanteDTO.getId_empresa());
+        id_vacante =this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(),vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(),vacanteDTO.getId_tipoHorario(),vacanteDTO.getId_tipoContratacion(),vacanteDTO.getId_modalidadTrabajo(),vacanteDTO.getDomicilio());
         return new ResponseEntity<>(id_vacante, HttpStatus.OK);
     }
 
@@ -51,9 +51,40 @@ return new ResponseEntity<>(vacante, HttpStatus.OK);
     //Modificar vacante
     @PutMapping("/modificarVacante")
     public ResponseEntity<Vacante> modificarVacante(@RequestBody VacanteDTO vacanteDTO){
-    Vacante vacanteModificada = this.vacanteService.modificarVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(),vacanteDTO.isEstatus(),vacanteDTO.getId_empresa(), vacanteDTO.getId_empleador(),vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDescripcion(), vacanteDTO.getId_vacante());
+    Vacante vacanteModificada = this.vacanteService.modificarVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(),vacanteDTO.isEstatus(),vacanteDTO.getId_empresa(), vacanteDTO.getId_empleador(),vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDescripcion(), vacanteDTO.getId_vacante(),vacanteDTO.getDomicilio());
 
     return new ResponseEntity<>(vacanteModificada, HttpStatus.OK);
+    }
+
+    //Buscar vacantes cercanas al candidato
+    @GetMapping("/obtenerVacantesCerca/{id_municipio}")
+    public List<Vacante> buscarVacantesCerca(@PathVariable Integer id_municipio){
+        List<Vacante> listaVacantesCerca = this.vacanteService.buscarVacantesCerca(id_municipio);
+        return listaVacantesCerca;
+    }
+
+    //Buscar vacantes por filtro SUELDO (Mayor a menor)
+    @GetMapping("/obtenerVacantesPorSueldo")
+    public List<Vacante> buscarVacantesPorSueldo(){
+        List<Vacante> listaVacantesPorSueldo = this.vacanteService.buscarVacantesPorSueldo();
+
+        return listaVacantesPorSueldo;
+    }
+
+    //Buscar vacantes por palabra clave
+    @GetMapping("/obtenerVacantesPorPalabraClave/{palabraClave}")
+    public List<Vacante> buscarPorPalabraClave(@PathVariable String palabraClave){
+        List<Vacante> listaVacantesEncontradasPorPalabraClave = this.vacanteService.buscarPorPalabraClave(palabraClave);
+        return listaVacantesEncontradasPorPalabraClave;
+    }
+
+    //Buscar vacantes cerca y por palabra clave
+    @GetMapping("/obtenerVacantesCercaYPorPalabraClave")
+    public List<Vacante> buscarVacantesCercaYPorPalabraClave(@RequestParam("id_municipio") Integer id_municipio, @RequestParam("palabraClave") String palabraClave){
+
+        List<Vacante> listaVacantesCercaYPalabraClave = this.vacanteService.buscarVacantesCercaYPorPalabraClave(id_municipio, palabraClave);
+        return listaVacantesCercaYPalabraClave;
+
     }
 
 

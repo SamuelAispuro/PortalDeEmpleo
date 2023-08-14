@@ -20,10 +20,10 @@ public class Empresa {
 
     )
     @JoinColumn(name="id_vacante", updatable=false)
-    private List<Vacante> vacantes = new ArrayList<>();
+    private List<Vacante> vacantes_empresa = new ArrayList<>();
 
     @Column(name="nombreempresa")
-    private String nombreEmpresa;
+    private String nombre;
 
     @Column(name="descripcion")
     private String descripcion;
@@ -36,20 +36,20 @@ public class Empresa {
         this.id_empresa = id_empresa;
     }
 
-    public List<Vacante> getVacantes() {
-        return vacantes;
+    public List<Vacante> getVacantes_empresa() {
+        return vacantes_empresa;
     }
 
-    public void setVacantes(List<Vacante> vacantes) {
-        this.vacantes = vacantes;
+    public void setVacantes_empresa(List<Vacante> vacantes_empresa) {
+        this.vacantes_empresa = vacantes_empresa;
     }
 
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {

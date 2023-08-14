@@ -20,7 +20,34 @@ private String centroEducativo;
 private String puestoActual;
 private Integer id_documentoCv;
 private String descripcion;
+private Boolean estatus;
+private String profesion;
+private String rutaImagenPerfil;
+private String rutaImagenPortada;
 
+    public String getRutaImagenPerfil() {
+        return rutaImagenPerfil;
+    }
+
+    public void setRutaImagenPerfil(String rutaImagenPerfil) {
+        this.rutaImagenPerfil = rutaImagenPerfil;
+    }
+
+    public String getRutaImagenPortada() {
+        return rutaImagenPortada;
+    }
+
+    public void setRutaImagenPortada(String rutaImagenPortada) {
+        this.rutaImagenPortada = rutaImagenPortada;
+    }
+
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -158,5 +185,13 @@ private String descripcion;
 
     public void setCentroEducativo(String centroEducativo) {
         this.centroEducativo = centroEducativo;
+    }
+
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 }

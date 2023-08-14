@@ -28,6 +28,8 @@ public class Vacante {
 
     @Column(name="horario")
     private String horario;
+    @Column(name="domicilio")
+    private String domicilio;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
@@ -83,6 +85,17 @@ public class Vacante {
 
     @Transient
     private Integer id_postulacion;
+    @Transient
+    private Boolean booleanPostulacion;
+
+
+    public Boolean getBooleanPostulacion() {
+        return booleanPostulacion;
+    }
+
+    public void setBooleanPostulacion(Boolean booleanPostulacion) {
+        this.booleanPostulacion = booleanPostulacion;
+    }
 
     public Integer getId_vacante() {
         return id_vacante;
@@ -202,5 +215,13 @@ public class Vacante {
 
     public void setId_postulacion(Integer id_postulacion) {
         this.id_postulacion = id_postulacion;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 }
