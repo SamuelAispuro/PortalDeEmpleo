@@ -4,10 +4,12 @@ import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.CandidatoRepository;
 import com.example.portaldeempleo.repositories.MunicipioRepository;
+import com.example.portaldeempleo.repositories.PostulacionRepository;
 import com.example.portaldeempleo.repositories.VacanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +25,8 @@ public class VacanteService {
     CandidatoRepository candidatoRepository;
     @Autowired
     MunicipioRepository municipioRepository;
+    @Autowired
+    PostulacionRepository postulacionRepository;
 
 
     //Metodo para crear una vacante
@@ -150,8 +154,18 @@ public class VacanteService {
 
 
     //Eliminar vacante
+    @Transactional
     public String eliminarVacante(Integer id){
-    this.vacanteRepository.deleteById(id);
+
+        Vacante vacanteEncontrada = vacanteRepository.findById(id).orElse(null);
+
+       List<Postulacion> listaPostulaciones = postulacionRepository.findAllByVacante(vacanteEncontrada);
+       for(Postulacion postulacion:listaPostulaciones){
+           postulacionRepository.deleteById(postulacion.getId_postulacion());
+       }
+
+         vacanteRepository.deleteVacanteById(id);
+
     return "Vacante eliminada exitosamente";
     }
     //Obtener vacante por id

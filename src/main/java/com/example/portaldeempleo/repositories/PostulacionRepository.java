@@ -2,6 +2,7 @@ package com.example.portaldeempleo.repositories;
 
 import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Postulacion;
+import com.example.portaldeempleo.entities.Vacante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,7 @@ public interface PostulacionRepository extends JpaRepository<Postulacion, Intege
     public Postulacion findByCandidato(Candidato candidato);
 
     public List<Postulacion> findAllByCandidato(Candidato candidato);
+    
+    public List<Postulacion> findAllByVacante(Vacante vacante);
 
 }

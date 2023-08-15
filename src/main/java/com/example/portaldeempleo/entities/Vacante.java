@@ -35,7 +35,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_municipio", updatable = false)
+    @JoinColumn(name="id_municipio")
     private Municipio municipio;
 
     @Column(name="estatus")
@@ -47,14 +47,14 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = false
     )
-    @JoinColumn(name="id_empresa", updatable = false)
+    @JoinColumn(name="id_empresa")
     private Empresa empresa;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_empleador", updatable = false)
+    @JoinColumn(name="id_empleador")
    private Empleador empleador;
 
     @ManyToMany
