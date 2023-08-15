@@ -19,7 +19,7 @@ public class Empleador {
             cascade = CascadeType.ALL
 
     )
-    @JoinColumn(name="id_vacante", updatable=false)
+    @JoinColumn(name="id_empleador", updatable=false)
     private List<Vacante> vacantes = new ArrayList<>();
 
     @OneToOne

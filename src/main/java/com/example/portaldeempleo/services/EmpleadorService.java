@@ -66,6 +66,24 @@ public class EmpleadorService {
         return usuarioEncontrado;
     }
 
+    //Obtener vacantes publicadas de un empleador
+    public List<Vacante> vacantesPublicadasPorId(Integer id_empleador) {
+
+        Empleador empleadorEncontrado = this.empleadorRepository.findById(id_empleador).orElse(null);
+        List<Vacante> listaVacantes = empleadorEncontrado.getVacantes();
+        empleadorEncontrado.setVacantes(null);
+        for(Vacante vacante:listaVacantes){
+        vacante.setCandidatos(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        }
+        return listaVacantes;
+    }
+
 }
 
 

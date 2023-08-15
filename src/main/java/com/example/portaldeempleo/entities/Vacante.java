@@ -66,21 +66,21 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_tipohorario", updatable = false)
+    @JoinColumn(name="id_tipohorario")
     private TipoHorario tipoHorario;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_tipocontratacion", updatable = false)
+    @JoinColumn(name="id_tipocontratacion")
     private TipoContratacion tipoContratacion;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_modalidadtrabajo", updatable = false)
+    @JoinColumn(name="id_modalidadtrabajo")
     private ModalidadTrabajo modalidadTrabajo;
 
     @Transient

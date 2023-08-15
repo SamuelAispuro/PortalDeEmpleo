@@ -3,6 +3,7 @@ package com.example.portaldeempleo.controller;
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespRegDTO;
 import com.example.portaldeempleo.entities.Empleador;
+import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.services.EmpleadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,11 @@ public class EmpleadorController {
         return listaEmpleadoresTodos;
     }
 
+    //Obtener vacantes publicadas de empleador
+    @GetMapping("/obtenerVacantesPorIdEmpleador/{id_empleador}")
+    public List<Vacante> vacantesPublicadasPorId(@PathVariable Integer id_empleador){
+        List<Vacante> listaVacantes = empleadorService.vacantesPublicadasPorId(id_empleador);
+        return listaVacantes;
+    }
 
 }

@@ -60,6 +60,7 @@ public class VacanteService {
         vacante.setTipoContratacion(tipoContratacion);
         vacante.setModalidadTrabajo(modalidadTrabajo);
         vacante.setDomicilio(domicilio);
+        vacante.setEstatus(true); //Se le agrega un estatus en true lo que indica que la vacante esta activa
 
 
         vacante = vacanteRepository.save(vacante);
@@ -156,9 +157,22 @@ public class VacanteService {
     //Obtener vacante por id
     public Vacante obtenerVacantePorId(Integer id){
        Vacante vacanteEncontrada = this.vacanteRepository.findById(id).orElse(null);
-       vacanteEncontrada.setCandidatos(null);
+
        vacanteEncontrada.getMunicipio().getEstado().setMunicipios(null);
        vacanteEncontrada.getEmpresa().setVacantes_empresa(null);
+       vacanteEncontrada.getMunicipio().setVacantes_municipios(null);
+       vacanteEncontrada.getTipoHorario().setTipoHorario_vacantes(null);
+       vacanteEncontrada.getTipoContratacion().setTipoContratacion_vacantes(null);
+       vacanteEncontrada.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+       vacanteEncontrada.getEmpleador().setVacantes(null);
+
+       for(Candidato candidato:vacanteEncontrada.getCandidatos()){
+        candidato.setPostulaciones(null);
+        candidato.getEstado().setMunicipios(null);
+        candidato.getMunicipio().setVacantes_municipios(null);
+
+       }
+
         return vacanteEncontrada;
 
     }
@@ -248,6 +262,8 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
 
     return listaVacantesCercaYPalabraClave;
 }
+
+
 
 
 }
