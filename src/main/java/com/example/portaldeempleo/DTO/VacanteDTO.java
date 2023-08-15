@@ -24,6 +24,15 @@ public class VacanteDTO {
      private Integer id_modalidadTrabajo;
      private String descripcion;
      private String domicilio;
+     private String mensaje;
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
 
     public Boolean getEstatus() {
         return estatus;

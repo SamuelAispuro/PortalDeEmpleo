@@ -50,10 +50,12 @@ return new ResponseEntity<>(vacante, HttpStatus.OK);
     }
     //Modificar vacante
     @PutMapping("/modificarVacante")
-    public ResponseEntity<Vacante> modificarVacante(@RequestBody VacanteDTO vacanteDTO){
+    public ResponseEntity<?> modificarVacante(@RequestBody VacanteDTO vacanteDTO){
+        VacanteDTO respuesta = new VacanteDTO();
     Vacante vacanteModificada = this.vacanteService.modificarVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(),vacanteDTO.isEstatus(),vacanteDTO.getId_empresa(), vacanteDTO.getId_empleador(),vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDescripcion(), vacanteDTO.getId_vacante(),vacanteDTO.getDomicilio());
-
-    return new ResponseEntity<>(vacanteModificada, HttpStatus.OK);
+    respuesta.setMensaje("La vacante se modifico exitosamente");
+    respuesta.setEstatus(true);
+    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     //Buscar vacantes cercanas al candidato
