@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.controller;
 
+import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.DTO.VacanteDTO;
 import com.example.portaldeempleo.entities.Vacante;
@@ -37,9 +38,12 @@ public class VacanteController {
     }
     //Eliminar vacante
     @DeleteMapping("/eliminarVacante/{id_vacante}")
-    public String eliminarVacante(@PathVariable Integer id_vacante){
+    public ResponseEntity<?> eliminarVacante(@PathVariable Integer id_vacante){
+        VacanteDTO respuesta = new VacanteDTO();
     this.vacanteService.eliminarVacante(id_vacante);
-    return "Vacante eliminada exitosamente";
+    respuesta.setMensaje("Vacante eliminada exitosamente");
+    respuesta.setEstatus(true);
+    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     //Obtener vacante por id
     @GetMapping("/obtenerVacantePorId/{id_vacante}")
