@@ -38,6 +38,13 @@ public class Vacante {
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
 
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            optional = true
+    )
+    @JoinColumn(name="id_estado")
+    private Estado estado;
+
     @Column(name="estatus")
     private Boolean estatus;
     @Column(name="descripcion")
@@ -223,5 +230,13 @@ public class Vacante {
 
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }

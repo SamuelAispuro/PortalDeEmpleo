@@ -24,6 +24,14 @@ public class Estado {
     @JoinColumn(name="id_estado", updatable=false)
     private List<Municipio> municipios = new ArrayList<>();
 
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+
+    )
+    @JoinColumn(name="id_vacante", updatable=false)
+    private List<Vacante> vacantes_estado = new ArrayList<>();
+
     public Integer getId_estado() {
         return id_estado;
     }
@@ -46,5 +54,13 @@ public class Estado {
 
     public void setMunicipios(List<Municipio> municipios) {
         this.municipios = municipios;
+    }
+
+    public List<Vacante> getVacantes_estado() {
+        return vacantes_estado;
+    }
+
+    public void setVacantes_estado(List<Vacante> vacantes_estado) {
+        this.vacantes_estado = vacantes_estado;
     }
 }

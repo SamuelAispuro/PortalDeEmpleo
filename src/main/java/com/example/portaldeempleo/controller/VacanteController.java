@@ -93,5 +93,12 @@ return new ResponseEntity<>(vacante, HttpStatus.OK);
 
     }
 
+    //Buscar vacantes dentro de un estado
+    @GetMapping("/obtenerVacantesEstado/{id_estado}")
+    public List<Vacante> buscarVacantesEstado(@PathVariable Integer id_estado){
+        List<Vacante> listaVacantesEstado = this.vacanteService.buscarVacantesEstado(id_estado);
+        return listaVacantesEstado;
+    }
+
 
 }

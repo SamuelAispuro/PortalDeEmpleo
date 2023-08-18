@@ -2,10 +2,7 @@ package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.*;
-import com.example.portaldeempleo.repositories.CandidatoRepository;
-import com.example.portaldeempleo.repositories.MunicipioRepository;
-import com.example.portaldeempleo.repositories.PostulacionRepository;
-import com.example.portaldeempleo.repositories.VacanteRepository;
+import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,8 @@ public class VacanteService {
     MunicipioRepository municipioRepository;
     @Autowired
     PostulacionRepository postulacionRepository;
+    @Autowired
+    EstadoRepository estadoRepository;
 
 
     //Metodo para crear una vacante
@@ -172,6 +171,7 @@ public class VacanteService {
     public Vacante obtenerVacantePorId(Integer id){
        Vacante vacanteEncontrada = this.vacanteRepository.findById(id).orElse(null);
 
+
        vacanteEncontrada.getMunicipio().getEstado().setMunicipios(null);
        vacanteEncontrada.getEmpresa().setVacantes_empresa(null);
        vacanteEncontrada.getMunicipio().setVacantes_municipios(null);
@@ -190,6 +190,32 @@ public class VacanteService {
         return vacanteEncontrada;
 
     }
+
+    //Obtener vacante por id
+    public List<Candidato> obtenerCandidatosDeVacante(Integer id){
+        Vacante vacanteEncontrada = this.vacanteRepository.findById(id).orElse(null);
+        List<Candidato> listaCandidatos = vacanteEncontrada.getCandidatos();
+
+        vacanteEncontrada.getMunicipio().getEstado().setMunicipios(null);
+        vacanteEncontrada.getEmpresa().setVacantes_empresa(null);
+        vacanteEncontrada.getMunicipio().setVacantes_municipios(null);
+        vacanteEncontrada.getTipoHorario().setTipoHorario_vacantes(null);
+        vacanteEncontrada.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacanteEncontrada.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacanteEncontrada.getEmpleador().setVacantes(null);
+
+        for(Candidato candidato:vacanteEncontrada.getCandidatos()){
+            candidato.setPostulaciones(null);
+            candidato.getEstado().setMunicipios(null);
+            candidato.getMunicipio().setVacantes_municipios(null);
+
+        }
+
+        return listaCandidatos;
+
+    }
+
+
 
     //Modififcar una vacante
 public Vacante modificarVacante(String nombreVacante, String especialista, Integer sueldo, String horario, Integer id_municipio, Boolean estatus, Integer id_empresa, Integer id_empleador, Integer id_tipoHorario, Integer id_tipoContratacion, Integer id_modalidadTrabajo,String descripcion,Integer id_vacante,String domicilio){
@@ -277,6 +303,27 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
     return listaVacantesCercaYPalabraClave;
 }
 
+    //Buscar vacantes por estado
+    public List<Vacante> buscarVacantesEstado(Integer id_estado){
+        //Se busca un municipio para ver las vacantes que hay publicadas en este municipio
+        Estado estadoEncontrado = estadoRepository.findById(id_estado).orElse(null);
+        List<Vacante> listaVacantesEstado = new ArrayList<>();
+        listaVacantesEstado = vacanteRepository.findAllByEstado(estadoEncontrado);
+        //Se setean las vacantes asociadas a un estado a la lista que creamos
+        //listaVacantesCerca = municipioEncontrado.getVacantes_municipios();
+        estadoEncontrado.setMunicipios(null);
+        for(Vacante vacante:listaVacantesEstado){
+            vacante.getMunicipio().setEstado(null);
+            vacante.getMunicipio().setVacantes_municipios(null);
+            vacante.getEmpleador().setVacantes(null);
+            vacante.setCandidatos(null);
+            vacante.getTipoHorario().setTipoHorario_vacantes(null);
+            vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+            vacante.getEmpresa().setVacantes_empresa(null);
+        }
+        return listaVacantesEstado;
+    }
 
 
 
