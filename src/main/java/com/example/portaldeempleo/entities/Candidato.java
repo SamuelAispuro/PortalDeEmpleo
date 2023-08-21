@@ -1,7 +1,14 @@
 package com.example.portaldeempleo.entities;
 import jakarta.persistence.*;
 
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,9 +19,6 @@ public class Candidato {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_candidato")
     private Integer id_candidato;
-
-    @Column(name="edad")
-    private Integer edad;
 
     @Column(name="domicilio")
     private String domicilio;
@@ -28,6 +32,15 @@ public class Candidato {
     private String rutaCv;
     @Column(name="profesion")
     private String profesion;
+    @Column(name="fechanacimiento")
+    private LocalDate fechaNacimiento;
+/*
+    Calendar fechaNacimientoCal = Calendar.getInstance();
+    fechaNacimientoCal.setTime(fechaNacimiento);
+    Calendar fechaActual = Calendar.getInstance();
+*/
+    @Transient
+    private Integer edad;
 
 
     @OneToOne
@@ -102,14 +115,6 @@ public class Candidato {
         this.usuario = usuario;
     }
 
-    public Integer getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
-
     public List<Vacante> getPostulaciones() {
         return postulaciones;
     }
@@ -165,4 +170,24 @@ public class Candidato {
     public void setHabilidades(List<Habilidad> habilidades) {
         this.habilidades = habilidades;
     }
+
+    public LocalDate getFechaNacimiento() {
+        Period periodoEdad = Period.between(fechaNacimiento, LocalDate.now());
+        this.edad = periodoEdad.getYears();
+        return fechaNacimiento;
+
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        Period periodoEdad = Period.between(fechaNacimiento, LocalDate.now());
+        this.edad = periodoEdad.getYears();
+        this.fechaNacimiento = fechaNacimiento;
+
+
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
 }

@@ -76,6 +76,8 @@ public class AdministradorService {
             candidatoEncontrado.getEstado().setMunicipios(null);
             candidatoEncontrado.setPostulaciones(null);
             candidatoEncontrado.getMunicipio().setVacantes_municipios(null);
+            candidatoEncontrado.getMunicipio().getEstado().setVacantes_estado(null);
+            candidatoEncontrado.getEstado().setVacantes_estado(null);
              objetoEncontrado = candidatoEncontrado;
         }
         if(usuarioEncontrado.getTipoUsuario()==3){

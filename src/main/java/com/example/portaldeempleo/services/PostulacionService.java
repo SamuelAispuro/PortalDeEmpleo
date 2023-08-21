@@ -43,7 +43,7 @@ public class PostulacionService {
     candidatoEncontrado.setMunicipio(candidatoEncontrado.getMunicipio());
     candidatoEncontrado.setEstado(candidatoEncontrado.getEstado());
 
-    candidatoEncontrado.setEdad(candidatoEncontrado.getEdad());
+    candidatoEncontrado.setFechaNacimiento(candidatoEncontrado.getFechaNacimiento());
 
     Vacante vacanteEncontrada = vacanteRepository.findById(id_vacante).orElse(null);
 

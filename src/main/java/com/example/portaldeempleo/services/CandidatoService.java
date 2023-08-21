@@ -11,7 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,7 +40,7 @@ public class CandidatoService {
     private String rutaLocal;
 
     //metodo para registrar un candidato
-public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña , Integer edad, Integer id_municipio, Integer id_estado, String domicilio,String puestoActual,String descripcion,String centroEducativo){
+public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña , LocalDate fechaNacimiento, Integer id_municipio, Integer id_estado, String domicilio, String puestoActual, String descripcion, String centroEducativo){
     Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
     //Se crea un nuevo usuario y se le setean los datos ingresados por el usuario al momento del registro
      if(usuarioEncontrado==null) {
@@ -63,7 +67,7 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
          candidato.setMunicipio(municipio);
          candidato.setEstado(estado);
          candidato.setUsuario(usuario);
-         candidato.setEdad(edad);
+         candidato.setFechaNacimiento(fechaNacimiento);
          candidato.setDomicilio(domicilio);
          candidato.setPuestoActual(puestoActual);
          candidato.setDescripcion(descripcion);

@@ -34,10 +34,10 @@ public class CandidatoController {
 
             //Se evalua que los datos ingresados por el usuario no vengan vacios
             if (candidatoDTO.getNombre() != null && candidatoDTO.getNombre() != "" && candidatoDTO.getApellidoP() != null && candidatoDTO.getApellidoP() != "" && candidatoDTO.getApellidoM() != null && candidatoDTO.getApellidoM() != ""
-                    && candidatoDTO.getCorreoElectronico() != null && candidatoDTO.getCorreoElectronico() != "" && candidatoDTO.getTelefono() != null && candidatoDTO.getTelefono() != "" && candidatoDTO.getContrasena() != null && candidatoDTO.getContrasena() != "" && candidatoDTO.getEdad() != null && candidatoDTO.getId_municipio() != null && candidatoDTO.getId_estado() != null) {
+                    && candidatoDTO.getCorreoElectronico() != null && candidatoDTO.getCorreoElectronico() != "" && candidatoDTO.getTelefono() != null && candidatoDTO.getTelefono() != "" && candidatoDTO.getContrasena() != null && candidatoDTO.getContrasena() != "" && candidatoDTO.getFechaNacimiento() != null && candidatoDTO.getId_municipio() != null && candidatoDTO.getId_estado() != null) {
 
                 //Se hace uso del servicio registroCandidato para crear una cuenta de candidato en caso de que sean validos todos los datos requeridos
-                candidato = this.candidatoService.registroCandidato(candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getCorreoElectronico(), candidatoDTO.getTelefono(), candidatoDTO.getContrasena(), candidatoDTO.getEdad(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getDomicilio(), candidatoDTO.getPuestoActual(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo());
+                candidato = this.candidatoService.registroCandidato(candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getCorreoElectronico(), candidatoDTO.getTelefono(), candidatoDTO.getContrasena(), candidatoDTO.getFechaNacimiento(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getDomicilio(), candidatoDTO.getPuestoActual(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo());
 
                 //Caso de exito
                 if (candidato != null) {

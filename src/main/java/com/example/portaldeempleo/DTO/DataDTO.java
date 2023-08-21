@@ -2,6 +2,9 @@ package com.example.portaldeempleo.DTO;
 
 import com.example.portaldeempleo.entities.Municipio;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class DataDTO {
 
 private Integer id_candidato;
@@ -13,6 +16,7 @@ private String correoElectronico;
 private String contrasena;
 private String telefono;
 private Integer edad;
+private LocalDate fechaNacimiento;
 private Integer id_municipio;
 private Integer id_estado;
 private String domicilio;
@@ -193,5 +197,13 @@ private String rutaImagenPortada;
 
     public void setProfesion(String profesion) {
         this.profesion = profesion;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }
