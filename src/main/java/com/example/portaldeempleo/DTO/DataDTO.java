@@ -17,6 +17,7 @@ private String contrasena;
 private String telefono;
 private Integer edad;
 private LocalDate fechaNacimiento;
+private String fechaNacimientoStr;
 private Integer id_municipio;
 private Integer id_estado;
 private String domicilio;
@@ -28,6 +29,7 @@ private Boolean estatus;
 private String profesion;
 private String rutaImagenPerfil;
 private String rutaImagenPortada;
+private String rutaCv;
 
     public String getRutaImagenPerfil() {
         return rutaImagenPerfil;
@@ -205,5 +207,21 @@ private String rutaImagenPortada;
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getFechaNacimientoStr() {
+        return fechaNacimientoStr;
+    }
+
+    public void setFechaNacimientoStr(String fechaNacimientoStr) {
+        this.fechaNacimientoStr = fechaNacimientoStr;
+    }
+
+    public String getRutaCv() {
+        return rutaCv;
+    }
+
+    public void setRutaCv(String rutaCv) {
+        this.rutaCv = rutaCv;
     }
 }

@@ -3,6 +3,7 @@ package com.example.portaldeempleo.controller;
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.DTO.VacanteDTO;
+import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.services.CandidatoService;
 import com.example.portaldeempleo.services.VacanteService;
@@ -11,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,15 +29,23 @@ public class VacanteController {
     public ResponseEntity<Integer> crearVacante(@RequestBody VacanteDTO vacanteDTO){
         Integer id_vacante = 0;
 
-        id_vacante =this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(),vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(),vacanteDTO.getId_tipoHorario(),vacanteDTO.getId_tipoContratacion(),vacanteDTO.getId_modalidadTrabajo(),vacanteDTO.getDomicilio());
+        if(vacanteDTO.getNombreVacante()!=null && vacanteDTO.getNombreVacante()!="" && vacanteDTO.getEspecialista()!=null && vacanteDTO.getEspecialista()!="" && vacanteDTO.getSueldo()!=null && vacanteDTO.getId_empresa()!=null && vacanteDTO.getId_empresa()!=0 && vacanteDTO.getHorario()!=null && vacanteDTO.getHorario()!="" && vacanteDTO.getId_municipio()!=null && vacanteDTO.getDescripcion()!=null && vacanteDTO.getDescripcion()!="" && vacanteDTO.getId_empleador()!=null && vacanteDTO.getId_tipoHorario()!=null && vacanteDTO.getTipoContratacion()!=null && vacanteDTO.getModalidadTrabajo()!=null && vacanteDTO.getDomicilio()!=null && vacanteDTO.getDomicilio()!="" && vacanteDTO.getFechaPublicacionStr()!=null && vacanteDTO.getFechaPublicacionStr()!="" && vacanteDTO.getPublicarAhora()!=null) {
+
+            DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+            LocalDate fechaPublicacionFormateada = LocalDate.parse(vacanteDTO.getFechaPublicacionStr(),format);
+            vacanteDTO.setFechaPublicacion(fechaPublicacionFormateada);
+
+            id_vacante = this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(), vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDomicilio(), vacanteDTO.getFechaPublicacion(), vacanteDTO.getPublicarAhora());
+
+        }
         return new ResponseEntity<>(id_vacante, HttpStatus.OK);
     }
 
     //Obtener lista de todas las vacantes
     @GetMapping("/obtenerListaVacantes")
         public List<Vacante> obtenerListaVacantes(){
-        List<Vacante> listaVacantes = this.vacanteService.obtenerListaVacantes();
-        return listaVacantes;
+        List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
+        return listaVacantesActivas;
 
     }
     //Eliminar vacante
@@ -100,5 +112,26 @@ return new ResponseEntity<>(vacante, HttpStatus.OK);
         return listaVacantesEstado;
     }
 
+    //Obtener lista candidatos de vacante
+    @GetMapping("/obtenerCandidatosVacante/{id_vacante}")
+    public List<Candidato> obtenerCandidatosVacante(@PathVariable Integer id_vacante){
+        List<Candidato> listaCandidatos = this.vacanteService.obtenerCandidatosDeVacante(id_vacante);
+        return listaCandidatos;
+    }
+
+    //Buscar vacantes por estado y palabra clave
+    @GetMapping("/obtenerVacantesEstadoYPorPalabraClave")
+    public List<Vacante> buscarVacantesEstadoYPorPalabraClave(@RequestBody Integer id_estado, @RequestBody String palabraClave){
+
+        List<Vacante> listaVacantesEstadoYPalabraClave = this.vacanteService.buscarVacantesEstadoYPorPalabraClave(id_estado, palabraClave);
+        return listaVacantesEstadoYPalabraClave;
+
+    }
+
+    //Eliminar vacante por dias
+    @DeleteMapping("/eliminarVacantePorDias")
+    public void eliminarVacantePorDias(){
+        vacanteService.eliminarVacantePorDias();
+    }
 
 }

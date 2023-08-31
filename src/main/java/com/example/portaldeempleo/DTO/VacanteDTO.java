@@ -2,6 +2,8 @@ package com.example.portaldeempleo.DTO;
 
 import com.example.portaldeempleo.entities.*;
 
+import java.time.LocalDate;
+
 public class VacanteDTO {
 
     private Integer id_vacante;
@@ -25,6 +27,10 @@ public class VacanteDTO {
      private String descripcion;
      private String domicilio;
      private String mensaje;
+    private LocalDate fechaPublicacion;
+    private String fechaPublicacionStr;
+    private Boolean publicarAhora;
+
 
     public String getMensaje() {
         return mensaje;
@@ -196,5 +202,29 @@ public class VacanteDTO {
 
     public void setId_modalidadTrabajo(Integer id_modalidadTrabajo) {
         this.id_modalidadTrabajo = id_modalidadTrabajo;
+    }
+
+    public LocalDate getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(LocalDate fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public String getFechaPublicacionStr() {
+        return fechaPublicacionStr;
+    }
+
+    public void setFechaPublicacionStr(String fechaPublicacionStr) {
+        this.fechaPublicacionStr = fechaPublicacionStr;
+    }
+
+    public Boolean getPublicarAhora() {
+        return publicarAhora;
+    }
+
+    public void setPublicarAhora(Boolean publicarAhora) {
+        this.publicarAhora = publicarAhora;
     }
 }

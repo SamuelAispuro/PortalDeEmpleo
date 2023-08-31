@@ -41,6 +41,7 @@ public class MunicipioService {
         for(Municipio municipio:listaMunicipiosDeEstado){
             municipio.getEstado().setMunicipios(null);
             municipio.setVacantes_municipios(null);
+            municipio.getEstado().setVacantes_estado(null);
         }
     return listaMunicipiosDeEstado;
     }

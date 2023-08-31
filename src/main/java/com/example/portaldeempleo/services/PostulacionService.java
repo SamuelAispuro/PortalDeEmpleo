@@ -42,6 +42,7 @@ public class PostulacionService {
     candidatoEncontrado.setUsuario(candidatoEncontrado.getUsuario());
     candidatoEncontrado.setMunicipio(candidatoEncontrado.getMunicipio());
     candidatoEncontrado.setEstado(candidatoEncontrado.getEstado());
+    candidatoEncontrado.getEstado().setVacantes_estado(null);
 
     candidatoEncontrado.setFechaNacimiento(candidatoEncontrado.getFechaNacimiento());
 
@@ -66,6 +67,8 @@ public class PostulacionService {
         postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
         postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
         postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        postulacion.getCandidato().getEstado().setVacantes_estado(null);
+
         return postulacion;
     }
     //Eliminar una postulacion
@@ -76,6 +79,8 @@ public class PostulacionService {
     //Anadir producto a lista de deseos
     //public  postulacion(Integer id_candidato, Integer id_vacante) throws Exception {
        // Candidato candidatoEncontrado = candidatoRepository.findById(id_candidato).orElse(null);
+
+
 
 
 }

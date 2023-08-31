@@ -35,7 +35,7 @@ public class AdministradorController {
             if (administradorDTO.getNombre() != null && administradorDTO.getNombre() != "" && administradorDTO.getApellidoP() != null && administradorDTO.getApellidoP() != "" && administradorDTO.getApellidoM() != null && administradorDTO.getApellidoM() != ""
                     && administradorDTO.getCorreoElectronico() != null && administradorDTO.getCorreoElectronico() != "" && administradorDTO.getContrasena() != null && administradorDTO.getContrasena() != "") {
 
-                administrador = this.administradorService.registroAdministrador(administradorDTO.getNombre(), administradorDTO.getApellidoP(), administradorDTO.getApellidoM(), administradorDTO.getCorreoElectronico(), administradorDTO.getContrasena());
+                administrador = this.administradorService.registroAdministrador(administradorDTO.getNombre(), administradorDTO.getApellidoP(), administradorDTO.getApellidoM(), administradorDTO.getCorreoElectronico(),administradorDTO.getTelefono(), administradorDTO.getContrasena());
                 if (administrador != null) {
                     respuesta.setMensaje("Cuenta creada exitosamente");
                     respuesta.setEstatus(true);

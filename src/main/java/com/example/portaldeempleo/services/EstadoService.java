@@ -19,6 +19,7 @@ public class EstadoService {
         listaEstados = estadoRepository.findAll();
         for(Estado estado:listaEstados){
             estado.setMunicipios(null);
+            estado.setVacantes_estado(null);
         }
         return listaEstados;
     }

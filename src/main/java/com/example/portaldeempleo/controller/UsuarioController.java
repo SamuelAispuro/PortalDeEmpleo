@@ -69,16 +69,21 @@ public class UsuarioController {
     }
 
     //Guardar o modificar foto de perfil de un usuario
-    @PutMapping("/guardarImagenes")
-    public ResponseEntity<?> guardarImagenes(@RequestBody DataDTO usuarioDTO){
+    @PutMapping("/guardarArchivo")
+    public ResponseEntity<?> guardarArchivo(@RequestBody DataDTO usuarioDTO){
         RespUsuDTO respuesta = new RespUsuDTO();
-        Usuario usuarioModificado = this.usuarioService.guardarImagen(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada());
+        Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv());
         respuesta.setUsuarioModificado(usuarioModificado);
         respuesta.setEstatus(true);
         respuesta.setMensaje("Cambio realizado correctamente");
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-
+    //Suspender usuario
+    @PutMapping("/suspenderUsuario/{id_usuario}")
+    public ResponseEntity<?> suspenderUsuario(@PathVariable Integer id_usuario){
+       Usuario usuarioEncontrado = usuarioService.suspenderUsuario(id_usuario);
+       return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
+    }
 
 }

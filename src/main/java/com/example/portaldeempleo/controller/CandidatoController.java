@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +37,10 @@ public class CandidatoController {
 
             //Se evalua que los datos ingresados por el usuario no vengan vacios
             if (candidatoDTO.getNombre() != null && candidatoDTO.getNombre() != "" && candidatoDTO.getApellidoP() != null && candidatoDTO.getApellidoP() != "" && candidatoDTO.getApellidoM() != null && candidatoDTO.getApellidoM() != ""
-                    && candidatoDTO.getCorreoElectronico() != null && candidatoDTO.getCorreoElectronico() != "" && candidatoDTO.getTelefono() != null && candidatoDTO.getTelefono() != "" && candidatoDTO.getContrasena() != null && candidatoDTO.getContrasena() != "" && candidatoDTO.getFechaNacimiento() != null && candidatoDTO.getId_municipio() != null && candidatoDTO.getId_estado() != null) {
-
+                    && candidatoDTO.getCorreoElectronico() != null && candidatoDTO.getCorreoElectronico() != "" && candidatoDTO.getTelefono() != null && candidatoDTO.getTelefono() != "" && candidatoDTO.getContrasena() != null && candidatoDTO.getContrasena() != "" && candidatoDTO.getFechaNacimientoStr() != null && candidatoDTO.getFechaNacimientoStr() != "" && candidatoDTO.getId_municipio() != null && candidatoDTO.getId_estado() != null) {
+                DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+                LocalDate fechaNacimientoFormateada = LocalDate.parse(candidatoDTO.getFechaNacimientoStr(),format);
+                candidatoDTO.setFechaNacimiento(fechaNacimientoFormateada);
                 //Se hace uso del servicio registroCandidato para crear una cuenta de candidato en caso de que sean validos todos los datos requeridos
                 candidato = this.candidatoService.registroCandidato(candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getCorreoElectronico(), candidatoDTO.getTelefono(), candidatoDTO.getContrasena(), candidatoDTO.getFechaNacimiento(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getDomicilio(), candidatoDTO.getPuestoActual(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo());
 
@@ -106,7 +111,7 @@ public class CandidatoController {
 
         try {
             //Se hace uso del servicio ModificarCandidato y se modifica la información que haya cambiado el usuario
-            Candidato candidatoModificado = this.candidatoService.modificarCandidato(candidatoDTO.getId_candidato(), candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getDomicilio(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo(), candidatoDTO.getPuestoActual(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getTelefono(), candidatoDTO.getProfesion());
+            Candidato candidatoModificado = this.candidatoService.modificarCandidato(candidatoDTO.getId_candidato(), candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getDomicilio(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo(), candidatoDTO.getPuestoActual(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getTelefono(), candidatoDTO.getProfesion(), candidatoDTO.getFechaNacimientoStr());
             respuesta.setCandidatoModificado(candidatoModificado);
             respuesta.setEstatus(true);
             respuesta.setMensaje("Datos modificados exitosamente");

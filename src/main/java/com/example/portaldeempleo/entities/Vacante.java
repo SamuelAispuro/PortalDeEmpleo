@@ -1,8 +1,11 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.Cascade;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,12 @@ public class Vacante {
     private String horario;
     @Column(name="domicilio")
     private String domicilio;
+    @Column(name="fechapublicacion")
+    private LocalDate fechaPublicacion;
+
+    @Getter
+    @Transient
+    private Integer diasPublicada;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
@@ -238,5 +247,25 @@ public class Vacante {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public LocalDate getFechaPublicacion() {
+
+        Period periodoDias = Period.between(fechaPublicacion, LocalDate.now());
+        this.diasPublicada = periodoDias.getDays();
+
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(LocalDate fechaPublicacion) {
+
+        Period periodoDias = Period.between(fechaPublicacion, LocalDate.now());
+        this.diasPublicada = periodoDias.getDays();
+
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public void setDiasPublicada(Integer diasPublicada) {
+        this.diasPublicada = diasPublicada;
     }
 }

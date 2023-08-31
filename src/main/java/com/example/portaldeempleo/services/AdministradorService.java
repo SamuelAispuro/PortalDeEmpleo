@@ -30,7 +30,7 @@ public class AdministradorService {
 
     // metodo para registrar un administrador
 
-    public Administrador registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String contraseña){
+    public Administrador registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña){
     Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
     if(usuarioEncontrado == null) {
         Usuario usuario = new Usuario();
@@ -40,6 +40,7 @@ public class AdministradorService {
         usuario.setApellidoP(apellidoP);
         usuario.setApellidoM(apellidoM);
         usuario.setEstatusUsuario(true);
+        usuario.setTelefono(telefono);
         usuario.setTipoUsuario(1); //"1" es el tipo de usuario de un administrador
         usuario = usuarioRepository.save(usuario);
 
@@ -78,6 +79,7 @@ public class AdministradorService {
             candidatoEncontrado.getMunicipio().setVacantes_municipios(null);
             candidatoEncontrado.getMunicipio().getEstado().setVacantes_estado(null);
             candidatoEncontrado.getEstado().setVacantes_estado(null);
+            candidatoEncontrado.getEstado().setVacantes_estado(null);
              objetoEncontrado = candidatoEncontrado;
         }
         if(usuarioEncontrado.getTipoUsuario()==3){
@@ -91,8 +93,6 @@ public class AdministradorService {
             Administrador administradorEncontrado = administradorRepository.findByUsuario(usuarioEncontrado);
             objetoEncontrado = administradorEncontrado;
         }
-
-
 
         return objetoEncontrado;
     }

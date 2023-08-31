@@ -16,6 +16,7 @@ public interface VacanteRepository extends JpaRepository<Vacante, Integer> {
 
     public List<Vacante> findAllByMunicipio(Municipio municipio);
     public List<Vacante> findAllByEstado(Estado estado);
+    public List<Vacante> findAllByEstatus(Boolean estatus);
 
     @Modifying
     @Query("delete from Vacante v where v.id_vacante=:id")

@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -113,11 +115,13 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
             postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
             postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
             postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+            postulacion.getVacante().getEstado().setVacantes_estado(null);
+            postulacion.getCandidato().getEstado().setVacantes_estado(null);
         }
         return listaPostulacionesCandidato;
     }
     //Modificar un candidato
-    public Candidato modificarCandidato(Integer id_candidato,String nombre, String apellidoP, String apellidoM,String domicilio, String descripcion, String centroEducativo, String puestoActual, Integer id_municipio, Integer id_estado, String telefono, String profesion) throws Exception {
+    public Candidato modificarCandidato(Integer id_candidato,String nombre, String apellidoP, String apellidoM,String domicilio, String descripcion, String centroEducativo, String puestoActual, Integer id_municipio, Integer id_estado, String telefono, String profesion, String fechaNacimientoStr) throws Exception {
         try{
         Candidato candidato = obtenerCandidatoPorId(id_candidato);
 
@@ -164,39 +168,20 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
         if (profesion != null && profesion != "") {
             candidato.setProfesion(profesion);
         }
+        if (fechaNacimientoStr != null && fechaNacimientoStr != "" ){
+            DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+            LocalDate fechaNacimientoFormateada = LocalDate.parse(fechaNacimientoStr,format);
+            candidato.setFechaNacimiento(fechaNacimientoFormateada);
+        }
         candidato = candidatoRepository.save(candidato);
         candidato.setPostulaciones(null);
+        candidato.getEstado().setVacantes_estado(null);
+        candidato.getMunicipio().setVacantes_municipios(null);
+        candidato.getMunicipio().setEstado(null);
         return candidato;
     }catch(Exception e){
             throw new Exception("Algo salio mal, intentalo de nuevo mas tarde");
         }
-    }
-
-    /**
-     * Subir Cv
-     * @param imagen
-     * @param id_candidato
-     * @return
-     * @throws IOException
-     */
-    public String subirFotoCv(MultipartFile imagen, String id_candidato) throws IOException {
-        Candidato candidato = candidatoRepository.findById(Integer.parseInt(id_candidato)).orElse(null);
-        File ruta = new File(rutaLocal+File.separator+candidato.getUsuario().getId_usuario()+File.separator+"CV");
-    //Se evalua que la ruta no exista, de ser asi se creará una nueva carpeta que contenga el archivo subido por el usuario
-        if(ruta.exists() == false){
-            ruta.mkdirs();
-        }
-    //Se crea el archivo(carpeta) donde se almacenará la información subida por el usuario
-        File archivoLocal = new File(rutaLocal+File.separator+candidato.getUsuario().getId_usuario()+File.separator+"CV"+File.separator+imagen.getOriginalFilename());
-
-        FileOutputStream fos = new FileOutputStream(archivoLocal);
-        fos.write(imagen.getBytes());
-        fos.close();
-        candidato.setRutaCv(archivoLocal.getAbsolutePath());
-
-
-        candidatoRepository.save(candidato);
-        return "Archivo guardado exitosamente";
     }
 
 }

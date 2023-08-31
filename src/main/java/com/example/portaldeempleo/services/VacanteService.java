@@ -5,13 +5,14 @@ import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class VacanteService {
 
 
     //Metodo para crear una vacante
-    public Integer crearVacante(String nombreVacante, String especialista, Integer sueldo, Integer id_empresa,String horario,Integer id_municipio,String descripcion,Integer id_empleador,Integer id_tipoHorario,Integer id_tipoContratacion,Integer id_modalidadTrabajo, String domicilio){
+    public Integer crearVacante(String nombreVacante, String especialista, Integer sueldo, Integer id_empresa,String horario,Integer id_municipio,String descripcion,Integer id_empleador,Integer id_tipoHorario,Integer id_tipoContratacion,Integer id_modalidadTrabajo, String domicilio, LocalDate fechaPublicacion, Boolean publicarAhora){
         Empresa empresa = new Empresa();
         empresa.setId_empresa(id_empresa);
 
@@ -63,7 +64,8 @@ public class VacanteService {
         vacante.setTipoContratacion(tipoContratacion);
         vacante.setModalidadTrabajo(modalidadTrabajo);
         vacante.setDomicilio(domicilio);
-        vacante.setEstatus(true); //Se le agrega un estatus en true lo que indica que la vacante esta activa
+        vacante.setFechaPublicacion(publicarAhora == true ? LocalDate.now() : fechaPublicacion);
+        vacante.setEstatus(publicarAhora == true ? true : false); //Se le agrega un estatus en true lo que indica que la vacante esta activa
 
 
         vacante = vacanteRepository.save(vacante);
@@ -72,10 +74,10 @@ public class VacanteService {
     }
 
     //Metodo obtener todas las vacantes
-    public List<Vacante> obtenerListaVacantes(){
-        List<Vacante> listaVacantes = new ArrayList<>();
-        listaVacantes = vacanteRepository.findAll();
-        for(Vacante vacante:listaVacantes){
+    public List<Vacante> obtenerListaVacantesActivas(){
+        List<Vacante> listaVacantesActivas = new ArrayList<>();
+        listaVacantesActivas = vacanteRepository.findAllByEstatus(true);
+        for(Vacante vacante:listaVacantesActivas){
             vacante.setCandidatos(null);
             vacante.getEmpresa().setVacantes_empresa(null);
             vacante.getMunicipio().getEstado().setMunicipios(null);
@@ -86,7 +88,7 @@ public class VacanteService {
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
 
         }
-    return listaVacantes;
+    return listaVacantesActivas;
     }
     //Buscar vacantes cerca del candidato
     public List<Vacante> buscarVacantesCerca(Integer id_municipio){
@@ -98,7 +100,7 @@ public class VacanteService {
         //listaVacantesCerca = municipioEncontrado.getVacantes_municipios();
         municipioEncontrado.getEstado().setMunicipios(null);
         for(Vacante vacante:listaVacantesCerca){
-            vacante.getMunicipio().setEstado(null);
+            vacante.getMunicipio().getEstado().setVacantes_estado(null);
             vacante.getMunicipio().setVacantes_municipios(null);
             vacante.getEmpleador().setVacantes(null);
             vacante.setCandidatos(null);
@@ -106,6 +108,7 @@ public class VacanteService {
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
             vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             vacante.getEmpresa().setVacantes_empresa(null);
+            vacante.getEstado().setVacantes_estado(null);
         }
         return listaVacantesCerca;
     }
@@ -113,7 +116,7 @@ public class VacanteService {
     //Buscar vacantes por sueldo
     public List<Vacante> buscarVacantesPorSueldo(){
         List<Vacante> listaVacantesPorSueldo = new ArrayList<>();
-        listaVacantesPorSueldo = vacanteRepository.findAll();
+        listaVacantesPorSueldo = vacanteRepository.findAllByEstatus(true);
         listaVacantesPorSueldo = listaVacantesPorSueldo.stream().sorted(Comparator.comparingInt(Vacante::getSueldo).reversed()).collect(Collectors.toList());
         for(Vacante vacante:listaVacantesPorSueldo){
             vacante.setCandidatos(null);
@@ -124,6 +127,7 @@ public class VacanteService {
             vacante.getTipoHorario().setTipoHorario_vacantes(null);
             vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getEstado().setVacantes_estado(null);
         }
 
         return listaVacantesPorSueldo;
@@ -133,7 +137,7 @@ public class VacanteService {
     public List<Vacante> buscarPorPalabraClave(String palabraClave){
         List<Vacante> listaVacantes = new ArrayList<>();
         List<Vacante> listaVacantesEncontradasPorPalabraClave = new ArrayList<>();
-        listaVacantes = vacanteRepository.findAll();
+        listaVacantes = vacanteRepository.findAllByEstatus(true);
         for(Vacante vacante:listaVacantes){
             vacante.setCandidatos(null);
             vacante.getEmpresa().setVacantes_empresa(null);
@@ -143,6 +147,7 @@ public class VacanteService {
             vacante.getTipoHorario().setTipoHorario_vacantes(null);
             vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getEstado().setVacantes_estado(null);
 
             if(vacante.getNombreVacante().toLowerCase().contains(palabraClave.toLowerCase())){
                 listaVacantesEncontradasPorPalabraClave.add(vacante);
@@ -179,13 +184,18 @@ public class VacanteService {
        vacanteEncontrada.getTipoContratacion().setTipoContratacion_vacantes(null);
        vacanteEncontrada.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
        vacanteEncontrada.getEmpleador().setVacantes(null);
+       vacanteEncontrada.getEstado().setVacantes_estado(null);
+
+       vacanteEncontrada.getEstado().setVacantes_estado(null);
 
        for(Candidato candidato:vacanteEncontrada.getCandidatos()){
         candidato.setPostulaciones(null);
         candidato.getEstado().setMunicipios(null);
         candidato.getMunicipio().setVacantes_municipios(null);
+        candidato.getEstado().setVacantes_estado(null);
 
        }
+       List<Candidato> listaCandidatos = vacanteEncontrada.getCandidatos();
 
         return vacanteEncontrada;
 
@@ -204,10 +214,13 @@ public class VacanteService {
         vacanteEncontrada.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         vacanteEncontrada.getEmpleador().setVacantes(null);
 
+
         for(Candidato candidato:vacanteEncontrada.getCandidatos()){
             candidato.setPostulaciones(null);
             candidato.getEstado().setMunicipios(null);
             candidato.getMunicipio().setVacantes_municipios(null);
+            candidato.getEstado().setVacantes_estado(null);
+
 
         }
 
@@ -294,6 +307,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
         vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
         vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getEstado().setVacantes_estado(null);
 
         if(vacante.getNombreVacante().toLowerCase().contains(palabraClave.toLowerCase())){
             listaVacantesCercaYPalabraClave.add(vacante);
@@ -321,10 +335,66 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
             vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             vacante.getEmpresa().setVacantes_empresa(null);
+            vacante.getEstado().setVacantes_estado(null);
         }
         return listaVacantesEstado;
     }
 
+    //Buscar vacantes cerca y por palabra clave
+    public List<Vacante> buscarVacantesEstadoYPorPalabraClave(Integer id_estado, String palabraClave){
 
+        //Se busca un municipio para ver las vacantes que hay publicadas en este municipio
+        Estado estadoEncontrado = estadoRepository.findById(id_estado).orElse(null);
+        List<Vacante> listaVacantesEstado = new ArrayList<>();
+        List<Vacante> listaVacantesEstadoYPalabraClave = new ArrayList<>();
+        listaVacantesEstado = vacanteRepository.findAllByEstado(estadoEncontrado);
+
+        //Se setean las vacantes asociadas a un municipio a la lista que creamos
+        estadoEncontrado.setMunicipios(null);
+        for(Vacante vacante:listaVacantesEstado){
+            vacante.getMunicipio().setEstado(null);
+            vacante.getMunicipio().setVacantes_municipios(null);
+            vacante.getEmpleador().setVacantes(null);
+            vacante.setCandidatos(null);
+            vacante.getTipoHorario().setTipoHorario_vacantes(null);
+            vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+            vacante.getEmpresa().setVacantes_empresa(null);
+            vacante.getEstado().setVacantes_estado(null);
+
+            if(vacante.getNombreVacante().toLowerCase().contains(palabraClave.toLowerCase())){
+                listaVacantesEstadoYPalabraClave.add(vacante);
+            }
+        }
+        return listaVacantesEstadoYPalabraClave;
+    }
+
+    //Eliminar vacante automaticamente despues de 30 dias de inactividad
+    @Scheduled(cron ="0 0 23 * * ?")
+    public void eliminarVacantePorDias(){
+        System.out.println("haciendo evaluación de vacantes "+ LocalDateTime.now());
+        List<Vacante> listaVacantes = vacanteRepository.findAllByEstatus(true);
+
+        //Se itera la lista de vacantes y se evalua que tenga alguna postulación llegando a los 30 dias de creacion, de lo contrario será eliminada
+        for (Vacante vacante : listaVacantes){
+            if (vacante.getDiasPublicada() == 30 || vacante.getDiasPublicada() > 30 && vacante.getCandidatos().isEmpty()){
+                vacanteRepository.delete(vacante);
+            }
+        }
+
+    }
+
+    //Publicar vacantes programadas
+    @Scheduled(cron = "0 30 23 * * ?")
+    public void publicarVacanteProgramada(){
+        List<Vacante> listaVacantesInactivas = new ArrayList<>();
+        listaVacantesInactivas = vacanteRepository.findAllByEstatus(false);
+        for(Vacante vacante : listaVacantesInactivas){
+            if(vacante.getFechaPublicacion().isEqual(LocalDate.now())){
+                vacante.setEstatus(true);
+                vacanteRepository.save(vacante);
+            }
+        }
+    }
 
 }

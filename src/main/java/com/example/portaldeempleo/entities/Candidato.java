@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 
 import java.util.Calendar;
@@ -34,11 +36,9 @@ public class Candidato {
     private String profesion;
     @Column(name="fechanacimiento")
     private LocalDate fechaNacimiento;
-/*
-    Calendar fechaNacimientoCal = Calendar.getInstance();
-    fechaNacimientoCal.setTime(fechaNacimiento);
-    Calendar fechaActual = Calendar.getInstance();
-*/
+
+
+
     @Transient
     private Integer edad;
 
@@ -172,17 +172,20 @@ public class Candidato {
     }
 
     public LocalDate getFechaNacimiento() {
+
         Period periodoEdad = Period.between(fechaNacimiento, LocalDate.now());
         this.edad = periodoEdad.getYears();
+
         return fechaNacimiento;
 
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
+
         Period periodoEdad = Period.between(fechaNacimiento, LocalDate.now());
         this.edad = periodoEdad.getYears();
-        this.fechaNacimiento = fechaNacimiento;
 
+        this.fechaNacimiento = fechaNacimiento;
 
     }
 

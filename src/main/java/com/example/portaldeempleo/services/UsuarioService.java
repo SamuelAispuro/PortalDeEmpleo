@@ -23,6 +23,8 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
     @Autowired
     PasswordEncryption passwordEncryption;
+    @Autowired
+    CandidatoRepository candidatoRepository;
 
     @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
     private String rutaLocal;
@@ -42,75 +44,36 @@ public class UsuarioService {
         }else{
             return null;
         }
-
-
-
-    }
-
-    /**
-     * Subir foto de perfil
-     * @param imagen
-     * @param id_usuario
-     * @return
-     * @throws IOException
-     */
-    public String subirFotoPerfil(MultipartFile imagen, String id_usuario) throws IOException {
-        Usuario usuario = usuarioRepository.findById(Integer.parseInt(id_usuario)).orElse(null);
-        File ruta = new File(rutaLocal+File.separator+id_usuario+File.separator+"perfil");
-
-        if(ruta.exists() == false){
-            ruta.mkdirs();
-        }
-
-        File archivoLocal = new File(rutaLocal+File.separator+id_usuario+File.separator+"perfil"+File.separator+imagen.getOriginalFilename());
-
-        FileOutputStream fos = new FileOutputStream(archivoLocal);
-        fos.write(imagen.getBytes());
-        fos.close();
-        usuario.setRutaImagenPortada(archivoLocal.getAbsolutePath());
-        usuarioRepository.save(usuario);
-
-        return "Archivo guardado exitosamente";
-    }
-
-    /**
-     * Subir foto de portada
-     * @param imagen
-     * @param id_usuario
-     * @return
-     * @throws IOException
-     */
-    public String subirFotoPortada(MultipartFile imagen, String id_usuario) throws IOException {
-        Usuario usuario = usuarioRepository.findById(Integer.parseInt(id_usuario)).orElse(null);
-        File ruta = new File(rutaLocal+File.separator+id_usuario+File.separator+"portada");
-
-        if(ruta.exists() == false){
-            ruta.mkdirs();
-        }
-
-        File archivoLocal = new File(rutaLocal+File.separator+id_usuario+File.separator+"portada"+File.separator+imagen.getOriginalFilename());
-
-        FileOutputStream fos = new FileOutputStream(archivoLocal);
-        fos.write(imagen.getBytes());
-        fos.close();
-        usuario.setRutaImagenPortada(archivoLocal.getAbsolutePath());
-        usuarioRepository.save(usuario);
-
-        return "Archivo guardado exitosamente";
     }
 
     //Guardar o modificar imagen de perfil
-    public Usuario guardarImagen(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada){
+    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv){
         Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
 
+        if(rutaCv != null && rutaCv != ""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setRutaCv(rutaCv);
+            candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
+        }
         if(rutaImagenPerfil != null && rutaImagenPerfil != ""){
-            usuarioEncontrado.setRutaImagenPerfil(rutaImagenPerfil);
+                usuarioEncontrado.setRutaImagenPerfil(rutaImagenPerfil);
+            usuarioRepository.save(usuarioEncontrado);
         }
         if(rutaImagenPortada != null && rutaImagenPortada != ""){
-            usuarioEncontrado.setRutaImagenPortada(rutaImagenPortada);
+                usuarioEncontrado.setRutaImagenPortada(rutaImagenPortada);
+            usuarioRepository.save(usuarioEncontrado);
         }
-        usuarioEncontrado = usuarioRepository.save(usuarioEncontrado);
+
         return usuarioEncontrado;
     }
+
+    //Suspender cuenta de usuario
+    public Usuario suspenderUsuario(Integer id_usuario){
+        Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
+        usuarioEncontrado.setEstatusUsuario(false);
+        usuarioRepository.save(usuarioEncontrado);
+        return usuarioEncontrado;
+    }
+
 }
 

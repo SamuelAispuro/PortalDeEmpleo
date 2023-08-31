@@ -1,8 +1,10 @@
 package com.example.portaldeempleo.controller;
 
 import com.example.portaldeempleo.DTO.DataDTO;
+import com.example.portaldeempleo.DTO.RespPostDTO;
 import com.example.portaldeempleo.DTO.RespRegDTO;
 import com.example.portaldeempleo.entities.Empleador;
+import com.example.portaldeempleo.entities.Postulacion;
 import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.services.EmpleadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class EmpleadorController {
         if (empleadorDTO.getNombre() != null && empleadorDTO.getNombre() != "" && empleadorDTO.getApellidoP() != null && empleadorDTO.getApellidoP() != "" && empleadorDTO.getApellidoM() != null && empleadorDTO.getApellidoM() != ""
                 && empleadorDTO.getCorreoElectronico() != null && empleadorDTO.getCorreoElectronico() != "" && empleadorDTO.getContrasena() != null && empleadorDTO.getContrasena() != "") {
 
-            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getContrasena(), empleadorDTO.getTelefono());
+            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getTelefono(), empleadorDTO.getContrasena());
             if (empleador != null) {
                 respuesta.setMensaje("Cuenta creada exitosamente");
                 respuesta.setEstatus(true);
@@ -58,6 +60,17 @@ public class EmpleadorController {
     public List<Vacante> vacantesPublicadasPorId(@PathVariable Integer id_empleador){
         List<Vacante> listaVacantes = empleadorService.vacantesPublicadasPorId(id_empleador);
         return listaVacantes;
+    }
+
+    //Aceptar postulación
+    @PutMapping("/aceptarPostulacion/")
+    public ResponseEntity<?> aceptarPostulacion(@RequestBody Integer id_postulacion){
+        RespPostDTO respuesta = new RespPostDTO();
+
+        Postulacion postulacionModificada = this.empleadorService.aceptarPostulacion(id_postulacion);
+        respuesta.setEstatus(true);
+        respuesta.setMensaje("La postulación fue aceptada con exito");
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
 }

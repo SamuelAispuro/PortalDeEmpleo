@@ -43,7 +43,7 @@ public class Idioma {
         return candidatos;
     }
 
-    public void setidiomaCandidatos(List<Candidato> candidatos) {
+    public void setCandidatos(List<Candidato> candidatos) {
         this.candidatos = candidatos;
     }
 }

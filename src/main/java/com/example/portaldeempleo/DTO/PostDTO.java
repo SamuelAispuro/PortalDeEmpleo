@@ -6,6 +6,7 @@ public class PostDTO {
     private Integer id_vacante;
     private Boolean verif;
     private Integer id_postulacion;
+    private Boolean estatus;
 
     public Boolean getVerif() {
         return verif;
@@ -37,5 +38,13 @@ public class PostDTO {
 
     public void setId_vacante(Integer id_vacante) {
         this.id_vacante = id_vacante;
+    }
+
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
     }
 }
