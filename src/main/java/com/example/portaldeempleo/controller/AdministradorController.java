@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 public class AdministradorController {
 
@@ -97,7 +97,7 @@ public class AdministradorController {
     //Obtener usuario Completo por correo
     @GetMapping("/obtenerUsuarioCompleto/{correoElectronico}")
     public ResponseEntity<?> obtenerUsuarioCompleto(@PathVariable String correoElectronico) {
-        Object objetoEncontrado = new Object();
+        Object objetoEncontrado;
         try {
             objetoEncontrado = this.administradorService.obtenerUsuarioCompleto(correoElectronico);
             if (objetoEncontrado != null) {

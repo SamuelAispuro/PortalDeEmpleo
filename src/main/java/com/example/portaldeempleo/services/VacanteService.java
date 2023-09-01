@@ -86,6 +86,7 @@ public class VacanteService {
             vacante.getTipoHorario().setTipoHorario_vacantes(null);
             vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getMunicipio().getEstado().setVacantes_estado(null);
 
         }
     return listaVacantesActivas;

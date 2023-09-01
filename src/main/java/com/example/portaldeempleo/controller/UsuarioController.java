@@ -82,7 +82,9 @@ public class UsuarioController {
     //Suspender usuario
     @PutMapping("/suspenderUsuario/{id_usuario}")
     public ResponseEntity<?> suspenderUsuario(@PathVariable Integer id_usuario){
+       
        Usuario usuarioEncontrado = usuarioService.suspenderUsuario(id_usuario);
+
        return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
     }
 

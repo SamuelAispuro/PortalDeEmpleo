@@ -80,6 +80,7 @@ public class AdministradorService {
             candidatoEncontrado.getMunicipio().getEstado().setVacantes_estado(null);
             candidatoEncontrado.getEstado().setVacantes_estado(null);
             candidatoEncontrado.getEstado().setVacantes_estado(null);
+
              objetoEncontrado = candidatoEncontrado;
         }
         if(usuarioEncontrado.getTipoUsuario()==3){
