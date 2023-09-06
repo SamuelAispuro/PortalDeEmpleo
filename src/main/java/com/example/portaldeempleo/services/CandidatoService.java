@@ -1,6 +1,8 @@
 package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.DataDTO;
+import com.example.portaldeempleo.DTO.HabilidadDTO;
+import com.example.portaldeempleo.DTO.IdiomaDTO;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,10 @@ public class CandidatoService {
     MunicipioRepository municipioRepository;
     @Autowired
     EstadoRepository estadoRepository;
+    @Autowired
+    IdiomaRepository idiomaRepository;
+    @Autowired
+    HabilidadRepository habilidadRepository;
 
     @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
     private String rutaLocal;
@@ -182,6 +188,38 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
     }catch(Exception e){
             throw new Exception("Algo salio mal, intentalo de nuevo mas tarde");
         }
+    }
+
+    //Añadir idiomas
+    public List<Idioma> añadirIdiomas(IdiomaDTO idiomaDTO){
+
+    Candidato candidato = candidatoRepository.findById(idiomaDTO.getId_candidato()).orElse(null);
+    for(Idioma idioma: candidato.getIdiomas()){
+        idiomaRepository.delete(idioma);
+    }
+
+    candidato.setIdiomas(idiomaDTO.getListaIdiomas());
+    for(Idioma idioma: candidato.getIdiomas()){
+        idioma.setCandidatos(null);
+    }
+    candidatoRepository.save(candidato);
+    return candidato.getIdiomas();
+    }
+
+    //Añadir habilidades
+    public List<Habilidad> añadirHabilidades(HabilidadDTO habilidadDTO){
+
+        Candidato candidato = candidatoRepository.findById(habilidadDTO.getId_candidato()).orElse(null);
+        for(Habilidad habilidad: candidato.getHabilidades()){
+            habilidadRepository.delete(habilidad);
+        }
+
+        candidato.setHabilidades(habilidadDTO.getListaHabilidades());
+        for(Habilidad habilidad: candidato.getHabilidades()){
+            habilidad.setCandidatos(null);
+        }
+        candidatoRepository.save(candidato);
+        return candidato.getHabilidades();
     }
 
 }

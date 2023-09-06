@@ -1,8 +1,6 @@
 package com.example.portaldeempleo.controller;
 
-import com.example.portaldeempleo.DTO.DataDTO;
-import com.example.portaldeempleo.DTO.RespCandDTO;
-import com.example.portaldeempleo.DTO.RespRegDTO;
+import com.example.portaldeempleo.DTO.*;
 import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Postulacion;
 import com.example.portaldeempleo.entities.Vacante;
@@ -119,6 +117,36 @@ public class CandidatoController {
         }catch(Exception e){
             return new ResponseEntity<>("Algo salio mal, intentalo de nuevo mas tarde",HttpStatus.OK);
         }
+    }
+
+    //Anadir idiomas
+    @PutMapping("/añadirIdiomas")
+    public ResponseEntity<RespPostDTO> añadirIdiomas(@RequestBody IdiomaDTO idiomaDTO){
+        RespPostDTO respuesta = new RespPostDTO();
+        if(idiomaDTO.getId_candidato()!=null && idiomaDTO.getId_candidato()>0){
+            candidatoService.añadirIdiomas(idiomaDTO);
+            respuesta.setMensaje("Idiomas modificados correctamente");
+            respuesta.setEstatus(true);
+        }else{
+            respuesta.setMensaje("No se pudo hacer la modificacion, intentelo de nuevo");
+            respuesta.setEstatus(false);
+        }
+        return new ResponseEntity<>(respuesta,HttpStatus.OK);
+    }
+
+    //Anadir habilidades
+    @PutMapping("/añadirHabilidades")
+    public ResponseEntity<RespPostDTO> añadirHabilidades(@RequestBody HabilidadDTO habilidadDTO){
+        RespPostDTO respuesta = new RespPostDTO();
+        if(habilidadDTO.getId_candidato()!=null && habilidadDTO.getId_candidato()>0){
+            candidatoService.añadirHabilidades(habilidadDTO);
+            respuesta.setMensaje("Habilidades modificadas correctamente");
+            respuesta.setEstatus(true);
+        }else{
+            respuesta.setMensaje("No se pudo hacer la modificacion, intentelo de nuevo");
+            respuesta.setEstatus(false);
+        }
+        return new ResponseEntity<>(respuesta,HttpStatus.OK);
     }
 
 }

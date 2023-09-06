@@ -30,17 +30,4 @@ public class IdiomaService {
 
     }
 
-    //Agregar idioma
-    public List<Idioma> añadirIdioma(Integer id_candidato, Integer id_idioma){
-        List<Idioma> listaIdiomasCandidato = new ArrayList<>();
-        Candidato candidatoEncontrado = candidatoRepository.findById(id_candidato).orElse(null);
-        Idioma idiomaEncontrado = idiomaRepository.findById(id_idioma).orElse(null);
-
-
-        listaIdiomasCandidato = candidatoEncontrado.getIdiomas();
-        listaIdiomasCandidato.add(idiomaEncontrado);
-        candidatoRepository.save(candidatoEncontrado);
-        return listaIdiomasCandidato;
-    }
-
 }
