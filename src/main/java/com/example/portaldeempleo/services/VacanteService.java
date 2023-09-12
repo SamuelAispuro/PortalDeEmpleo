@@ -30,12 +30,15 @@ public class VacanteService {
 
 
     //Metodo para crear una vacante
-    public Integer crearVacante(String nombreVacante, String especialista, Integer sueldo, Integer id_empresa,String horario,Integer id_municipio,String descripcion,Integer id_empleador,Integer id_tipoHorario,Integer id_tipoContratacion,Integer id_modalidadTrabajo, String domicilio, LocalDate fechaPublicacion, Boolean publicarAhora){
+    public Integer crearVacante(String nombreVacante, String especialista, Integer sueldo, Integer id_empresa,String horario,Integer id_municipio,Integer id_estado, String descripcion,Integer id_empleador,Integer id_tipoHorario,Integer id_tipoContratacion,Integer id_modalidadTrabajo, String domicilio, LocalDate fechaPublicacion, Boolean publicarAhora){
         Empresa empresa = new Empresa();
         empresa.setId_empresa(id_empresa);
 
         Municipio municipio = new Municipio();
         municipio.setId_municipio(id_municipio);
+
+        Estado estado = new Estado();
+        estado.setId_estado(id_estado);
 
         Empleador empleador = new Empleador();
         empleador.setId_empleador(id_empleador);
@@ -57,6 +60,7 @@ public class VacanteService {
         vacante.setSueldo(sueldo);
         vacante.setHorario(horario);
         vacante.setMunicipio(municipio);
+        vacante.setEstado(estado);
         vacante.setEmpleador(empleador);
         vacante.setDescripcion(descripcion);
         vacante.setEmpleador(empleador);
@@ -371,7 +375,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
     }
 
     //Eliminar vacante automaticamente despues de 30 dias de inactividad
-    @Scheduled(cron ="0 0 23 * * ?")
+    @Scheduled(cron ="0 28 16 * * ?")
     public void eliminarVacantePorDias(){
         System.out.println("haciendo evaluación de vacantes "+ LocalDateTime.now());
         List<Vacante> listaVacantes = vacanteRepository.findAllByEstatus(true);
@@ -386,7 +390,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
     }
 
     //Publicar vacantes programadas
-    @Scheduled(cron = "0 30 23 * * ?")
+    @Scheduled(cron = "0 0 16 * * ?")//(fixedRate=1000)
     public void publicarVacanteProgramada(){
         List<Vacante> listaVacantesInactivas = new ArrayList<>();
         listaVacantesInactivas = vacanteRepository.findAllByEstatus(false);
@@ -396,6 +400,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
                 vacanteRepository.save(vacante);
             }
         }
+
     }
 
 }

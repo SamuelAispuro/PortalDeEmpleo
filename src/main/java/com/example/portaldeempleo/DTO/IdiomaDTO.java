@@ -1,13 +1,14 @@
 package com.example.portaldeempleo.DTO;
 
 import com.example.portaldeempleo.entities.Idioma;
+import com.example.portaldeempleo.entities.IdiomaCandidato;
 
 import java.util.List;
 
 public class IdiomaDTO {
 
     private Integer id_candidato;
-    private List<Idioma> listaIdiomas;
+    private List<Idioma> idiomas;
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -17,11 +18,11 @@ public class IdiomaDTO {
         this.id_candidato = id_candidato;
     }
 
-    public List<Idioma> getListaIdiomas() {
-        return listaIdiomas;
+    public List<Idioma> getIdiomas() {
+        return idiomas;
     }
 
-    public void setListaIdiomas(List<Idioma> listaIdiomas) {
-        this.listaIdiomas = listaIdiomas;
+    public void setIdiomas(List<Idioma> idiomas) {
+        this.idiomas = idiomas;
     }
 }

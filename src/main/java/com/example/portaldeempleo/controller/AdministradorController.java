@@ -61,18 +61,21 @@ public class AdministradorController {
     //Eliminar usuario por ID
     @DeleteMapping("/eliminarUsuario/{id_usuario}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id_usuario){
+        RespRegDTO respuesta = new RespRegDTO();
     try {
         if(id_usuario != null && id_usuario != 0) {
             this.administradorService.eliminarUsuario(id_usuario);
-            return new ResponseEntity<>("Usuario eliminado exitosamente.", HttpStatus.OK);
+            respuesta.setMensaje("Usuario eliminado exitosamente");
+            respuesta.setEstatus(true);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }else{
-            RespRegDTO respuesta = new RespRegDTO();
+
             respuesta.setMensaje("El id ingresado no es válido.");
             respuesta.setEstatus(false);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }
     }catch(Exception e){
-        RespRegDTO respuesta = new RespRegDTO();
+
         respuesta.setMensaje("No se encontró un usuario con este ID");
         respuesta.setEstatus(false);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

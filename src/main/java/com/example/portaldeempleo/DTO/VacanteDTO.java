@@ -15,6 +15,7 @@ public class VacanteDTO {
      private String horario;
      private Municipio municipio;
      private Integer id_municipio;
+     private Integer id_estado;
      private Boolean estatus;
      private Empleador empleador;
      private Integer id_empleador;
@@ -226,5 +227,13 @@ public class VacanteDTO {
 
     public void setPublicarAhora(Boolean publicarAhora) {
         this.publicarAhora = publicarAhora;
+    }
+
+    public Integer getId_estado() {
+        return id_estado;
+    }
+
+    public void setId_estado(Integer id_estado) {
+        this.id_estado = id_estado;
     }
 }

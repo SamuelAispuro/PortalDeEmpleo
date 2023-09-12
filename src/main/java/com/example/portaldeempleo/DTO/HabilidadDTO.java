@@ -7,7 +7,7 @@ import java.util.List;
 public class HabilidadDTO {
 
     private Integer id_candidato;
-    private List<Habilidad> listaHabilidades;
+    private List<Habilidad> habilidades;
 
     public Integer getId_candidato() {
         return id_candidato;
@@ -17,11 +17,11 @@ public class HabilidadDTO {
         this.id_candidato = id_candidato;
     }
 
-    public List<Habilidad> getListaHabilidades() {
-        return listaHabilidades;
+    public List<Habilidad> getHabilidades() {
+        return habilidades;
     }
 
-    public void setListaHabilidades(List<Habilidad> listaHabilidades) {
-        this.listaHabilidades = listaHabilidades;
+    public void setHabilidades(List<Habilidad> habilidades) {
+        this.habilidades = habilidades;
     }
 }

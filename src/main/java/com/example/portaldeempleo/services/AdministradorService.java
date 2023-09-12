@@ -2,10 +2,7 @@ package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespuestaDTO;
-import com.example.portaldeempleo.entities.Administrador;
-import com.example.portaldeempleo.entities.Candidato;
-import com.example.portaldeempleo.entities.Empleador;
-import com.example.portaldeempleo.entities.Usuario;
+import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,8 +53,8 @@ public class AdministradorService {
     //Metodo para eliminar un usuario
     public void eliminarUsuario(Integer id_usuario){
         Usuario usuario = usuarioRepository.findById(id_usuario).orElse(null);
-        usuario.setEstatusUsuario(false);
-        usuario = usuarioRepository.save(usuario);
+
+        usuarioRepository.delete(usuario);
     }
     //Obtener datos de un usuario por correo
     public Usuario obtenerUsuario(String correoElectronico){
@@ -80,6 +77,12 @@ public class AdministradorService {
             candidatoEncontrado.getMunicipio().getEstado().setVacantes_estado(null);
             candidatoEncontrado.getEstado().setVacantes_estado(null);
             candidatoEncontrado.getEstado().setVacantes_estado(null);
+            for(Idioma idioma: candidatoEncontrado.getIdiomas()){
+                idioma.setCandidatos(null);
+            }
+            for(Habilidad habilidad: candidatoEncontrado.getHabilidades()){
+                habilidad.setCandidatos(null);
+            }
 
              objetoEncontrado = candidatoEncontrado;
         }

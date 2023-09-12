@@ -30,6 +30,7 @@ private String profesion;
 private String rutaImagenPerfil;
 private String rutaImagenPortada;
 private String rutaCv;
+private String rutaEspecialidad;
 
     public String getRutaImagenPerfil() {
         return rutaImagenPerfil;
@@ -223,5 +224,13 @@ private String rutaCv;
 
     public void setRutaCv(String rutaCv) {
         this.rutaCv = rutaCv;
+    }
+
+    public String getRutaEspecialidad() {
+        return rutaEspecialidad;
+    }
+
+    public void setRutaEspecialidad(String rutaEspecialidad) {
+        this.rutaEspecialidad = rutaEspecialidad;
     }
 }

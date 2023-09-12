@@ -120,7 +120,7 @@ public class CandidatoController {
     }
 
     //Anadir idiomas
-    @PutMapping("/añadirIdiomas")
+    @PutMapping("/agregarIdiomas")
     public ResponseEntity<RespPostDTO> añadirIdiomas(@RequestBody IdiomaDTO idiomaDTO){
         RespPostDTO respuesta = new RespPostDTO();
         if(idiomaDTO.getId_candidato()!=null && idiomaDTO.getId_candidato()>0){
@@ -135,7 +135,7 @@ public class CandidatoController {
     }
 
     //Anadir habilidades
-    @PutMapping("/añadirHabilidades")
+    @PutMapping("/agregarHabilidades")
     public ResponseEntity<RespPostDTO> añadirHabilidades(@RequestBody HabilidadDTO habilidadDTO){
         RespPostDTO respuesta = new RespPostDTO();
         if(habilidadDTO.getId_candidato()!=null && habilidadDTO.getId_candidato()>0){

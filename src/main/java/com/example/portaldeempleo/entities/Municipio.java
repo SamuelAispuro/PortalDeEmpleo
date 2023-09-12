@@ -20,7 +20,7 @@ public class Municipio {
             fetch = FetchType.EAGER,
             optional = true
     )
-    @JoinColumn(name="id_estado", updatable=false)
+    @JoinColumn(name="id_estado", updatable = false)
     private Estado estado;
     @OneToMany(
             fetch = FetchType.EAGER,

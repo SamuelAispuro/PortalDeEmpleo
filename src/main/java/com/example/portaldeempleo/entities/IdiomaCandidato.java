@@ -2,8 +2,10 @@ package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name="idiomaCandidato")
+@Table(name="idioma_candidato")
 public class IdiomaCandidato {
 
     @Id

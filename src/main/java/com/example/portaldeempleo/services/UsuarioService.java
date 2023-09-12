@@ -47,12 +47,18 @@ public class UsuarioService {
     }
 
     //Guardar o modificar imagen de perfil
-    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv){
+    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv, String rutaEspecialidad){
         Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
 
         if(rutaCv != null && rutaCv != ""){
             Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
             candidatoEncontrado.setRutaCv(rutaCv);
+            candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
+        }
+        if(rutaEspecialidad != null && rutaEspecialidad != ""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setRutaCv(rutaCv);
+            candidatoEncontrado.setRutaEspecialidad(rutaEspecialidad);
             candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
         }
         if(rutaImagenPerfil != null && rutaImagenPerfil != ""){
@@ -69,7 +75,7 @@ public class UsuarioService {
 
     //Suspender cuenta de usuario
     public Usuario suspenderUsuario(Integer id_usuario){
-        Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
+        Usuario usuarioEncontrado = usuarioRepository.findById(id_usuario).orElse(null);
         usuarioEncontrado.setEstatusUsuario(false);
         usuarioRepository.save(usuarioEncontrado);
         return usuarioEncontrado;

@@ -72,7 +72,7 @@ public class UsuarioController {
     @PutMapping("/guardarArchivo")
     public ResponseEntity<?> guardarArchivo(@RequestBody DataDTO usuarioDTO){
         RespUsuDTO respuesta = new RespUsuDTO();
-        Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv());
+        Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv(), usuarioDTO.getRutaEspecialidad());
         respuesta.setUsuarioModificado(usuarioModificado);
         respuesta.setEstatus(true);
         respuesta.setMensaje("Cambio realizado correctamente");
@@ -80,12 +80,13 @@ public class UsuarioController {
     }
 
     //Suspender usuario
-    @PutMapping("/suspenderUsuario/{id_usuario}")
-    public ResponseEntity<?> suspenderUsuario(@PathVariable Integer id_usuario){
-       
-       Usuario usuarioEncontrado = usuarioService.suspenderUsuario(id_usuario);
-
-       return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
+    @PutMapping("/suspenderUsuario")
+    public ResponseEntity<?> suspenderUsuario(@RequestBody UsuarioDTO usuarioDTO ){
+       RespPostDTO respuesta = new RespPostDTO();
+       Usuario usuarioEncontrado = usuarioService.suspenderUsuario(usuarioDTO.getId_usuario());
+        respuesta.setMensaje("Usuario suspendido correctamente");
+        respuesta.setEstatus(true);
+       return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
 }

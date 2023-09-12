@@ -36,6 +36,8 @@ public class Candidato {
     private String profesion;
     @Column(name="fechanacimiento")
     private LocalDate fechaNacimiento;
+    @Column(name="especialidad")
+    private String rutaEspecialidad;
 
 
 
@@ -186,11 +188,21 @@ public class Candidato {
         this.edad = periodoEdad.getYears();
 
         this.fechaNacimiento = fechaNacimiento;
-
     }
 
     public Integer getEdad() {
         return edad;
     }
 
+    public String getRutaEspecialidad() {
+        return rutaEspecialidad;
+    }
+
+    public void setRutaEspecialidad(String rutaEspecialidad) {
+        this.rutaEspecialidad = rutaEspecialidad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
 }

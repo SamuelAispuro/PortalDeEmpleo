@@ -43,6 +43,10 @@ public class CandidatoService {
     IdiomaRepository idiomaRepository;
     @Autowired
     HabilidadRepository habilidadRepository;
+    @Autowired
+    IdiomaCandidatoRepository idiomaCandidatoRepository;
+    @Autowired
+    HabilidadCandidatoRepository habilidadCandidatoRepository;
 
     @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
     private String rutaLocal;
@@ -191,35 +195,49 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
     }
 
     //Añadir idiomas
-    public List<Idioma> añadirIdiomas(IdiomaDTO idiomaDTO){
+    public String añadirIdiomas(IdiomaDTO idiomaDTO){
 
     Candidato candidato = candidatoRepository.findById(idiomaDTO.getId_candidato()).orElse(null);
-    for(Idioma idioma: candidato.getIdiomas()){
-        idiomaRepository.delete(idioma);
-    }
 
-    candidato.setIdiomas(idiomaDTO.getListaIdiomas());
-    for(Idioma idioma: candidato.getIdiomas()){
-        idioma.setCandidatos(null);
-    }
-    candidatoRepository.save(candidato);
-    return candidato.getIdiomas();
+        List<IdiomaCandidato> listaIdiomasCandidato = idiomaCandidatoRepository.findAllByCandidato(candidato);
+        if(listaIdiomasCandidato != null && !listaIdiomasCandidato.isEmpty()) {
+            idiomaCandidatoRepository.deleteAll(listaIdiomasCandidato);
+        }
+        for(Idioma idioma:idiomaDTO.getIdiomas()){
+            IdiomaCandidato idiomaCandidato = new IdiomaCandidato();
+            idiomaCandidato.setCandidato(candidato);
+            idiomaCandidato.setIdioma(idioma);
+            idiomaCandidatoRepository.save(idiomaCandidato);
+        }
+         listaIdiomasCandidato = idiomaCandidatoRepository.findAllByCandidato(candidato);
+        /*for(IdiomaCandidato idioma:listaIdiomasCandidato){
+            idioma.getIdioma().setCandidatos(null);
+            idioma.setCandidato(null);
+        }*/
+        return "Se modificó";
     }
 
     //Añadir habilidades
-    public List<Habilidad> añadirHabilidades(HabilidadDTO habilidadDTO){
+    public String añadirHabilidades(HabilidadDTO habilidadDTO){
 
         Candidato candidato = candidatoRepository.findById(habilidadDTO.getId_candidato()).orElse(null);
-        for(Habilidad habilidad: candidato.getHabilidades()){
-            habilidadRepository.delete(habilidad);
-        }
 
-        candidato.setHabilidades(habilidadDTO.getListaHabilidades());
-        for(Habilidad habilidad: candidato.getHabilidades()){
-            habilidad.setCandidatos(null);
+        List<HabilidadCandidato> listaHabilidadesCandidato = habilidadCandidatoRepository.findAllByCandidato(candidato);
+        if(listaHabilidadesCandidato != null && !listaHabilidadesCandidato.isEmpty()) {
+            habilidadCandidatoRepository.deleteAll(listaHabilidadesCandidato);
         }
-        candidatoRepository.save(candidato);
-        return candidato.getHabilidades();
+        for(Habilidad habilidad:habilidadDTO.getHabilidades()){
+            HabilidadCandidato habilidadCandidato = new HabilidadCandidato();
+            habilidadCandidato.setCandidato(candidato);
+            habilidadCandidato.setHabilidad(habilidad);
+            habilidadCandidatoRepository.save(habilidadCandidato);
+        }
+        listaHabilidadesCandidato = habilidadCandidatoRepository.findAllByCandidato(candidato);
+        /*for(HabilidadCandidato habilidad:listaHabilidadesCandidato){
+            habilidad.getHabilidad().setCandidatos(null);
+            habilidad.setCandidato(null);
+        }*/
+        return "Se modificó";
     }
 
 }

@@ -27,15 +27,15 @@ public class VacanteController {
     //Crear vacante
     @PutMapping("/crearVacante")
     public ResponseEntity<Integer> crearVacante(@RequestBody VacanteDTO vacanteDTO){
-        Integer id_vacante = 0;
+        Integer id_vacante=0;
 
-        if(vacanteDTO.getNombreVacante()!=null && vacanteDTO.getNombreVacante()!="" && vacanteDTO.getEspecialista()!=null && vacanteDTO.getEspecialista()!="" && vacanteDTO.getSueldo()!=null && vacanteDTO.getId_empresa()!=null && vacanteDTO.getId_empresa()!=0 && vacanteDTO.getHorario()!=null && vacanteDTO.getHorario()!="" && vacanteDTO.getId_municipio()!=null && vacanteDTO.getDescripcion()!=null && vacanteDTO.getDescripcion()!="" && vacanteDTO.getId_empleador()!=null && vacanteDTO.getId_tipoHorario()!=null && vacanteDTO.getTipoContratacion()!=null && vacanteDTO.getModalidadTrabajo()!=null && vacanteDTO.getDomicilio()!=null && vacanteDTO.getDomicilio()!="" && vacanteDTO.getFechaPublicacionStr()!=null && vacanteDTO.getFechaPublicacionStr()!="" && vacanteDTO.getPublicarAhora()!=null) {
+        if(vacanteDTO.getNombreVacante()!=null && vacanteDTO.getNombreVacante()!="" && vacanteDTO.getEspecialista()!=null && vacanteDTO.getEspecialista()!="" && vacanteDTO.getSueldo()!=null && vacanteDTO.getId_empresa()!=null && vacanteDTO.getId_empresa()!=0 && vacanteDTO.getHorario()!=null && vacanteDTO.getHorario()!="" && vacanteDTO.getId_municipio()!=null && vacanteDTO.getId_estado()!=null && vacanteDTO.getDescripcion()!=null && vacanteDTO.getDescripcion()!="" && vacanteDTO.getId_empleador()!=null && vacanteDTO.getId_tipoHorario()!=null && vacanteDTO.getId_tipoContratacion()!=null && vacanteDTO.getId_modalidadTrabajo()!=null && vacanteDTO.getDomicilio()!=null && vacanteDTO.getDomicilio()!="" &&  vacanteDTO.getPublicarAhora()!=null) {
 
             DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
             LocalDate fechaPublicacionFormateada = LocalDate.parse(vacanteDTO.getFechaPublicacionStr(),format);
             vacanteDTO.setFechaPublicacion(fechaPublicacionFormateada);
 
-            id_vacante = this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(), vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDomicilio(), vacanteDTO.getFechaPublicacion(), vacanteDTO.getPublicarAhora());
+            id_vacante = this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getId_estado(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(), vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDomicilio(), vacanteDTO.getFechaPublicacion(), vacanteDTO.getPublicarAhora());
 
         }
         return new ResponseEntity<>(id_vacante, HttpStatus.OK);

@@ -22,7 +22,7 @@ public class Empresa {
     @JoinColumn(name="id_vacante", updatable=false)
     private List<Vacante> vacantes_empresa = new ArrayList<>();
 
-    @Column(name="nombreempresa")
+    @Column(name="nombre")
     private String nombre;
 
     @Column(name="descripcion")
