@@ -73,7 +73,7 @@ public class Vacante {
     @JoinColumn(name="id_empleador")
    private Empleador empleador;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="postulaciones",
     joinColumns = @JoinColumn(name="id_vacante", updatable = false),
     inverseJoinColumns = @JoinColumn(name="id_candidato", updatable = false))

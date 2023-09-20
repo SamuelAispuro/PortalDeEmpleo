@@ -1,9 +1,7 @@
 package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.RespPostDTO;
-import com.example.portaldeempleo.entities.Candidato;
-import com.example.portaldeempleo.entities.Postulacion;
-import com.example.portaldeempleo.entities.Vacante;
+import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.CandidatoRepository;
 import com.example.portaldeempleo.repositories.PostulacionRepository;
 import com.example.portaldeempleo.repositories.VacanteRepository;
@@ -43,6 +41,12 @@ public class PostulacionService {
     candidatoEncontrado.setMunicipio(candidatoEncontrado.getMunicipio());
     candidatoEncontrado.setEstado(candidatoEncontrado.getEstado());
     candidatoEncontrado.getEstado().setVacantes_estado(null);
+    for(Idioma idioma:candidatoEncontrado.getIdiomas()){
+        idioma.setCandidatos(null);
+    }
+    for(Habilidad habilidad:candidatoEncontrado.getHabilidades()){
+        habilidad.setCandidatos(null);
+    }
 
     candidatoEncontrado.setFechaNacimiento(candidatoEncontrado.getFechaNacimiento());
 
@@ -68,6 +72,10 @@ public class PostulacionService {
         postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
         postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         postulacion.getCandidato().getEstado().setVacantes_estado(null);
+        postulacion.getCandidato().setHabilidades(null);
+        postulacion.getCandidato().setIdiomas(null);
+        postulacion.getVacante().getEstado().setMunicipios(null);
+        postulacion.getVacante().getEstado().setVacantes_estado(null);
 
         return postulacion;
     }

@@ -47,7 +47,7 @@ public class UsuarioService {
     }
 
     //Guardar o modificar imagen de perfil
-    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv, String rutaEspecialidad){
+    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv, String rutaEspecialidad, String rutaEspecialidad2, String rutaEspecialidad3){
         Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
 
         if(rutaCv != null && rutaCv != ""){
@@ -57,8 +57,17 @@ public class UsuarioService {
         }
         if(rutaEspecialidad != null && rutaEspecialidad != ""){
             Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
-            candidatoEncontrado.setRutaCv(rutaCv);
             candidatoEncontrado.setRutaEspecialidad(rutaEspecialidad);
+            candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
+        }
+        if(rutaEspecialidad2 != null && rutaEspecialidad2 != ""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setRutaEspecialidad2(rutaEspecialidad2);
+            candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
+        }
+        if(rutaEspecialidad3 != null && rutaEspecialidad3 != ""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setRutaEspecialidad3(rutaEspecialidad3);
             candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
         }
         if(rutaImagenPerfil != null && rutaImagenPerfil != ""){

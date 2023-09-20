@@ -31,6 +31,8 @@ private String rutaImagenPerfil;
 private String rutaImagenPortada;
 private String rutaCv;
 private String rutaEspecialidad;
+private String rutaEspecialidad2;
+private String rutaEspecialidad3;
 
     public String getRutaImagenPerfil() {
         return rutaImagenPerfil;
@@ -232,5 +234,21 @@ private String rutaEspecialidad;
 
     public void setRutaEspecialidad(String rutaEspecialidad) {
         this.rutaEspecialidad = rutaEspecialidad;
+    }
+
+    public String getRutaEspecialidad2() {
+        return rutaEspecialidad2;
+    }
+
+    public void setRutaEspecialidad2(String rutaEspecialidad2) {
+        this.rutaEspecialidad2 = rutaEspecialidad2;
+    }
+
+    public String getRutaEspecialidad3() {
+        return rutaEspecialidad3;
+    }
+
+    public void setRutaEspecialidad3(String rutaEspecialidad3) {
+        this.rutaEspecialidad3 = rutaEspecialidad3;
     }
 }

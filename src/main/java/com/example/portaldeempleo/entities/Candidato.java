@@ -38,6 +38,10 @@ public class Candidato {
     private LocalDate fechaNacimiento;
     @Column(name="especialidad")
     private String rutaEspecialidad;
+    @Column(name="especialidad2")
+    private String rutaEspecialidad2;
+    @Column(name="especialidad3")
+    private String rutaEspecialidad3;
 
 
 
@@ -204,5 +208,21 @@ public class Candidato {
 
     public void setEdad(Integer edad) {
         this.edad = edad;
+    }
+
+    public String getRutaEspecialidad2() {
+        return rutaEspecialidad2;
+    }
+
+    public void setRutaEspecialidad2(String rutaEspecialidad2) {
+        this.rutaEspecialidad2 = rutaEspecialidad2;
+    }
+
+    public String getRutaEspecialidad3() {
+        return rutaEspecialidad3;
+    }
+
+    public void setRutaEspecialidad3(String rutaEspecialidad3) {
+        this.rutaEspecialidad3 = rutaEspecialidad3;
     }
 }

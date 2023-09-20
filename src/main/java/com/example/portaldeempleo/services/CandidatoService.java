@@ -114,6 +114,7 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
        //Se itera la lista de postulaciones y se le nulean datos para que no ocasione errores de recursion infinita
         for(Postulacion postulacion:listaPostulacionesCandidato){
             postulacion.getCandidato().setPostulaciones(null);
+            postulacion.getCandidato().getMunicipio().setEstado(null);
             postulacion.getCandidato().getMunicipio().setVacantes_municipios(null);
             postulacion.getCandidato().getEstado().setMunicipios(null);
             postulacion.getVacante().getEmpresa().setVacantes_empresa(null);
@@ -127,9 +128,12 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
             postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             postulacion.getVacante().getEstado().setVacantes_estado(null);
             postulacion.getCandidato().getEstado().setVacantes_estado(null);
+            postulacion.getCandidato().setHabilidades(null);
+
         }
         return listaPostulacionesCandidato;
     }
+
     //Modificar un candidato
     public Candidato modificarCandidato(Integer id_candidato,String nombre, String apellidoP, String apellidoM,String domicilio, String descripcion, String centroEducativo, String puestoActual, Integer id_municipio, Integer id_estado, String telefono, String profesion, String fechaNacimientoStr) throws Exception {
         try{
@@ -188,6 +192,13 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
         candidato.getEstado().setVacantes_estado(null);
         candidato.getMunicipio().setVacantes_municipios(null);
         candidato.getMunicipio().setEstado(null);
+        for(Idioma idioma: candidato.getIdiomas()){
+            idioma.setCandidatos(null);
+        }
+        for(Habilidad habilidad:candidato.getHabilidades()){
+            habilidad.setCandidatos(null);
+        }
+
         return candidato;
     }catch(Exception e){
             throw new Exception("Algo salio mal, intentalo de nuevo mas tarde");

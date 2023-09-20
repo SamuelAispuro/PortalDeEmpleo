@@ -72,7 +72,9 @@ public class UsuarioController {
     @PutMapping("/guardarArchivo")
     public ResponseEntity<?> guardarArchivo(@RequestBody DataDTO usuarioDTO){
         RespUsuDTO respuesta = new RespUsuDTO();
-        Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(), usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv(), usuarioDTO.getRutaEspecialidad());
+        Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(),
+                usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv(), usuarioDTO.getRutaEspecialidad(),usuarioDTO.getRutaEspecialidad2(),
+                usuarioDTO.getRutaEspecialidad3());
         respuesta.setUsuarioModificado(usuarioModificado);
         respuesta.setEstatus(true);
         respuesta.setMensaje("Cambio realizado correctamente");

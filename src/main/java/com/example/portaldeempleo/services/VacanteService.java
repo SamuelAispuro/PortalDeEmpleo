@@ -1,15 +1,12 @@
 package com.example.portaldeempleo.services;
 
-import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,6 +24,8 @@ public class VacanteService {
     PostulacionRepository postulacionRepository;
     @Autowired
     EstadoRepository estadoRepository;
+    @Autowired
+    ProcesosAutomaticosRepository procesosAutomaticosRepository;
 
 
     //Metodo para crear una vacante
@@ -191,13 +190,13 @@ public class VacanteService {
        vacanteEncontrada.getEmpleador().setVacantes(null);
        vacanteEncontrada.getEstado().setVacantes_estado(null);
 
-       vacanteEncontrada.getEstado().setVacantes_estado(null);
-
        for(Candidato candidato:vacanteEncontrada.getCandidatos()){
         candidato.setPostulaciones(null);
         candidato.getEstado().setMunicipios(null);
         candidato.getMunicipio().setVacantes_municipios(null);
         candidato.getEstado().setVacantes_estado(null);
+        candidato.setIdiomas(null);
+        candidato.setHabilidades(null);
 
        }
        List<Candidato> listaCandidatos = vacanteEncontrada.getCandidatos();
@@ -375,27 +374,47 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
     }
 
     //Eliminar vacante automaticamente despues de 30 dias de inactividad
-    @Scheduled(cron ="0 28 16 * * ?")
+    @Transactional
+    @Scheduled(cron ="0 35 9 * * ?")
     public void eliminarVacantePorDias(){
         System.out.println("haciendo evaluación de vacantes "+ LocalDateTime.now());
         List<Vacante> listaVacantes = vacanteRepository.findAllByEstatus(true);
 
+
+
         //Se itera la lista de vacantes y se evalua que tenga alguna postulación llegando a los 30 dias de creacion, de lo contrario será eliminada
         for (Vacante vacante : listaVacantes){
-            if (vacante.getDiasPublicada() == 30 || vacante.getDiasPublicada() > 30 && vacante.getCandidatos().isEmpty()){
-                vacanteRepository.delete(vacante);
+            vacante.setFechaPublicacion(vacante.getFechaPublicacion());
+
+            if (vacante.getDiasPublicada() == 0 || vacante.getDiasPublicada() > 0 && vacante.getCandidatos().isEmpty()){
+
+                ProcesosAutomaticos proceso = new ProcesosAutomaticos();
+
+                proceso.setTipoProceso("eliminacion");
+                proceso.setFechaproceso(LocalDate.now());
+                proceso.setNombrevacante(vacante.getNombreVacante());
+                procesosAutomaticosRepository.save(proceso);
+
+                vacanteRepository.deleteVacanteById(vacante.getId_vacante());
             }
         }
 
     }
 
     //Publicar vacantes programadas
-    @Scheduled(cron = "0 0 16 * * ?")//(fixedRate=1000)
+    @Scheduled(cron = "0 35 9 * * ?")//(fixedRate=1000)
     public void publicarVacanteProgramada(){
         List<Vacante> listaVacantesInactivas = new ArrayList<>();
         listaVacantesInactivas = vacanteRepository.findAllByEstatus(false);
         for(Vacante vacante : listaVacantesInactivas){
             if(vacante.getFechaPublicacion().isEqual(LocalDate.now())){
+
+                ProcesosAutomaticos proceso = new ProcesosAutomaticos();
+                proceso.setTipoProceso("publicacion");
+                proceso.setFechaproceso(LocalDate.now());
+                proceso.setNombrevacante(vacante.getNombreVacante());
+                procesosAutomaticosRepository.save(proceso);
+
                 vacante.setEstatus(true);
                 vacanteRepository.save(vacante);
             }
