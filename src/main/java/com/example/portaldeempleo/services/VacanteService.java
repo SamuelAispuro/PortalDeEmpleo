@@ -375,7 +375,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
 
     //Eliminar vacante automaticamente despues de 30 dias de inactividad
     @Transactional
-    @Scheduled(cron ="0 35 9 * * ?")
+    @Scheduled(cron ="0 0 20 * * ?")
     public void eliminarVacantePorDias(){
         System.out.println("haciendo evaluación de vacantes "+ LocalDateTime.now());
         List<Vacante> listaVacantes = vacanteRepository.findAllByEstatus(true);
@@ -391,8 +391,9 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
                 ProcesosAutomaticos proceso = new ProcesosAutomaticos();
 
                 proceso.setTipoProceso("eliminacion");
-                proceso.setFechaproceso(LocalDate.now());
-                proceso.setNombrevacante(vacante.getNombreVacante());
+                proceso.setDescripcion("Se hizo la eliminación de esta vacante mediante el proceso de eliminación automatica por que no ha recibido postulaciones en 30 dias");
+                proceso.setFechaProceso(LocalDate.now());
+                proceso.setNombreVacante(vacante.getNombreVacante());
                 procesosAutomaticosRepository.save(proceso);
 
                 vacanteRepository.deleteVacanteById(vacante.getId_vacante());
@@ -402,7 +403,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
     }
 
     //Publicar vacantes programadas
-    @Scheduled(cron = "0 35 9 * * ?")//(fixedRate=1000)
+    @Scheduled(cron = "0 0 20 * * ?")
     public void publicarVacanteProgramada(){
         List<Vacante> listaVacantesInactivas = new ArrayList<>();
         listaVacantesInactivas = vacanteRepository.findAllByEstatus(false);
@@ -411,8 +412,9 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
 
                 ProcesosAutomaticos proceso = new ProcesosAutomaticos();
                 proceso.setTipoProceso("publicacion");
-                proceso.setFechaproceso(LocalDate.now());
-                proceso.setNombrevacante(vacante.getNombreVacante());
+                proceso.setDescripcion("Se hizo la publicación de esta vacante mediante el proceso automatico de publicación programada ya que se cumplió la fecha de publicación que indicó el usuario");
+                proceso.setFechaProceso(LocalDate.now());
+                proceso.setNombreVacante(vacante.getNombreVacante());
                 procesosAutomaticosRepository.save(proceso);
 
                 vacante.setEstatus(true);

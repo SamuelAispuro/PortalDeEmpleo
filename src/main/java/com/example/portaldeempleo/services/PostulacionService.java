@@ -84,11 +84,6 @@ public class PostulacionService {
         this.postulacionRepository.deleteById(id);
     }
 
-    //Anadir producto a lista de deseos
-    //public  postulacion(Integer id_candidato, Integer id_vacante) throws Exception {
-       // Candidato candidatoEncontrado = candidatoRepository.findById(id_candidato).orElse(null);
-
-
 
 
 }

@@ -74,7 +74,7 @@ public class UsuarioController {
         RespUsuDTO respuesta = new RespUsuDTO();
         Usuario usuarioModificado = this.usuarioService.guardarArchivo(usuarioDTO.getId_usuario(), usuarioDTO.getRutaImagenPerfil(),
                 usuarioDTO.getRutaImagenPortada(), usuarioDTO.getRutaCv(), usuarioDTO.getRutaEspecialidad(),usuarioDTO.getRutaEspecialidad2(),
-                usuarioDTO.getRutaEspecialidad3());
+                usuarioDTO.getRutaEspecialidad3(), usuarioDTO.getDescripcionEspecialidad1(), usuarioDTO.getDescripcionEspecialidad2(), usuarioDTO.getDescripcionEspecialidad3());
         respuesta.setUsuarioModificado(usuarioModificado);
         respuesta.setEstatus(true);
         respuesta.setMensaje("Cambio realizado correctamente");

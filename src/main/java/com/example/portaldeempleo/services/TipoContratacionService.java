@@ -52,4 +52,12 @@ public class TipoContratacionService {
         }
     }
 
+    //ELIMINAR TIPO DE CONTRATACION
+    public String eliminarTipoContratacion(Integer id_tipoContratacion){
+
+        TipoContratacion tipoContratacion = tipoContratacionRepository.findById(id_tipoContratacion).orElse(null);
+        tipoContratacionRepository.delete(tipoContratacion);
+        return "TipoContratacion eliminado exitosamente";
+    }
+
 }

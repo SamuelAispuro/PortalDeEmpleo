@@ -30,17 +30,22 @@ public class CandidatoController {
     public ResponseEntity<?> registroCandidato(@RequestBody DataDTO candidatoDTO) {
 
         Candidato candidato = new Candidato();
+
         RespRegDTO respuesta = new RespRegDTO();
         try {
 
             //Se evalua que los datos ingresados por el usuario no vengan vacios
             if (candidatoDTO.getNombre() != null && candidatoDTO.getNombre() != "" && candidatoDTO.getApellidoP() != null && candidatoDTO.getApellidoP() != "" && candidatoDTO.getApellidoM() != null && candidatoDTO.getApellidoM() != ""
                     && candidatoDTO.getCorreoElectronico() != null && candidatoDTO.getCorreoElectronico() != "" && candidatoDTO.getTelefono() != null && candidatoDTO.getTelefono() != "" && candidatoDTO.getContrasena() != null && candidatoDTO.getContrasena() != "" && candidatoDTO.getFechaNacimientoStr() != null && candidatoDTO.getFechaNacimientoStr() != "" && candidatoDTO.getId_municipio() != null && candidatoDTO.getId_estado() != null) {
+
                 DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+
                 LocalDate fechaNacimientoFormateada = LocalDate.parse(candidatoDTO.getFechaNacimientoStr(),format);
+
                 candidatoDTO.setFechaNacimiento(fechaNacimientoFormateada);
+
                 //Se hace uso del servicio registroCandidato para crear una cuenta de candidato en caso de que sean validos todos los datos requeridos
-                candidato = this.candidatoService.registroCandidato(candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getCorreoElectronico(), candidatoDTO.getTelefono(), candidatoDTO.getContrasena(), candidatoDTO.getFechaNacimiento(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getDomicilio(), candidatoDTO.getPuestoActual(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo());
+                candidato = this.candidatoService.registroCandidato(candidatoDTO.getNombre(), candidatoDTO.getApellidoP(), candidatoDTO.getApellidoM(), candidatoDTO.getCorreoElectronico(), candidatoDTO.getTelefono(), candidatoDTO.getContrasena(), candidatoDTO.getRutaImagenPortada(), candidatoDTO.getRutaImagenPerfil(), candidatoDTO.getFechaNacimiento(), candidatoDTO.getId_municipio(), candidatoDTO.getId_estado(), candidatoDTO.getDomicilio(), candidatoDTO.getPuestoActual(), candidatoDTO.getDescripcion(), candidatoDTO.getCentroEducativo());
 
                 //Caso de exito
                 if (candidato != null) {
@@ -147,6 +152,42 @@ public class CandidatoController {
             respuesta.setEstatus(false);
         }
         return new ResponseEntity<>(respuesta,HttpStatus.OK);
+    }
+
+    //OBTENER LISTA CANDIDATOS
+    @GetMapping("/obtenerListaCandidatos")
+    public ResponseEntity<?> obtenerListaCandidatos(){
+
+        List<Candidato> listaCandidatos = candidatoService.obtenerListaCandidatos();
+
+        return new ResponseEntity<>(listaCandidatos,HttpStatus.OK);
+
+    }
+
+    //OBTENER LISTA CANDIDATOS ACTIVOS
+    @GetMapping("/obtenerListaCandidatosActivos")
+    public ResponseEntity<?> obtenerListaCandidatosActivos(){
+        List<Candidato> listaCandidatosActivos = candidatoService.obtenerListaCandidatosActivos();
+        return new ResponseEntity<>(listaCandidatosActivos,HttpStatus.OK);
+
+    }
+
+    //OBTENER LISTA CANDIDATOS INACTIVOS
+    @GetMapping("/obtenerListaCandidatosInactivos")
+    public ResponseEntity<?> obtenerListaCandidatosInactivos(){
+        List<Candidato> listaCandidatosInactivos = candidatoService.obtenerListaCandidatosInactivos();
+        return new ResponseEntity<>(listaCandidatosInactivos,HttpStatus.OK);
+
+    }
+
+    //OBTENER LISTA CANDIDATOS POR ESTADO
+    @GetMapping("/obtenerListaCandidatosZona")
+    public ResponseEntity<?> obtenerListaCandidatosZona(@RequestParam("id_estado") Integer id_estado){
+
+        List<Candidato> listaCandidatos = candidatoService.obtenerListaCandidatosZona(id_estado);
+
+        return new ResponseEntity<>(listaCandidatos,HttpStatus.OK);
+
     }
 
 }

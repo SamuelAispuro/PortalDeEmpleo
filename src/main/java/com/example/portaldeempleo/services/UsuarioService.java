@@ -47,7 +47,7 @@ public class UsuarioService {
     }
 
     //Guardar o modificar imagen de perfil
-    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv, String rutaEspecialidad, String rutaEspecialidad2, String rutaEspecialidad3){
+    public Usuario guardarArchivo(Integer id_usuario, String rutaImagenPerfil, String rutaImagenPortada, String rutaCv, String rutaEspecialidad, String rutaEspecialidad2, String rutaEspecialidad3, String descripcionEspecialidad1, String descripcionEspecialidad2, String descripcionEspecialidad3){
         Usuario usuarioEncontrado = obtenerUsuarioPorId(id_usuario);
 
         if(rutaCv != null && rutaCv != ""){
@@ -60,15 +60,30 @@ public class UsuarioService {
             candidatoEncontrado.setRutaEspecialidad(rutaEspecialidad);
             candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
         }
+        if(descripcionEspecialidad1!=null && descripcionEspecialidad1!=""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setDescripcionEspecialidad1(descripcionEspecialidad1);
+            candidatoRepository.save(candidatoEncontrado);
+        }
         if(rutaEspecialidad2 != null && rutaEspecialidad2 != ""){
             Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
             candidatoEncontrado.setRutaEspecialidad2(rutaEspecialidad2);
             candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
         }
+        if(descripcionEspecialidad2!=null && descripcionEspecialidad2!=""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setDescripcionEspecialidad2(descripcionEspecialidad2);
+            candidatoRepository.save(candidatoEncontrado);
+        }
         if(rutaEspecialidad3 != null && rutaEspecialidad3 != ""){
             Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
             candidatoEncontrado.setRutaEspecialidad3(rutaEspecialidad3);
             candidatoEncontrado = candidatoRepository.save(candidatoEncontrado);
+        }
+        if(descripcionEspecialidad3!=null && descripcionEspecialidad3!=""){
+            Candidato candidatoEncontrado = candidatoRepository.findByUsuario(usuarioEncontrado);
+            candidatoEncontrado.setDescripcionEspecialidad3(descripcionEspecialidad3);
+            candidatoRepository.save(candidatoEncontrado);
         }
         if(rutaImagenPerfil != null && rutaImagenPerfil != ""){
                 usuarioEncontrado.setRutaImagenPerfil(rutaImagenPerfil);
@@ -78,6 +93,7 @@ public class UsuarioService {
                 usuarioEncontrado.setRutaImagenPortada(rutaImagenPortada);
             usuarioRepository.save(usuarioEncontrado);
         }
+
 
         return usuarioEncontrado;
     }

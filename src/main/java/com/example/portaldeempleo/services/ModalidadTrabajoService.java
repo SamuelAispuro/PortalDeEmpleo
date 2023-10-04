@@ -53,4 +53,12 @@ public class ModalidadTrabajoService {
         }
     }
 
+    //ELIMINAR MODALIDAD DE TRABAJO
+    public String eliminarModalidadTrabajo(Integer id_modalidadTrabajo){
+
+        ModalidadTrabajo modalidadTrabajo = modalidadTrabajoRepository.findById(id_modalidadTrabajo).orElse(null);
+        modalidadTrabajoRepository.delete(modalidadTrabajo);
+        return "Modalidad de trabajo eliminado exitosamente";
+    }
+
 }

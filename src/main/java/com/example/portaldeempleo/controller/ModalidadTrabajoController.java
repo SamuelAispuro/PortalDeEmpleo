@@ -59,4 +59,28 @@ public class ModalidadTrabajoController {
         }
     }
 
+    //ELIMINAR MODALIDAD DE TRABAJO
+    @DeleteMapping("/eliminarModalidadTrabajo/{id_modalidadTrabajo}")
+    public ResponseEntity<?> eliminarModalidadTrabajo(@PathVariable Integer id_modalidadTrabajo){
+        RespRegDTO respuesta = new RespRegDTO();
+        try {
+            if(id_modalidadTrabajo != null && id_modalidadTrabajo != 0) {
+                this.modalidadTrabajoService.eliminarModalidadTrabajo(id_modalidadTrabajo);
+                respuesta.setMensaje("modalidad de trabajo eliminado exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+
+                respuesta.setMensaje("El id ingresado no es válido.");
+                respuesta.setEstatus(false);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+        }catch(Exception e){
+
+            respuesta.setMensaje("No se encontró una modalidad de trabajo con este ID");
+            respuesta.setEstatus(false);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }
+    }
+
 }

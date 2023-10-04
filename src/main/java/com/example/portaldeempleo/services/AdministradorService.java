@@ -27,7 +27,7 @@ public class AdministradorService {
 
     // metodo para registrar un administrador
 
-    public Administrador registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña){
+    public Administrador registroAdministrador(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña, String rutaImagenPerfil, String rutaImagenPortada){
     Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
     if(usuarioEncontrado == null) {
         Usuario usuario = new Usuario();
@@ -38,6 +38,8 @@ public class AdministradorService {
         usuario.setApellidoM(apellidoM);
         usuario.setEstatusUsuario(true);
         usuario.setTelefono(telefono);
+        usuario.setRutaImagenPerfil(rutaImagenPerfil);
+        usuario.setRutaImagenPortada(rutaImagenPortada);
         usuario.setTipoUsuario(1); //"1" es el tipo de usuario de un administrador
         usuario = usuarioRepository.save(usuario);
 

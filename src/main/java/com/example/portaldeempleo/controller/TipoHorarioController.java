@@ -60,4 +60,28 @@ public class TipoHorarioController {
         }
     }
 
+    //ELIMINAR TIPO DE HORARIO
+    @DeleteMapping("/eliminarTipoHorario/{id_tipoHorario}")
+    public ResponseEntity<?> eliminarTipoHorario(@PathVariable Integer id_tipoHorario){
+        RespRegDTO respuesta = new RespRegDTO();
+        try {
+            if(id_tipoHorario != null && id_tipoHorario != 0) {
+                this.tipoHorarioService.eliminarTipoHorario(id_tipoHorario);
+                respuesta.setMensaje("tipo de horario eliminado exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+
+                respuesta.setMensaje("El id ingresado no es válido.");
+                respuesta.setEstatus(false);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+        }catch(Exception e){
+
+            respuesta.setMensaje("No se encontró un tipo de horario con este ID");
+            respuesta.setEstatus(false);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }
+    }
+
 }

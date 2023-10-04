@@ -37,7 +37,7 @@ public class Habilidad {
     }
 
     public void setNombreHabilidad(String nombreHabilidad) {
-        nombreHabilidad = nombreHabilidad;
+        this.nombreHabilidad = nombreHabilidad;
     }
 
     public List<Candidato> getCandidatos() {

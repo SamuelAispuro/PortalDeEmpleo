@@ -60,4 +60,12 @@ public class IdiomaService {
         }
     }
 
+    //ELIMINAR IDIOMA
+    public String eliminarIdioma(Integer id_idioma){
+
+        Idioma idioma = idiomaRepository.findById(id_idioma).orElse(null);
+        idiomaRepository.delete(idioma);
+        return "Idioma eliminado exitosamente";
+    }
+
 }

@@ -29,9 +29,10 @@ public class HabilidadController {
     @PutMapping("/crearHabilidad")
     public ResponseEntity<?> crearHabilidad(@RequestBody HabilidadDTO habilidadDTO){
         Integer id_habilidad =0;
-        Habilidad habilidad = new Habilidad();
+
         RespRegDTO respuesta = new RespRegDTO();
         if(habilidadDTO.getNombreHabilidad() != null && habilidadDTO.getNombreHabilidad() != ""){
+            Habilidad habilidad = new Habilidad();
             habilidad = this.habilidadService.crearHabilidad(habilidadDTO.getNombreHabilidad());
             respuesta.setMensaje("La habilidad se ha creado correctamente");
             respuesta.setEstatus(true);
@@ -55,6 +56,30 @@ public class HabilidadController {
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>("Algo salio mal, intentalo de nuevo mas tarde",HttpStatus.OK);
+        }
+    }
+
+    //ELIMINAR HABILIDAD
+    @DeleteMapping("/eliminarHabilidad/{id_habilidad}")
+    public ResponseEntity<?> eliminarHabilidad(@PathVariable Integer id_habilidad){
+        RespRegDTO respuesta = new RespRegDTO();
+        try {
+            if(id_habilidad != null && id_habilidad != 0) {
+                this.habilidadService.eliminarHabilidad(id_habilidad);
+                respuesta.setMensaje("Habilidad eliminada exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+
+                respuesta.setMensaje("El id ingresado no es válido.");
+                respuesta.setEstatus(false);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+        }catch(Exception e){
+
+            respuesta.setMensaje("No se encontró una habilidad con este ID");
+            respuesta.setEstatus(false);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }
     }
 

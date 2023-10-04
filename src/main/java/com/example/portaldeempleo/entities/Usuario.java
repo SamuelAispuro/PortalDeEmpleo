@@ -9,8 +9,10 @@ public class Usuario {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_usuario")
     private Integer id_usuario;
+    //Agregar anotaciones (NotNull, Unique)
     @Column(name="nombre")
     private String nombre;
+    //Inv anotación de formato de correo electronico.
 
     @Column(name="correoelectronico")
     private String correoElectronico;
@@ -36,7 +38,7 @@ public class Usuario {
     @Column(name="imagenportada")
     private String rutaImagenPortada;
 
-
+    //GETTERS Y SETTERS
     public String getRutaImagenPerfil() {
         return rutaImagenPerfil;
     }

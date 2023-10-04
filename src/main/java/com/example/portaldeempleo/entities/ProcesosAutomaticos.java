@@ -17,9 +17,11 @@ public class ProcesosAutomaticos {
     private String tipoProceso;
 
     @Column(name="fechaproceso")
-    private LocalDate fechaproceso;
+    private LocalDate fechaProceso;
     @Column(name="nombrevacante")
-    private String nombrevacante;
+    private String nombreVacante;
+    @Column(name="descripcion")
+    private String descripcion;
 
     public Integer getId_proceso() {
         return id_proceso;
@@ -37,19 +39,27 @@ public class ProcesosAutomaticos {
         this.tipoProceso = tipoProceso;
     }
 
-    public LocalDate getFechaproceso() {
-        return fechaproceso;
+    public LocalDate getFechaProceso() {
+        return fechaProceso;
     }
 
-    public void setFechaproceso(LocalDate fechaproceso) {
-        this.fechaproceso = fechaproceso;
+    public void setFechaProceso(LocalDate fechaProceso) {
+        this.fechaProceso = fechaProceso;
     }
 
-    public String getNombrevacante() {
-        return nombrevacante;
+    public String getNombreVacante() {
+        return nombreVacante;
     }
 
-    public void setNombrevacante(String nombrevacante) {
-        this.nombrevacante = nombrevacante;
+    public void setNombreVacante(String nombreVacante) {
+        this.nombreVacante = nombreVacante;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

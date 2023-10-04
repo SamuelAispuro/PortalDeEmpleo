@@ -42,6 +42,12 @@ public class Candidato {
     private String rutaEspecialidad2;
     @Column(name="especialidad3")
     private String rutaEspecialidad3;
+    @Column(name="descripcionespecialidad1")
+    private String descripcionEspecialidad1;
+    @Column(name="descripcionespecialidad2")
+    private String descripcionEspecialidad2;
+    @Column(name="descripcionespecialidad3")
+    private String descripcionEspecialidad3;
 
 
 
@@ -224,5 +230,29 @@ public class Candidato {
 
     public void setRutaEspecialidad3(String rutaEspecialidad3) {
         this.rutaEspecialidad3 = rutaEspecialidad3;
+    }
+
+    public String getDescripcionEspecialidad1() {
+        return descripcionEspecialidad1;
+    }
+
+    public void setDescripcionEspecialidad1(String descripcionEspecialidad1) {
+        this.descripcionEspecialidad1 = descripcionEspecialidad1;
+    }
+
+    public String getDescripcionEspecialidad2() {
+        return descripcionEspecialidad2;
+    }
+
+    public void setDescripcionEspecialidad2(String descripcionEspecialidad2) {
+        this.descripcionEspecialidad2 = descripcionEspecialidad2;
+    }
+
+    public String getDescripcionEspecialidad3() {
+        return descripcionEspecialidad3;
+    }
+
+    public void setDescripcionEspecialidad3(String descripcionEspecialidad3) {
+        this.descripcionEspecialidad3 = descripcionEspecialidad3;
     }
 }

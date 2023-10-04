@@ -48,11 +48,10 @@ public class CandidatoService {
     @Autowired
     HabilidadCandidatoRepository habilidadCandidatoRepository;
 
-    @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
     private String rutaLocal;
 
     //metodo para registrar un candidato
-public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña , LocalDate fechaNacimiento, Integer id_municipio, Integer id_estado, String domicilio, String puestoActual, String descripcion, String centroEducativo){
+public Candidato registroCandidato(String nombre, String apellidoP, String apellidoM, String correoElectronico, String telefono, String contraseña, String rutaImagenPortada, String rutaImagenPerfil, LocalDate fechaNacimiento, Integer id_municipio, Integer id_estado, String domicilio, String puestoActual, String descripcion, String centroEducativo){
     Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
     //Se crea un nuevo usuario y se le setean los datos ingresados por el usuario al momento del registro
      if(usuarioEncontrado==null) {
@@ -63,6 +62,8 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
          usuario.setApellidoP(apellidoP);
          usuario.setApellidoM(apellidoM);
          usuario.setTelefono(telefono);
+         usuario.setRutaImagenPortada(rutaImagenPortada);
+         usuario.setRutaImagenPerfil(rutaImagenPerfil);
          usuario.setEstatusUsuario(true); //true corresponde al estado activo de un usuario, false corresponde a un estado inactivo
          usuario.setTipoUsuario(2); //"2" es el tipo de usuario de un candidato y se le asigna automaticamente al hacer uso de este servicio
          usuario.setEstatusUsuario(true);
@@ -117,18 +118,23 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
             postulacion.getCandidato().getMunicipio().setEstado(null);
             postulacion.getCandidato().getMunicipio().setVacantes_municipios(null);
             postulacion.getCandidato().getEstado().setMunicipios(null);
+            postulacion.getCandidato().getEstado().setVacantes_estado(null);
+            postulacion.getCandidato().setHabilidades(null);
+            postulacion.getCandidato().setIdiomas(null);
             postulacion.getVacante().getEmpresa().setVacantes_empresa(null);
             postulacion.getVacante().setCandidatos(null);
-            postulacion.getCandidato().setIdiomas(null);
             postulacion.getVacante().getMunicipio().setVacantes_municipios(null);
-            postulacion.getVacante().getMunicipio().getEstado().setMunicipios(null);
+            if( postulacion.getVacante().getMunicipio().getEstado() != null) {
+                postulacion.getVacante().getMunicipio().getEstado().setMunicipios(null);
+            }
             postulacion.getVacante().getEmpleador().setVacantes(null);
             postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
             postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
             postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
             postulacion.getVacante().getEstado().setVacantes_estado(null);
-            postulacion.getCandidato().getEstado().setVacantes_estado(null);
-            postulacion.getCandidato().setHabilidades(null);
+            if(postulacion.getVacante().getEstado().getMunicipios() != null) {
+                postulacion.getVacante().getEstado().setMunicipios(null);
+            }
 
         }
         return listaPostulacionesCandidato;
@@ -250,5 +256,98 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
         }*/
         return "Se modificó";
     }
+
+    //OBTENER LISTA CANDIDATOS
+    public List<Candidato> obtenerListaCandidatos(){
+
+    List<Candidato> listaCandidatos = candidatoRepository.findAll();
+    for(Candidato candidato:listaCandidatos){
+        candidato.getMunicipio().setEstado(null);
+        candidato.getMunicipio().setVacantes_municipios(null);
+        candidato.getEstado().setVacantes_estado(null);
+        candidato.getEstado().setMunicipios(null);
+        candidato.setIdiomas(null);
+        candidato.setHabilidades(null);
+        candidato.setPostulaciones(null);
+    }
+
+    return listaCandidatos;
+
+    }
+
+    //OBTENER LISTA CANDIDATOS ACTIVOS
+    public List<Candidato> obtenerListaCandidatosActivos(){
+        List<Candidato> listaCandidatosActivos = new ArrayList<>();
+        List<Candidato> listaCandidatos = candidatoRepository.findAll();
+        for(Candidato candidato:listaCandidatos){
+            if(candidato.getUsuario().getEstatusUsuario()== true){
+
+                candidato.getMunicipio().setEstado(null);
+                candidato.getMunicipio().setVacantes_municipios(null);
+                candidato.getEstado().setVacantes_estado(null);
+                candidato.getEstado().setMunicipios(null);
+                candidato.setIdiomas(null);
+                candidato.setHabilidades(null);
+                candidato.setPostulaciones(null);
+
+                listaCandidatosActivos.add(candidato);
+            }
+        }
+
+        return listaCandidatosActivos;
+
+    }
+
+    //OBTENER LISTA CANDIDATOS INACTIVOS
+    public List<Candidato> obtenerListaCandidatosInactivos(){
+        List<Candidato> listaCandidatosInactivos = new ArrayList<>();
+        List<Candidato> listaCandidatos = candidatoRepository.findAll();
+        for(Candidato candidato:listaCandidatos){
+            if(candidato.getUsuario().getEstatusUsuario()==false){
+
+                candidato.getMunicipio().setEstado(null);
+                candidato.getMunicipio().setVacantes_municipios(null);
+                candidato.getEstado().setVacantes_estado(null);
+                candidato.getEstado().setMunicipios(null);
+                candidato.setIdiomas(null);
+                candidato.setHabilidades(null);
+                candidato.setPostulaciones(null);
+
+                listaCandidatosInactivos.add(candidato);
+            }
+
+        }
+
+        return listaCandidatosInactivos;
+
+    }
+
+    //OBTENER LISTA CANDIDATOS POR ESTADO
+    public List<Candidato> obtenerListaCandidatosZona(Integer id_estado){
+
+        List<Candidato> listaCandidatos = candidatoRepository.findAll();
+        List<Candidato> listaCandidatosEncontrados = new ArrayList<>();
+
+        for(Candidato candidato:listaCandidatos){
+
+            if(candidato.getEstado().getId_estado() == id_estado){
+
+                candidato.getMunicipio().setEstado(null);
+                candidato.getMunicipio().setVacantes_municipios(null);
+                candidato.getEstado().setVacantes_estado(null);
+                candidato.getEstado().setMunicipios(null);
+                candidato.setIdiomas(null);
+                candidato.setHabilidades(null);
+                candidato.setPostulaciones(null);
+
+                listaCandidatosEncontrados.add(candidato);
+            }
+
+        }
+
+        return listaCandidatosEncontrados;
+
+    }
+
 
 }

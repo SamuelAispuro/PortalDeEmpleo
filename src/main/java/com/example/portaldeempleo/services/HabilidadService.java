@@ -57,4 +57,11 @@ public class HabilidadService {
             throw new Exception("Algo salio mal, intentalo de nuevo mas tarde");
         }
     }
+    //ELIMINAR HABILIDAD
+    public String eliminarHabilidad(Integer id_habilidad){
+
+        Habilidad habilidad = habilidadRepository.findById(id_habilidad).orElse(null);
+        habilidadRepository.delete(habilidad);
+        return "Habilidad eliminada exitosamente";
+    }
 }

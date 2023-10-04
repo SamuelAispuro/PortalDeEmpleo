@@ -62,4 +62,28 @@ public class TipoContratacionController {
         }
     }
 
+    //ELIMINAR TIPO DE CONTRATACION
+    @DeleteMapping("/eliminarTipoContratacion/{id_tipoContratacion}")
+    public ResponseEntity<?> eliminarTipoContratacion(@PathVariable Integer id_tipoContratacion){
+        RespRegDTO respuesta = new RespRegDTO();
+        try {
+            if(id_tipoContratacion != null && id_tipoContratacion != 0) {
+                this.tipoContratacionService.eliminarTipoContratacion(id_tipoContratacion);
+                respuesta.setMensaje("tipo de Contratacion eliminado exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+
+                respuesta.setMensaje("El id ingresado no es válido.");
+                respuesta.setEstatus(false);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+        }catch(Exception e){
+
+            respuesta.setMensaje("No se encontró un tipo de Contratacion con este ID");
+            respuesta.setEstatus(false);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }
+    }
+
 }

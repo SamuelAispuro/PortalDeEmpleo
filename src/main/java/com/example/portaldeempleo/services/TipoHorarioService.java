@@ -54,5 +54,13 @@ public class TipoHorarioService {
         }
     }
 
+    //ELIMINAR TIPO DE HORARIO
+    public String eliminarTipoHorario(Integer id_tipoHorario){
+
+        TipoHorario tipoHorario = tipoHorarioRepository.findById(id_tipoHorario).orElse(null);
+        tipoHorarioRepository.delete(tipoHorario);
+        return "TipoHorario eliminado exitosamente";
+    }
+
 
 }

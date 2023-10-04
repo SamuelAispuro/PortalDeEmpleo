@@ -58,4 +58,28 @@ public class IdiomaController {
         }
     }
 
+    //ELIMINAR IDIOMA
+    @DeleteMapping("/eliminarIdioma/{id_idioma}")
+    public ResponseEntity<?> eliminarIdioma(@PathVariable Integer id_idioma){
+        RespRegDTO respuesta = new RespRegDTO();
+        try {
+            if(id_idioma != null && id_idioma != 0) {
+                this.idiomaService.eliminarIdioma(id_idioma);
+                respuesta.setMensaje("idioma eliminado exitosamente");
+                respuesta.setEstatus(true);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }else{
+
+                respuesta.setMensaje("El id ingresado no es válido.");
+                respuesta.setEstatus(false);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+        }catch(Exception e){
+
+            respuesta.setMensaje("No se encontró un idioma con este ID");
+            respuesta.setEstatus(false);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }
+    }
+
 }

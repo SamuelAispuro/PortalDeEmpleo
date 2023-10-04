@@ -25,7 +25,7 @@ public class EmpleadorService {
 
     //Metodo para registrar un empleador
 
-    public Empleador registroEmpleador(String nombre, String apellidoP, String apellidoM, String correoElectronico,String telefono, String contraseña){
+    public Empleador registroEmpleador(String nombre, String apellidoP, String apellidoM, String correoElectronico,String telefono, String contraseña, String rutaImagenPerfil, String rutaImagenPortada){
         Usuario usuarioEncontrado = usuarioRepository.findByCorreoElectronicoAndEstatusUsuario(correoElectronico, true);
         if(usuarioEncontrado == null) {
             Usuario usuario = new Usuario();
@@ -36,6 +36,8 @@ public class EmpleadorService {
             usuario.setApellidoP(apellidoP);
             usuario.setApellidoM(apellidoM);
             usuario.setEstatusUsuario(true);
+            usuario.setRutaImagenPerfil(rutaImagenPerfil);
+            usuario.setRutaImagenPortada(rutaImagenPortada);
             usuario.setTipoUsuario(3); //"3" es el tipo de usuario de un empleador
             usuario = usuarioRepository.save(usuario);
 
@@ -81,6 +83,8 @@ public class EmpleadorService {
         vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
         vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
         vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+        vacante.getEstado().setVacantes_estado(null);
         }
         return listaVacantes;
     }
@@ -106,6 +110,48 @@ public class EmpleadorService {
         respuesta.setEstatus(true);
         respuesta.setMensaje("La postulación fue rechazada con exito");
         return respuesta;
+    }
+
+    //OBTENER LISTA EMPLEADORES
+    public List<Empleador> obtenerListaEmpleadores(){
+
+        List<Empleador> listaEmpleadores = empleadorRepository.findAll();
+        for(Empleador empleador:listaEmpleadores){
+            empleador.setVacantes(null);
+        }
+
+        return listaEmpleadores;
+
+    }
+
+    //OBTENER LISTA EMPLEADORES ACTIVOS
+    public List<Empleador> obtenerListaEmpleadoresActivos(){
+
+        List<Empleador> listaEmpleadores = empleadorRepository.findAll();
+        List<Empleador> listaEmpleadoresActivos = new ArrayList<>();
+
+        for(Empleador empleador:listaEmpleadores){
+            empleador.setVacantes(null);
+            if(empleador.getUsuario().getEstatusUsuario() == true){
+                listaEmpleadoresActivos.add(empleador);
+            }
+        }
+        return listaEmpleadoresActivos;
+    }
+
+    //OBTENER LISTA EMPLEADORES INACTIVOS
+    public List<Empleador> obtenerListaEmpleadoresInactivos(){
+
+        List<Empleador> listaEmpleadores = empleadorRepository.findAll();
+        List<Empleador> listaEmpleadoresInactivos = new ArrayList<>();
+
+        for(Empleador empleador:listaEmpleadores){
+            empleador.setVacantes(null);
+            if(empleador.getUsuario().getEstatusUsuario() == false){
+                listaEmpleadoresInactivos.add(empleador);
+            }
+        }
+        return listaEmpleadoresInactivos;
     }
 
 }

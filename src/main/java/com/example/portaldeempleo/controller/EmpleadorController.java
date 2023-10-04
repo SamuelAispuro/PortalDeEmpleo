@@ -29,7 +29,7 @@ public class EmpleadorController {
         if (empleadorDTO.getNombre() != null && empleadorDTO.getNombre() != "" && empleadorDTO.getApellidoP() != null && empleadorDTO.getApellidoP() != "" && empleadorDTO.getApellidoM() != null && empleadorDTO.getApellidoM() != ""
                 && empleadorDTO.getCorreoElectronico() != null && empleadorDTO.getCorreoElectronico() != "" && empleadorDTO.getContrasena() != null && empleadorDTO.getContrasena() != "") {
 
-            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getTelefono(), empleadorDTO.getContrasena());
+            empleador = this.empleadorService.registroEmpleador(empleadorDTO.getNombre(), empleadorDTO.getApellidoP(), empleadorDTO.getApellidoM(), empleadorDTO.getCorreoElectronico(), empleadorDTO.getTelefono(), empleadorDTO.getContrasena(), empleadorDTO.getRutaImagenPerfil(), empleadorDTO.getRutaImagenPortada());
             if (empleador != null) {
                 respuesta.setMensaje("Cuenta creada exitosamente");
                 respuesta.setEstatus(true);
@@ -72,5 +72,27 @@ public class EmpleadorController {
         respuesta.setMensaje("La postulación fue aceptada con exito");
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    //OBTENER LISTA EMPLEADORES
+    @GetMapping("/obtenerListaEmpleadores")
+    public ResponseEntity<?> obtenerListaEmpleadores(){
+        List<Empleador> listaEmpleadores = empleadorService.obtenerListaEmpleadores();
+        return new ResponseEntity<>(listaEmpleadores,HttpStatus.OK);
+    }
+
+    //OBTENER EMPLEADORES ACTIVOS
+    @GetMapping("/obtenerListaEmpleadoresActivos")
+    public ResponseEntity<?> obtenerListaEmpleadoresActivos(){
+        List<Empleador> listaEmpleadoresActivos = empleadorService.obtenerListaEmpleadoresActivos();
+        return new ResponseEntity<>(listaEmpleadoresActivos,HttpStatus.OK);
+    }
+
+    //OBTENER EMPLEADORES INACTIVOS
+    @GetMapping("/obtenerListaEmpleadoresInactivos")
+    public ResponseEntity<?> obtenerListaEmpleadoresInactivos(){
+        List<Empleador> listaEmpleadoresInactivos = empleadorService.obtenerListaEmpleadoresInactivos();
+        return new ResponseEntity<>(listaEmpleadoresInactivos,HttpStatus.OK);
+    }
+
 
 }
