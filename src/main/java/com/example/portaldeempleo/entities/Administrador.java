@@ -1,6 +1,8 @@
 package com.example.portaldeempleo.entities;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name="administrador")
@@ -8,10 +10,12 @@ public class Administrador {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Nonnull
     @Column(name="id_administrador")
     private Integer id_administrador;
 
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 

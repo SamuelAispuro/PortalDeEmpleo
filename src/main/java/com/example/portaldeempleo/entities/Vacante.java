@@ -3,6 +3,7 @@ package com.example.portaldeempleo.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Cascade;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -15,24 +16,32 @@ public class Vacante {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_vacante")
     private Integer id_vacante;
 
 
-
+    @NonNull
     @Column(name="nombrevacante")
     private String nombreVacante;
 
+    @NonNull
     @Column(name="especialistarequerido")
     private String especialista;
 
+    @NonNull
     @Column(name="sueldo")
     private Integer sueldo;
 
+    @NonNull
     @Column(name="horario")
     private String horario;
+
+    @NonNull
     @Column(name="domicilio")
     private String domicilio;
+
+    @NonNull
     @Column(name="fechapublicacion")
     private LocalDate fechaPublicacion;
 
@@ -44,6 +53,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
 
@@ -51,11 +61,15 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_estado")
     private Estado estado;
 
+    @NonNull
     @Column(name="estatus")
     private Boolean estatus;
+
+    @NonNull
     @Column(name="descripcion")
     private String descripcion;
 
@@ -63,6 +77,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = false
     )
+    @NonNull
     @JoinColumn(name="id_empresa")
     private Empresa empresa;
 
@@ -70,6 +85,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_empleador")
    private Empleador empleador;
 
@@ -82,6 +98,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_tipohorario")
     private TipoHorario tipoHorario;
 
@@ -89,6 +106,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_tipocontratacion")
     private TipoContratacion tipoContratacion;
 
@@ -96,6 +114,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_modalidadtrabajo")
     private ModalidadTrabajo modalidadTrabajo;
 

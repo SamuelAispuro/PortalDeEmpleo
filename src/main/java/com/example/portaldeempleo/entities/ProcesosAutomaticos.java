@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 
@@ -10,16 +11,23 @@ public class ProcesosAutomaticos {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_proceso")
     private Integer id_proceso;
 
+    @NonNull
     @Column(name="tipoproceso")
     private String tipoProceso;
 
+    @NonNull
     @Column(name="fechaproceso")
     private LocalDate fechaProceso;
+
+    @NonNull
     @Column(name="nombrevacante")
     private String nombreVacante;
+
+    @NonNull
     @Column(name="descripcion")
     private String descripcion;
 

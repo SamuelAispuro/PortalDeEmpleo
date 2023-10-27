@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.entities;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 
 import java.sql.Timestamp;
@@ -19,9 +20,10 @@ public class Candidato {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_candidato")
     private Integer id_candidato;
-
+    @NonNull
     @Column(name="domicilio")
     private String domicilio;
     @Column(name="puestoactual")
@@ -34,6 +36,7 @@ public class Candidato {
     private String rutaCv;
     @Column(name="profesion")
     private String profesion;
+    @NonNull
     @Column(name="fechanacimiento")
     private LocalDate fechaNacimiento;
     @Column(name="especialidad")
@@ -56,6 +59,7 @@ public class Candidato {
 
 
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_usuario")
     Usuario usuario;
 
@@ -69,6 +73,7 @@ public class Candidato {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
 
@@ -76,6 +81,7 @@ public class Candidato {
             fetch = FetchType.EAGER,
             optional = true
     )
+    @NonNull
     @JoinColumn(name="id_estado")
     private Estado estado;
 

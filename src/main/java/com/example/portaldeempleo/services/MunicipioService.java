@@ -30,12 +30,14 @@ public class MunicipioService {
     public List<Municipio> obtenerListaMunicipiosDeEstado(Integer id_estado){
         /*creacion de un objeto de tipo estado*/
         Estado estadoEncontrado = new Estado();
+
         /*creacion de la lista que será nuestra respuesta*/
         List<Municipio> listaMunicipiosDeEstado = new ArrayList<>();
+
         /*a "estadoEncontrado" se le esta asignando el objeto que encuentre el método findById*/
         estadoEncontrado = estadoRepository.findById(id_estado).orElse(null);
-        /*se le asignan los municipios del estado encontrado a la lista*/
 
+        /*se le asignan los municipios del estado encontrado a la lista*/
         listaMunicipiosDeEstado = estadoEncontrado.getMunicipios();
 
         for(Municipio municipio:listaMunicipiosDeEstado){

@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ public class Estado {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_estado")
     private Integer id_estado;
 
+    @NonNull
     @Column(name="nombreestado")
     private String nombreEstado;
     @OneToMany(

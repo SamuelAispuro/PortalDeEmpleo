@@ -26,8 +26,6 @@ public class UsuarioService {
     @Autowired
     CandidatoRepository candidatoRepository;
 
-    @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
-    private String rutaLocal;
     //login
     public Usuario login(String correoElectronico, String contraseña){
 

@@ -1,20 +1,26 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name="postulaciones")
 public class Postulacion {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_postulacion")
     private Integer id_postulacion;
+
+    @NonNull
     @Column(name="estatus")
     private Integer estatus;
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_vacante", updatable = false)
     private Vacante vacante;
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_candidato", updatable = false)
     private Candidato candidato;
     public Integer getId_postulacion() {

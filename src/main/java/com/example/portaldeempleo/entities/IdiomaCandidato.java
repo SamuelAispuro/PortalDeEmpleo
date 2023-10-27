@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
@@ -10,14 +11,17 @@ public class IdiomaCandidato {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_idiomacandidato")
     private Integer id_idiomacandidato;
 
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_idioma", updatable = false)
     private Idioma idioma;
 
     @OneToOne
+    @NonNull
     @JoinColumn(name="id_candidato", updatable = false)
     private Candidato candidato;
 

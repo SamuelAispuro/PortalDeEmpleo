@@ -1,34 +1,40 @@
 package com.example.portaldeempleo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name="usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NonNull
     @Column(name="id_usuario")
     private Integer id_usuario;
     //Agregar anotaciones (NotNull, Unique)
+    @NonNull
     @Column(name="nombre")
     private String nombre;
     //Inv anotación de formato de correo electronico.
 
+    @NonNull
     @Column(name="correoelectronico")
-    private String correoElectronico;
 
-    @Column(name="contraseña")
+    private String correoElectronico;
+    @NonNull
+    @Column(name="contraseña", unique = true)
     private String contraseña;
+    @NonNull
     @Column(name="tipousuario")
     private Integer tipoUsuario;
-
+    @NonNull
     @Column(name="apellidop")
     private String apellidoP;
-
+    @NonNull
     @Column(name="apellidoM")
     private String apellidoM;
-
-    @Column(name="telefono")
+    @NonNull
+    @Column(name="telefono", unique = true)
     private String telefono;
 
     @Column(name="estatususuario")
