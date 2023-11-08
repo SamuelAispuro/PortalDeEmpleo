@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.Cascade;
@@ -53,6 +54,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
@@ -61,6 +63,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_estado")
     private Estado estado;
@@ -77,6 +80,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = false
     )
+
     @NonNull
     @JoinColumn(name="id_empresa")
     private Empresa empresa;
@@ -85,6 +89,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_empleador")
    private Empleador empleador;
@@ -98,6 +103,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_tipohorario")
     private TipoHorario tipoHorario;
@@ -106,6 +112,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_tipocontratacion")
     private TipoContratacion tipoContratacion;
@@ -114,6 +121,7 @@ public class Vacante {
             fetch = FetchType.EAGER,
             optional = true
     )
+
     @NonNull
     @JoinColumn(name="id_modalidadtrabajo")
     private ModalidadTrabajo modalidadTrabajo;

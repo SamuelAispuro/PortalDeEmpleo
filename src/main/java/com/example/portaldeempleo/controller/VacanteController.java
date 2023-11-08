@@ -8,6 +8,9 @@ import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.services.CandidatoService;
 import com.example.portaldeempleo.services.VacanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +46,24 @@ public class VacanteController {
 
     //Obtener lista de todas las vacantes
     @GetMapping("/obtenerListaVacantes")
-        public List<Vacante> obtenerListaVacantes(){
+    public List<Vacante> obtenerListaVacantes(){
         List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
         return listaVacantesActivas;
 
     }
+
+    //Obtener todas las vacantes paginadas
+    @GetMapping("/vacantes/page/{page}")
+    public Page<Vacante> consultaPage(@PathVariable Integer page){
+        Pageable pageable = PageRequest.of(page, 5);
+        return vacanteService.findAllPage(pageable);
+    }
+    /*@GetMapping("/obtenerListaVacantes")
+        public List<Vacante> obtenerListaVacantes(){
+        List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
+        return listaVacantesActivas;
+
+    }*/
     //Eliminar vacante
     @DeleteMapping("/eliminarVacante/{id_vacante}")
     public ResponseEntity<?> eliminarVacante(@PathVariable Integer id_vacante){
@@ -62,7 +78,7 @@ public class VacanteController {
     public ResponseEntity<Vacante> obtenerVacantePorId(@PathVariable Integer id_vacante){
     Vacante vacante = this.vacanteService.obtenerVacantePorId(id_vacante);
 
-return new ResponseEntity<>(vacante, HttpStatus.OK);
+    return new ResponseEntity<>(vacante, HttpStatus.OK);
     }
     //Modificar vacante
     @PutMapping("/modificarVacante")

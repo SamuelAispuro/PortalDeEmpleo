@@ -3,6 +3,8 @@ package com.example.portaldeempleo.services;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +78,7 @@ public class VacanteService {
         return vacante.getId_vacante();
     }
 
-    //Metodo obtener todas las vacantes
+    //Metodo para obtener lista de todas las vacantes
     public List<Vacante> obtenerListaVacantesActivas(){
         List<Vacante> listaVacantesActivas = new ArrayList<>();
         listaVacantesActivas = vacanteRepository.findAllByEstatus(true);
@@ -92,8 +94,43 @@ public class VacanteService {
             vacante.getMunicipio().getEstado().setVacantes_estado(null);
 
         }
-    return listaVacantesActivas;
+        return listaVacantesActivas;
     }
+
+    //Metodo obtener todas las vacantes paginadas
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllPage(Pageable pageable){
+        Page<Vacante> listaVacantes = vacanteRepository.findAll(pageable);
+    for(Vacante vacante:listaVacantes){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return listaVacantes;
+    }
+    /*public List<Vacante> obtenerListaVacantesActivas(){
+        List<Vacante> listaVacantesActivas = new ArrayList<>();
+        listaVacantesActivas = vacanteRepository.findAllByEstatus(true);
+        for(Vacante vacante:listaVacantesActivas){
+            vacante.setCandidatos(null);
+            vacante.getEmpresa().setVacantes_empresa(null);
+            vacante.getMunicipio().getEstado().setMunicipios(null);
+            vacante.getMunicipio().setVacantes_municipios(null);
+            vacante.getEmpleador().setVacantes(null);
+            vacante.getTipoHorario().setTipoHorario_vacantes(null);
+            vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+            vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getMunicipio().getEstado().setVacantes_estado(null);
+
+        }
+    return listaVacantesActivas;
+    }*/
     //Buscar vacantes cerca del candidato
     public List<Vacante> buscarVacantesCerca(Integer id_municipio){
         //Se busca un municipio para ver las vacantes que hay publicadas en este municipio
