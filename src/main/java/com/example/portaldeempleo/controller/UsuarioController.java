@@ -20,8 +20,6 @@ import java.io.IOException;
 public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
-    @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
-    private String rutaLocal;
 
     //Login
     @PostMapping("/Login")
@@ -29,7 +27,7 @@ public class UsuarioController {
 
         Usuario usuarioEncontrado = this.usuarioService.login(requestData.getCorreoElectronico(), requestData.getContrasena());
         LoginDTO respuesta = new LoginDTO();
-        //RespuestaDTO respuesta = new RespuestaDTO();
+
         if (requestData.getCorreoElectronico() != null && requestData.getCorreoElectronico() != "" && requestData.getContrasena() != null && requestData.getContrasena() != "") {
 
             if (usuarioEncontrado != null) {
@@ -57,8 +55,8 @@ public class UsuarioController {
     public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer id) {
         try {
             if (id != null && id > 0) {
-                Usuario usuarioEncontrado = new Usuario();
-                usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
+
+               Usuario usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
                 return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("El id enviado no es válido", HttpStatus.OK);

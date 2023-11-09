@@ -17,11 +17,11 @@ public class Postulacion {
     private Integer estatus;
     @OneToOne
     @NonNull
-    @JoinColumn(name="id_vacante", updatable = false)
+    @JoinColumn(name="id_vacante", updatable = false, unique = false)
     private Vacante vacante;
     @OneToOne
     @NonNull
-    @JoinColumn(name="id_candidato", updatable = false)
+    @JoinColumn(name="id_candidato", updatable = false, unique = false)
     private Candidato candidato;
     public Integer getId_postulacion() {
         return id_postulacion;

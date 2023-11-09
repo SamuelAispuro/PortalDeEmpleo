@@ -11,18 +11,17 @@ public class Usuario {
     @NonNull
     @Column(name="id_usuario")
     private Integer id_usuario;
-    //Agregar anotaciones (NotNull, Unique)
+
     @NonNull
     @Column(name="nombre")
     private String nombre;
     //Inv anotación de formato de correo electronico.
 
     @NonNull
-    @Column(name="correoelectronico")
-
+    @Column(name="correoelectronico", unique = true)
     private String correoElectronico;
     @NonNull
-    @Column(name="contraseña", unique = true)
+    @Column(name="contraseña")
     private String contraseña;
     @NonNull
     @Column(name="tipousuario")

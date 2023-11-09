@@ -35,11 +35,12 @@ public class VacanteController {
         if(vacanteDTO.getNombreVacante()!=null && vacanteDTO.getNombreVacante()!="" && vacanteDTO.getEspecialista()!=null && vacanteDTO.getEspecialista()!="" && vacanteDTO.getSueldo()!=null && vacanteDTO.getId_empresa()!=null && vacanteDTO.getId_empresa()!=0 && vacanteDTO.getHorario()!=null && vacanteDTO.getHorario()!="" && vacanteDTO.getId_municipio()!=null && vacanteDTO.getId_estado()!=null && vacanteDTO.getDescripcion()!=null && vacanteDTO.getDescripcion()!="" && vacanteDTO.getId_empleador()!=null && vacanteDTO.getId_tipoHorario()!=null && vacanteDTO.getId_tipoContratacion()!=null && vacanteDTO.getId_modalidadTrabajo()!=null && vacanteDTO.getDomicilio()!=null && vacanteDTO.getDomicilio()!="" &&  vacanteDTO.getPublicarAhora()!=null) {
 
             DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toFormatter();
+
             LocalDate fechaPublicacionFormateada = LocalDate.parse(vacanteDTO.getFechaPublicacionStr(),format);
+
             vacanteDTO.setFechaPublicacion(fechaPublicacionFormateada);
 
             id_vacante = this.vacanteService.crearVacante(vacanteDTO.getNombreVacante(), vacanteDTO.getEspecialista(), vacanteDTO.getSueldo(), vacanteDTO.getId_empresa(), vacanteDTO.getHorario(), vacanteDTO.getId_municipio(), vacanteDTO.getId_estado(), vacanteDTO.getDescripcion(), vacanteDTO.getId_empleador(), vacanteDTO.getId_tipoHorario(), vacanteDTO.getId_tipoContratacion(), vacanteDTO.getId_modalidadTrabajo(), vacanteDTO.getDomicilio(), vacanteDTO.getFechaPublicacion(), vacanteDTO.getPublicarAhora());
-
         }
         return new ResponseEntity<>(id_vacante, HttpStatus.OK);
     }
@@ -49,7 +50,6 @@ public class VacanteController {
     public List<Vacante> obtenerListaVacantes(){
         List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
         return listaVacantesActivas;
-
     }
 
     //Obtener todas las vacantes paginadas
@@ -58,12 +58,7 @@ public class VacanteController {
         Pageable pageable = PageRequest.of(page, 5);
         return vacanteService.findAllPage(pageable);
     }
-    /*@GetMapping("/obtenerListaVacantes")
-        public List<Vacante> obtenerListaVacantes(){
-        List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
-        return listaVacantesActivas;
 
-    }*/
     //Eliminar vacante
     @DeleteMapping("/eliminarVacante/{id_vacante}")
     public ResponseEntity<?> eliminarVacante(@PathVariable Integer id_vacante){
@@ -73,6 +68,7 @@ public class VacanteController {
     respuesta.setEstatus(true);
     return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
     //Obtener vacante por id
     @GetMapping("/obtenerVacantePorId/{id_vacante}")
     public ResponseEntity<Vacante> obtenerVacantePorId(@PathVariable Integer id_vacante){
@@ -80,6 +76,7 @@ public class VacanteController {
 
     return new ResponseEntity<>(vacante, HttpStatus.OK);
     }
+
     //Modificar vacante
     @PutMapping("/modificarVacante")
     public ResponseEntity<?> modificarVacante(@RequestBody VacanteDTO vacanteDTO){
@@ -118,7 +115,6 @@ public class VacanteController {
 
         List<Vacante> listaVacantesCercaYPalabraClave = this.vacanteService.buscarVacantesCercaYPorPalabraClave(id_municipio, palabraClave);
         return listaVacantesCercaYPalabraClave;
-
     }
 
     //Buscar vacantes dentro de un estado
@@ -149,5 +145,4 @@ public class VacanteController {
     public void eliminarVacantePorDias(){
         vacanteService.eliminarVacantePorDias();
     }
-
 }
