@@ -20,8 +20,6 @@ import java.io.IOException;
 public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
-    @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
-    private String rutaLocal;
 
     //Login
     @PostMapping("/Login")
