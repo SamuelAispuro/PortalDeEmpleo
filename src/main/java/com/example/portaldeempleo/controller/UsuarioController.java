@@ -2,6 +2,7 @@ package com.example.portaldeempleo.controller;
 
 import com.example.portaldeempleo.DTO.*;
 
+import com.example.portaldeempleo.Mail.Authenticate;
 import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
 import com.example.portaldeempleo.services.UsuarioService;
@@ -20,6 +21,8 @@ import java.io.IOException;
 public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
+    @Autowired
+    Authenticate authenticate;
 
     //Login
     @PostMapping("/Login")
@@ -96,16 +99,12 @@ public class UsuarioController {
          RespPostDTO respuesta = new RespPostDTO();
          
          // ESTE ES EL URL QUE DEBES MANDAR
-         String url ="cambiar_contraseña/"+correo;
+         String url ="http://localhost:4200/cambiar_contraseña/"+correo;
          
          respuesta.setEstatus(this.usuarioService.buscarCorreo(correo));
          if(respuesta.getEstatus()) {
-         	
-         	/*AQUI VA TU CÓDIGO PARA EL ENVIO DE MENSAJES
-         	 * 
-         	 * 
-         	 * 
-         	 * */
+
+             authenticate.sendMensaggeUser(correo,url);
          	
          	respuesta.setMensaje("Se ha enviado un correo al mail indicado");
          } else {
