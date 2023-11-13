@@ -20,6 +20,8 @@ import java.io.IOException;
 public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
+    @Value("${ruta_local}") // La ruta local donde quieres almacenar las imágenes
+    private String rutaLocal;
 
     //Login
     @PostMapping("/Login")
@@ -27,7 +29,7 @@ public class UsuarioController {
 
         Usuario usuarioEncontrado = this.usuarioService.login(requestData.getCorreoElectronico(), requestData.getContrasena());
         LoginDTO respuesta = new LoginDTO();
-
+        //RespuestaDTO respuesta = new RespuestaDTO();
         if (requestData.getCorreoElectronico() != null && requestData.getCorreoElectronico() != "" && requestData.getContrasena() != null && requestData.getContrasena() != "") {
 
             if (usuarioEncontrado != null) {
@@ -55,8 +57,8 @@ public class UsuarioController {
     public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer id) {
         try {
             if (id != null && id > 0) {
-
-               Usuario usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
+                Usuario usuarioEncontrado = new Usuario();
+                usuarioEncontrado = this.usuarioService.obtenerUsuarioPorId(id);
                 return new ResponseEntity<>(usuarioEncontrado, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("El id enviado no es válido", HttpStatus.OK);
@@ -88,5 +90,32 @@ public class UsuarioController {
         respuesta.setEstatus(true);
        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
+    
+     
+     // ENVIAR CORREOS
+     @GetMapping("/peticion/{correo}")
+     public ResponseEntity<?> peticion_deCambio(@PathVariable String correo) {
+         RespPostDTO respuesta = new RespPostDTO();
+         
+         // ESTE ES EL URL QUE DEBES MANDAR
+         String url ="cambiar_contraseña/"+correo;
+         
+         respuesta.setEstatus(this.usuarioService.buscarCorreo(correo));
+         if(respuesta.getEstatus()) {
+         	
+         	/*AQUI VA TU CÓDIGO PARA EL ENVIO DE MENSAJES
+         	 * 
+         	 * 
+         	 * 
+         	 * */
+         	
+         	respuesta.setMensaje("Se ha enviado un correo al mail indicado");
+         } else {
+         	respuesta.setMensaje("El correo no esta registrado en nuestra base de datos");
+         }
+     	 return new ResponseEntity<>(respuesta, HttpStatus.OK);
+     }
+  
+    
+    
 }

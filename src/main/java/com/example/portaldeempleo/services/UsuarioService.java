@@ -103,6 +103,19 @@ public class UsuarioService {
         usuarioRepository.save(usuarioEncontrado);
         return usuarioEncontrado;
     }
+    
+    public boolean buscarCorreo(String correo) {
+   	   boolean encontrado = false;
+   	  Usuario usuario = usuarioRepository.findByCorreoElectronico(correo);
+   	  
+   	  if(usuario == null) {
+   		  encontrado = false; 
+   		  	return encontrado;
+   	  } else {
+   		  encontrado = true; 
+   		  	return encontrado;
+   	  }
+   }
 
 }
 

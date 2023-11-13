@@ -295,4 +295,10 @@ public class Vacante {
     public void setDiasPublicada(Integer diasPublicada) {
         this.diasPublicada = diasPublicada;
     }
+
+	public Integer getDiasPublicada() {
+		return diasPublicada;
+	}
+    
+    
 }
