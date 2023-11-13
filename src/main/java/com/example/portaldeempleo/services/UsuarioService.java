@@ -116,6 +116,20 @@ public class UsuarioService {
    		  	return encontrado;
    	  }
    }
+    
+	  public boolean cambiarContra(String correo, String contraseña){
+     	   boolean cambio = false;
+     	   Usuario usuario = usuarioRepository.findByCorreoElectronico(correo);
+     	  if(usuario == null) {
+     		 cambio = false; 
+       	 	 return cambio;
+       	  } else {
+       		 usuario.setContraseña(passwordEncryption.encryptText(contraseña));
+       		 usuarioRepository.save(usuario);
+       		 cambio = true; 
+       	 	 return cambio;
+       	  }
+  	  }
 
 }
 

@@ -114,6 +114,21 @@ public class UsuarioController {
      	 return new ResponseEntity<>(respuesta, HttpStatus.OK);
      }
   
+     
+  // ENVIAR CAMBIAR CONTRASEÑA
+     @PostMapping("/cambio_dePass")
+     public ResponseEntity<?> peticion_deCambio(@RequestBody DataDTO requestData) {
+    	 RespPostDTO respuesta = new RespPostDTO();
+    	 respuesta.setEstatus(this.usuarioService.cambiarContra(requestData.getCorreoElectronico(),requestData.getContrasena()));
+    	 if(respuesta.getEstatus()) {
+    		 respuesta.setMensaje("La contraseña fue cambiada correctamente, esta pestaña se puede cerrar");
+    	 } else{
+    		 respuesta.setMensaje("Se ha producido un error que nos impidio realizar el cambio");
+    	 }
+
+    	 return new ResponseEntity<>(respuesta, HttpStatus.OK);
+     }
+     
     
     
 }
