@@ -5,6 +5,7 @@ import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.DTO.VacanteDTO;
 import com.example.portaldeempleo.entities.Candidato;
 import com.example.portaldeempleo.entities.Vacante;
+import com.example.portaldeempleo.repositories.VacanteRepository;
 import com.example.portaldeempleo.services.CandidatoService;
 import com.example.portaldeempleo.services.VacanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class VacanteController {
 
     @Autowired
     public VacanteService vacanteService;
+    @Autowired
+    VacanteRepository vacanteRepository;
 
     //Crear vacante
     @PutMapping("/crearVacante")
@@ -53,11 +56,18 @@ public class VacanteController {
     }
 
     //Obtener todas las vacantes paginadas
-    @GetMapping("/vacantes/page/{page}")
-    public Page<Vacante> consultaPage(@PathVariable Integer page){
-        Pageable pageable = PageRequest.of(page, 5);
+    @GetMapping("/vacantes/page")
+    public Page<Vacante> consultaPage(Pageable pageable){
+        //final Pageable pageable = PageRequest.of(2,3);
         return vacanteService.findAllPage(pageable);
     }
+
+    //Obtener todas las vacantes paginadas
+    /*@GetMapping("/vacantes/page/{page}")
+    public Page<Vacante> consultaPage(@PathVariable Integer page){
+         Pageable pageable = PageRequest.of(0,9);
+        return vacanteService.findAllPage(pageable);
+    }*/
 
     //Eliminar vacante
     @DeleteMapping("/eliminarVacante/{id_vacante}")
@@ -145,4 +155,12 @@ public class VacanteController {
     public void eliminarVacantePorDias(){
         vacanteService.eliminarVacantePorDias();
     }
+
+    //Obtener lista de vacantes filtro actividad
+    @GetMapping("/obtenerListaVacantesActividad")
+    public List<Vacante> obtenerListaVacantesFiltro(@RequestParam String tipoFiltro){
+        List<Vacante> listaVacantes = this.vacanteService.obtenerListaVacantesFiltro(tipoFiltro);
+        return listaVacantes;
+    }
+
 }

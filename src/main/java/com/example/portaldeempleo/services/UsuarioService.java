@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -130,6 +132,46 @@ public class UsuarioService {
        	 	 return cambio;
        	  }
   	  }
+
+    //Metodo para obtener lista de todos los usuarios por actividad
+    public List<Usuario> obtenerListaUsuariosFiltro(String tipoFiltro){
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        if (tipoFiltro.equalsIgnoreCase("activos")) {
+            listaUsuarios = usuarioRepository.findAllByEstatusUsuario(true);
+        } else if (tipoFiltro.equalsIgnoreCase("inactivos")) {
+            listaUsuarios = usuarioRepository.findAllByEstatusUsuario(false);
+        }
+        return listaUsuarios;
+    }
+
+    //Metodo para obtener lista de usuarios por rol
+    public List<Usuario> obtenerListaUsuariosRol(String rol){
+        List<Usuario> listaUsuariosTodos = new ArrayList<>();
+        listaUsuariosTodos = usuarioRepository.findAll();
+        List<Usuario> listaUsuariosRol = new ArrayList<>();
+        if (rol.equalsIgnoreCase("administrador")){
+            for (Usuario usuario:listaUsuariosTodos){
+                if (usuario.getTipoUsuario()==1){
+                    listaUsuariosRol.add(usuario);
+                }
+            }
+        }
+        if (rol.equalsIgnoreCase("candidato")){
+            for (Usuario usuario:listaUsuariosTodos){
+                if (usuario.getTipoUsuario()==2){
+                    listaUsuariosRol.add(usuario);
+                }
+            }
+        }
+        if (rol.equalsIgnoreCase("empleador")){
+            for (Usuario usuario:listaUsuariosTodos){
+                if (usuario.getTipoUsuario()==3){
+                    listaUsuariosRol.add(usuario);
+                }
+            }
+        }
+        return listaUsuariosRol;
+    }
 
 }
 

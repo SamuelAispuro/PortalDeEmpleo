@@ -28,11 +28,11 @@ public class ProcesosAutomaticosController {
 
     }
 
-    //Obtener todas las vacantes paginadas
-    @GetMapping("/vacantes/page/{page}")
-    public Page<Vacante> consultaPage(@PathVariable Integer page){
+    //Obtener todas los procesos paginados
+    @GetMapping("/procesos/page/{page}")
+    public Page<ProcesosAutomaticos> consultaPage(@PathVariable Integer page){
         Pageable pageable = PageRequest.of(page, 5);
-        return vacanteService.findAllPage(pageable);
+        return procesosAutomaticosService.findAllPage(pageable);
     }
 
 }

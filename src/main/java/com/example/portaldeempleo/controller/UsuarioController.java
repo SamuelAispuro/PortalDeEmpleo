@@ -4,6 +4,7 @@ import com.example.portaldeempleo.DTO.*;
 
 import com.example.portaldeempleo.Mail.Authenticate;
 import com.example.portaldeempleo.entities.Usuario;
+import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
 import com.example.portaldeempleo.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -127,7 +129,19 @@ public class UsuarioController {
 
     	 return new ResponseEntity<>(respuesta, HttpStatus.OK);
      }
-     
-    
+
+    //Obtener lista de vacantes filtro actividad
+    @GetMapping("/obtenerListaUsuariosActividad")
+    public List<Usuario> obtenerListaUsuariosFiltro(@RequestParam String tipoFiltro){
+        List<Usuario> listaUsuarios = this.usuarioService.obtenerListaUsuariosFiltro(tipoFiltro);
+        return listaUsuarios;
+    }
+
+    //Obtener lista de usuarios por rol
+    @GetMapping("/obtenerListaUsuariosRol")
+    public List<Usuario> obtenerListaUsuariosRol(@RequestParam String rol){
+        List<Usuario> listaUsuarios = this.usuarioService.obtenerListaUsuariosRol(rol);
+        return listaUsuarios;
+    }
     
 }
