@@ -28,7 +28,6 @@ public class MailManager {
         try{
             message.setSubject("prueba de correo");
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
             helper.setTo(email);
             helper.setText(messageEmail);
             helper.setFrom(sender);

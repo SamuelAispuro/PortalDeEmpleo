@@ -3,6 +3,8 @@ package com.example.portaldeempleo.controller;
 import com.example.portaldeempleo.entities.ProcesosAutomaticos;
 import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.services.ProcesosAutomaticosService;
+import com.example.portaldeempleo.services.VacanteService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProcesosAutomaticosController {
     @Autowired
     ProcesosAutomaticosService procesosAutomaticosService;
+   
 
     //Obtener lista de procesos
     @GetMapping("/obtenerListaProcesos")
@@ -27,12 +30,13 @@ public class ProcesosAutomaticosController {
         return listaProcesos;
 
     }
-
-    //Obtener todas los procesos paginados
+   
+    //Obtener todas las procesos paginados
     @GetMapping("/procesos/page/{page}")
     public Page<ProcesosAutomaticos> consultaPage(@PathVariable Integer page){
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 8);
         return procesosAutomaticosService.findAllPage(pageable);
     }
+
 
 }

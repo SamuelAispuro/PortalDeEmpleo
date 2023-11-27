@@ -22,8 +22,7 @@ public class ProcesosAutomaticosService {
         listaProcesos = procesosAutomaticosRepository.findAll();
         return listaProcesos;
     }
-
-    //Metodo obtener todas las vacantes paginadas
+    
     @Transactional(readOnly = true)
     public Page<ProcesosAutomaticos> findAllPage(Pageable pageable){
         Page<ProcesosAutomaticos> listaProcesos = procesosAutomaticosRepository.findAll(pageable);

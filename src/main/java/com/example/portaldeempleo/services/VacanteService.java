@@ -4,6 +4,7 @@ import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -96,6 +97,9 @@ public class VacanteService {
         }
         return listaVacantesActivas;
     }
+    
+    
+  //PAGINADOS ----------------
 
     //Metodo obtener todas las vacantes paginadas
     @Transactional(readOnly = true)
@@ -114,7 +118,145 @@ public class VacanteService {
     }
         return listaVacantes;
     }
+    
+    //OBTENER VACANTES PAGINADAS CON FILTRO DE ESTATUS
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllStatus(Pageable pageable){
+    	 Page <Vacante> vac = vacanteRepository.findAllByEstatus(true, pageable); 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+    
+    
+    // OBTENER VACANTES PAGINADAS POR FILTRO ESTADO Y ESTATUS
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllEstado(Pageable pageable, Integer id_estado ){
+    	Estado estadoEncontrado = estadoRepository.findById(id_estado).orElse(null);
+    	Page <Vacante> vac = vacanteRepository.findAllByEstadoAndEstatus(estadoEncontrado,true,pageable); 
+    	 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+    
+    
+    // OBTENER VACANTES PAGINADAS POR FILTRO MUNICIPIO Y ESTATUS
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllMunicipio(Pageable pageable, Integer id_municipio ){
+    	Municipio municipioEncontrado = municipioRepository.findById(id_municipio).orElse(null);
+    	Page <Vacante> vac = vacanteRepository.findAllByMunicipioAndEstatus(municipioEncontrado,true,pageable); 
+    	 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+  
+    
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllNombreEstatus(String nombre, Pageable pageable ){
+    	Page <Vacante> vac = vacanteRepository.findAllByEstatusAndNombreVacante(true, nombre, pageable); 
+    	 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+    
+    
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllNombreEstatusEstado(String nombre,Integer id_estado, Pageable pageable ){
+    	Estado estadoEncontrado = estadoRepository.findById(id_estado).orElse(null);
+    	Page <Vacante> vac = vacanteRepository.findAllByEstadoAndEstatusAndNombreVacante(estadoEncontrado,true, nombre, pageable); 
+    	 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+    
+    @Transactional(readOnly = true)
+    public Page<Vacante> findAllNombreEstatusMunicipio(String nombre,Integer id_municipio, Pageable pageable ){
+    	Municipio municipioEncontrado = municipioRepository.findById(id_municipio).orElse(null);
+    	Page <Vacante> vac = vacanteRepository.findAllByMunicipioAndEstatusAndNombreVacante(municipioEncontrado,true, nombre, pageable); 
+    	 
+    for(Vacante vacante:vac){
+        vacante.setCandidatos(null);
+        vacante.getEmpresa().setVacantes_empresa(null);
+        vacante.getMunicipio().getEstado().setMunicipios(null);
+        vacante.getMunicipio().setVacantes_municipios(null);
+        vacante.getEmpleador().setVacantes(null);
+        vacante.getTipoHorario().setTipoHorario_vacantes(null);
+        vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+        vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+        vacante.getMunicipio().getEstado().setVacantes_estado(null);
+    }
+        return vac;
+    }
+    
+  //PAGINADOS ----------------
+    
+    /*public List<Vacante> obtenerListaVacantesActivas(){
+        List<Vacante> listaVacantesActivas = new ArrayList<>();
+        listaVacantesActivas = vacanteRepository.findAllByEstatus(true);
+        for(Vacante vacante:listaVacantesActivas){
+            vacante.setCandidatos(null);
+            vacante.getEmpresa().setVacantes_empresa(null);
+            vacante.getMunicipio().getEstado().setMunicipios(null);
+            vacante.getMunicipio().setVacantes_municipios(null);
+            vacante.getEmpleador().setVacantes(null);
+            vacante.getTipoHorario().setTipoHorario_vacantes(null);
+            vacante.getModalidadTrabajo().setModalidadTrabajo_vacante(null);
+            vacante.getTipoContratacion().setTipoContratacion_vacantes(null);
+            vacante.getMunicipio().getEstado().setVacantes_estado(null);
 
+        }
+    return listaVacantesActivas;
+    }
+    
     //Buscar vacantes cerca del candidato
     public List<Vacante> buscarVacantesCerca(Integer id_municipio){
         //Se busca un municipio para ver las vacantes que hay publicadas en este municipio
@@ -137,6 +279,8 @@ public class VacanteService {
         }
         return listaVacantesCerca;
     }
+    
+    */
 
     //Buscar vacantes por sueldo
     public List<Vacante> buscarVacantesPorSueldo(){
@@ -158,6 +302,8 @@ public class VacanteService {
         return listaVacantesPorSueldo;
     }
 
+    
+    /*
     //Buscar vacante por palabra clave
     public List<Vacante> buscarPorPalabraClave(String palabraClave){
         List<Vacante> listaVacantes = new ArrayList<>();
@@ -180,7 +326,7 @@ public class VacanteService {
         }
         return listaVacantesEncontradasPorPalabraClave;
     }
-
+*/
 
     //Eliminar vacante
     @Transactional

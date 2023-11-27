@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,7 +32,8 @@ public class VacanteController {
     @Autowired
     public VacanteService vacanteService;
     @Autowired
-    VacanteRepository vacanteRepository;
+
+    public VacanteRepository vacanteRepository;
 
     //Crear vacante
     @PutMapping("/crearVacante")
@@ -54,21 +59,96 @@ public class VacanteController {
         List<Vacante> listaVacantesActivas = this.vacanteService.obtenerListaVacantesActivas();
         return listaVacantesActivas;
     }
-
+   
+    /*
     //Obtener todas las vacantes paginadas
-    @GetMapping("/vacantes/page")
-    public Page<Vacante> consultaPage(Pageable pageable){
-        //final Pageable pageable = PageRequest.of(2,3);
+    @GetMapping("/vacantes/page/{page}")
+    public Page<Vacante> consultaPage(@PathVariable Integer page){
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("sueldo").descending());
         return vacanteService.findAllPage(pageable);
     }
-
-    //Obtener todas las vacantes paginadas
-    /*@GetMapping("/vacantes/page/{page}")
+    
+    */
+    
+    //PAGINADOS ----------------
+    
+    /*
+     * 
+     * ORDENAR POR SUELDO
+     *Sort.by("sueldo").descending()
+     *
+     */
+    
+    
+    //OBTENER VACANTES FILTRADAS POR ESTATUS
+    @GetMapping("/vacantes/page/{page}")
     public Page<Vacante> consultaPage(@PathVariable Integer page){
-         Pageable pageable = PageRequest.of(0,9);
-        return vacanteService.findAllPage(pageable);
-    }*/
-
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("sueldo").descending());
+        
+        return this.vacanteService.findAllStatus(pageable);
+    }
+    
+    /*
+    @GetMapping("/vacantes/page/nombre")
+    public ResponseEntity<Map<String, Object>> consultaPage(@RequestParam("nombre") String nombre, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page,this.vacanteRepository.findAllByEstatus(true).size());
+        List<Vacante> vacantes = new ArrayList<Vacante>();
+        Page<Vacante> vac = this.vacanteService.findAllStatus(pageable);
+        
+        for(Vacante vacante:vac.getContent()){
+        	  if(vacante.getNombreVacante().toLowerCase().contains(nombre.toLowerCase())){
+        		  vacantes.add(vacante);
+              }
+        }
+   
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", vacantes);
+        response.put("currentPage", vac.getNumber());
+        response.put("totalItems", vac.getTotalElements());
+        response.put("totalPages", 0);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    */
+    
+    //OBTENER VACANTES FILTRADAS POR ESTADO Y ESTATUS
+    @GetMapping("/vacantes/page/estado")
+    public Page<Vacante> consultaPageEstado(@RequestParam("id_estado") Integer id_estado, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("sueldo").descending());
+        return this.vacanteService.findAllEstado(pageable,id_estado);
+    }
+    
+    
+    //OBTENER VACANTES FILTRADAS POR ESTADO Y ESTATUS
+    @GetMapping("/vacantes/page/municipio")
+    public Page<Vacante> consultaPageMunicipio(@RequestParam("id_municipio") Integer id_municipio, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page, 5,Sort.by("sueldo").descending());
+        return this.vacanteService.findAllMunicipio(pageable,id_municipio);
+    }
+    
+    
+    //OBTENER VACANTES FILTRADAS POR NOMBRE Y ESTATUS
+    @GetMapping("/vacantes/page/nombre")
+    public Page<Vacante> consultarPageNombre(@RequestParam("nombre") String nombre, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page, 5,Sort.by("sueldo").descending());
+        return this.vacanteService.findAllNombreEstatus(nombre,pageable);
+    }
+    
+    @GetMapping("/vacantes/page/nombre/estado")
+    public Page<Vacante> consultarPageNombreEstado(@RequestParam("nombre") String nombre, @RequestParam("id_estado") Integer id_estado, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("sueldo").descending());
+        return this.vacanteService.findAllNombreEstatusEstado(nombre,id_estado,pageable);
+    }
+    
+    @GetMapping("/vacantes/page/nombre/municipio")
+    public Page<Vacante> consultarPageNombreMunicipio(@RequestParam("nombre") String nombre, @RequestParam("id_municipio") Integer id_municipio, @RequestParam("page") Integer page){
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("sueldo").descending());
+        return this.vacanteService.findAllNombreEstatusMunicipio(nombre,id_municipio,pageable);
+    }
+    
+    //PAGINADOS ----------------
+    
+ 
     //Eliminar vacante
     @DeleteMapping("/eliminarVacante/{id_vacante}")
     public ResponseEntity<?> eliminarVacante(@PathVariable Integer id_vacante){
@@ -97,13 +177,15 @@ public class VacanteController {
     return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    /*
     //Buscar vacantes cercanas al candidato
     @GetMapping("/obtenerVacantesCerca/{id_municipio}")
     public List<Vacante> buscarVacantesCerca(@PathVariable Integer id_municipio){
         List<Vacante> listaVacantesCerca = this.vacanteService.buscarVacantesCerca(id_municipio);
         return listaVacantesCerca;
     }
-
+     */
+    
     //Buscar vacantes por filtro SUELDO (Mayor a menor)
     @GetMapping("/obtenerVacantesPorSueldo")
     public List<Vacante> buscarVacantesPorSueldo(){
@@ -112,13 +194,14 @@ public class VacanteController {
         return listaVacantesPorSueldo;
     }
 
+    /*
     //Buscar vacantes por palabra clave
     @GetMapping("/obtenerVacantesPorPalabraClave/{palabraClave}")
     public List<Vacante> buscarPorPalabraClave(@PathVariable String palabraClave){
         List<Vacante> listaVacantesEncontradasPorPalabraClave = this.vacanteService.buscarPorPalabraClave(palabraClave);
         return listaVacantesEncontradasPorPalabraClave;
     }
-
+	*/
     //Buscar vacantes cerca y por palabra clave
     @GetMapping("/obtenerVacantesCercaYPorPalabraClave")
     public List<Vacante> buscarVacantesCercaYPorPalabraClave(@RequestParam("id_municipio") Integer id_municipio, @RequestParam("palabraClave") String palabraClave){
