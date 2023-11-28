@@ -3,11 +3,16 @@ package com.example.portaldeempleo.controller;
 import com.example.portaldeempleo.DTO.DataDTO;
 import com.example.portaldeempleo.DTO.RespuestaDTO;
 import com.example.portaldeempleo.DTO.VacanteDTO;
+import com.example.portaldeempleo.dominio.Formato;
 import com.example.portaldeempleo.entities.Candidato;
+import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.repositories.VacanteRepository;
 import com.example.portaldeempleo.services.CandidatoService;
+import com.example.portaldeempleo.services.UsuarioService;
 import com.example.portaldeempleo.services.VacanteService;
+import com.itextpdf.text.DocumentException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -32,8 +38,10 @@ public class VacanteController {
     @Autowired
     public VacanteService vacanteService;
     @Autowired
-
     public VacanteRepository vacanteRepository;
+    
+    @Autowired
+    public UsuarioService userService;
 
     //Crear vacante
     @PutMapping("/crearVacante")
@@ -241,9 +249,31 @@ public class VacanteController {
 
     //Obtener lista de vacantes filtro actividad
     @GetMapping("/obtenerListaVacantesActividad")
-    public List<Vacante> obtenerListaVacantesFiltro(@RequestParam String tipoFiltro){
+    public ResponseEntity<?> obtenerListaVacantesFiltro(@RequestParam("tipoFiltro") String tipoFiltro, @RequestParam("id_usuario") Integer id_usuario){
         List<Vacante> listaVacantes = this.vacanteService.obtenerListaVacantesFiltro(tipoFiltro);
-        return listaVacantes;
+        Usuario admin = userService.obtenerUsuarioPorId(id_usuario);
+        Formato reporte = new Formato();
+        
+        boolean  error;
+        
+        try {
+			reporte.crearDocumento();
+		    reporte.abrirDocumento();
+			reporte.agregarTitulo("REPORTE DE VACANTES " + tipoFiltro.toUpperCase());
+			reporte.agregarSaltoDeLinea();
+			reporte.agregarTablaVacantes(listaVacantes);
+			reporte.agregarSaltoDeLinea();
+			reporte.agregarParrafo("Reporte generado por "+admin.getNombre()+" "+admin.getApellidoP()+" "+admin.getApellidoM()+".");
+			reporte.cerrarDocumento();
+			error = false;
+			
+		} catch (FileNotFoundException | DocumentException e) {
+			e.printStackTrace();
+			error = true;
+
+		}
+        
+        return new ResponseEntity<>(error, HttpStatus.OK);
     }
 
 }

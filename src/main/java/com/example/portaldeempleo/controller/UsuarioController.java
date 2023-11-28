@@ -1,5 +1,7 @@
 package com.example.portaldeempleo.controller;
 
+import java.time.*;
+import com.example.portaldeempleo.dominio.*;
 import com.example.portaldeempleo.DTO.*;
 
 import com.example.portaldeempleo.Mail.Authenticate;
@@ -7,6 +9,8 @@ import com.example.portaldeempleo.entities.Usuario;
 import com.example.portaldeempleo.entities.Vacante;
 import com.example.portaldeempleo.repositories.UsuarioRepository;
 import com.example.portaldeempleo.services.UsuarioService;
+import com.itextpdf.text.DocumentException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -132,16 +139,56 @@ public class UsuarioController {
 
     //Obtener lista de vacantes filtro actividad
     @GetMapping("/obtenerListaUsuariosActividad")
-    public List<Usuario> obtenerListaUsuariosFiltro(@RequestParam String tipoFiltro){
-        List<Usuario> listaUsuarios = this.usuarioService.obtenerListaUsuariosFiltro(tipoFiltro);
-        return listaUsuarios;
+    public ResponseEntity<?>  obtenerListaUsuariosFiltro(@RequestParam String tipoFiltro, @RequestParam("id_usuario") Integer id_usuario) throws FileNotFoundException, DocumentException {
+        Usuario admin = usuarioService.obtenerUsuarioPorId(id_usuario);
+    	List<Usuario> listaUsuarios = this.usuarioService.obtenerListaUsuariosFiltro(tipoFiltro);
+        Formato reporte = new Formato();
+        boolean error;
+        try {
+        reporte.crearDocumento();
+        reporte.abrirDocumento();
+        reporte.agregarTitulo("REPORTE DE USUARIOS "+ tipoFiltro.toUpperCase());
+        reporte.agregarSaltoDeLinea();
+        reporte.agregarTablaUsuarios(listaUsuarios);
+        reporte.agregarSaltoDeLinea();
+        reporte.agregarParrafo("Reporte generado por "+admin.getNombre()+" "+admin.getApellidoP()+" "+admin.getApellidoM()+".");
+        reporte.cerrarDocumento();
+        error = false;
+    	} catch (FileNotFoundException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		error = true;
+		}
+        
+        return new ResponseEntity<>(error, HttpStatus.OK);
     }
 
     //Obtener lista de usuarios por rol
     @GetMapping("/obtenerListaUsuariosRol")
-    public List<Usuario> obtenerListaUsuariosRol(@RequestParam String rol){
+    public ResponseEntity<?>  obtenerListaUsuariosRol(@RequestParam String rol, @RequestParam("id_usuario") Integer id_usuario) throws FileNotFoundException, DocumentException {
         List<Usuario> listaUsuarios = this.usuarioService.obtenerListaUsuariosRol(rol);
-        return listaUsuarios;
+        Usuario admin = usuarioService.obtenerUsuarioPorId(id_usuario);
+        Formato reporte = new Formato();
+        boolean error;
+
+        try {
+			reporte.crearDocumento();
+			reporte.abrirDocumento();
+	        reporte.agregarTitulo("REPORTE DE USUARIOS CON ROL " + rol.toUpperCase());
+	        reporte.agregarSaltoDeLinea();
+	        reporte.agregarTablaUsuarios(listaUsuarios);
+	        reporte.agregarSaltoDeLinea();
+	        reporte.agregarParrafo("Reporte generado por "+admin.getNombre()+" "+admin.getApellidoP()+" "+admin.getApellidoM()+".");
+	        reporte.cerrarDocumento();
+	        error = false;
+
+		} catch (FileNotFoundException | DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			error = true;
+		
+		}
+        return new ResponseEntity<>(error, HttpStatus.OK);
     }
     
 }
