@@ -1,5 +1,6 @@
 package com.example.portaldeempleo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
@@ -21,6 +22,7 @@ public class Habilidad {
     private String nombreHabilidad;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name="habilidad_candidato",
             joinColumns = @JoinColumn(name="id_habilidad", updatable = false),
             inverseJoinColumns = @JoinColumn(name="id_candidato", updatable = false))

@@ -17,12 +17,12 @@ public class IdiomaCandidato {
 
     @OneToOne
     @NonNull
-    @JoinColumn(name="id_idioma", updatable = false)
+    @JoinColumn(name="id_idioma", updatable = false, unique = false)
     private Idioma idioma;
 
     @OneToOne
     @NonNull
-    @JoinColumn(name="id_candidato", updatable = false)
+    @JoinColumn(name="id_candidato", updatable = false, unique = false)
     private Candidato candidato;
 
     public Integer getId_idiomacandidato() {

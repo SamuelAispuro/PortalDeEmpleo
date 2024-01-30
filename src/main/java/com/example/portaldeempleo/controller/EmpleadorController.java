@@ -73,6 +73,7 @@ public class EmpleadorController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+
     //OBTENER LISTA EMPLEADORES
     @GetMapping("/obtenerListaEmpleadores")
     public ResponseEntity<?> obtenerListaEmpleadores(){

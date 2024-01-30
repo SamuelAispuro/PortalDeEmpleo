@@ -1,6 +1,7 @@
 package com.example.portaldeempleo.services;
 
 import com.example.portaldeempleo.DTO.RespPostDTO;
+import com.example.portaldeempleo.dominio.FormatoExcel;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.EmpleadorRepository;
 import com.example.portaldeempleo.repositories.PostulacionRepository;
@@ -8,6 +9,8 @@ import com.example.portaldeempleo.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,10 @@ public class EmpleadorService {
     public List<Empleador> obtenerEmpleadoresTodos(){
         List<Empleador> listaEmpleadoresTodos = new ArrayList<>();
         listaEmpleadoresTodos = empleadorRepository.findAll();
+
+        FormatoExcel formatoExcel = new FormatoExcel();
+        formatoExcel.generateExcelReport(listaEmpleadoresTodos, "C:\\Users\\52667\\Desktop\\Reportes\\reporteExcel_.xlsx");
+
         for(Empleador empleador:listaEmpleadoresTodos){
             empleador.setVacantes(null);
 
@@ -85,6 +92,7 @@ public class EmpleadorService {
         vacante.getTipoHorario().setTipoHorario_vacantes(null);
         vacante.getMunicipio().getEstado().setVacantes_estado(null);
         vacante.getEstado().setVacantes_estado(null);
+        vacante.getEstado().setMunicipios(null);
         }
         return listaVacantes;
     }

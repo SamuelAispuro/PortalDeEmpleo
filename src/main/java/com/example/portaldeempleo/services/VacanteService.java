@@ -1,5 +1,7 @@
 package com.example.portaldeempleo.services;
 
+import com.example.portaldeempleo.dominio.FormatoExcel;
+import com.example.portaldeempleo.dominio.FormatoVacantesExcel;
 import com.example.portaldeempleo.entities.*;
 import com.example.portaldeempleo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -375,7 +377,7 @@ public class VacanteService {
     //Obtener vacante por id
     public List<Candidato> obtenerCandidatosDeVacante(Integer id){
         Vacante vacanteEncontrada = this.vacanteRepository.findById(id).orElse(null);
-        List<Candidato> listaCandidatos = vacanteEncontrada.getCandidatos();
+
 
         vacanteEncontrada.getMunicipio().getEstado().setMunicipios(null);
         vacanteEncontrada.getEmpresa().setVacantes_empresa(null);
@@ -391,10 +393,17 @@ public class VacanteService {
             candidato.getEstado().setMunicipios(null);
             candidato.getMunicipio().setVacantes_municipios(null);
             candidato.getEstado().setVacantes_estado(null);
+                for( Habilidad habilidad:candidato.getHabilidades()){
+                    habilidad.setCandidatos(null);
+            }
+                for( Idioma idioma:candidato.getIdiomas()){
+                idioma.setCandidatos(null);
+            }
+            }
 
 
-        }
 
+        List<Candidato> listaCandidatos = vacanteEncontrada.getCandidatos();
         return listaCandidatos;
 
     }
@@ -508,6 +517,7 @@ public List<Vacante> buscarVacantesCercaYPorPalabraClave(Integer id_municipio, S
             vacante.getEmpresa().setVacantes_empresa(null);
             vacante.getEstado().setVacantes_estado(null);
         }
+
         return listaVacantesEstado;
     }
 

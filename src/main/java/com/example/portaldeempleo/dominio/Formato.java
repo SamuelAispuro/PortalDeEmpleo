@@ -36,7 +36,7 @@ public class Formato {
 		
 		//ruta archivo que vamos a generar
 		String ruta = System.getProperty("user.home");
-		fileOutputStream = new FileOutputStream(ruta + "/Desktop/reporteJava.pdf");
+		fileOutputStream = new FileOutputStream(ruta + "/Desktop/Reportes/reporteJava.pdf");
 		PdfWriter.getInstance(documento, fileOutputStream);
 		
 	}

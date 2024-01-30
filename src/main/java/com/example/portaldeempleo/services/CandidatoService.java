@@ -119,8 +119,12 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
             postulacion.getCandidato().getMunicipio().setVacantes_municipios(null);
             postulacion.getCandidato().getEstado().setMunicipios(null);
             postulacion.getCandidato().getEstado().setVacantes_estado(null);
-            postulacion.getCandidato().setHabilidades(null);
-            postulacion.getCandidato().setIdiomas(null);
+            if(postulacion.getCandidato().getHabilidades()!=null){
+                postulacion.getCandidato().setHabilidades(null);
+            }
+            if(postulacion.getCandidato().getIdiomas()!=null){
+                postulacion.getCandidato().setIdiomas(null);
+            }
             postulacion.getVacante().getEmpresa().setVacantes_empresa(null);
             postulacion.getVacante().setCandidatos(null);
             postulacion.getVacante().getMunicipio().setVacantes_municipios(null);
@@ -131,7 +135,15 @@ public Candidato registroCandidato(String nombre, String apellidoP, String apell
             postulacion.getVacante().getTipoHorario().setTipoHorario_vacantes(null);
             postulacion.getVacante().getTipoContratacion().setTipoContratacion_vacantes(null);
             postulacion.getVacante().getModalidadTrabajo().setModalidadTrabajo_vacante(null);
-            postulacion.getVacante().getEstado().setVacantes_estado(null);
+            if(postulacion.getVacante().getEstado()!=null){
+                postulacion.getVacante().getEstado().setVacantes_estado(null);
+            }
+            if(postulacion.getVacante().getMunicipio().getEstado()!=null){
+                if(postulacion.getVacante().getMunicipio().getEstado().getVacantes_estado()!=null) {
+                    postulacion.getVacante().getMunicipio().getEstado().setVacantes_estado(null);
+                }
+            }
+
             if(postulacion.getVacante().getEstado().getMunicipios() != null) {
                 postulacion.getVacante().getEstado().setMunicipios(null);
             }
