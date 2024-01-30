@@ -184,7 +184,7 @@ public class VacanteService {
     
     @Transactional(readOnly = true)
     public Page<Vacante> findAllNombreEstatus(String nombre, Pageable pageable ){
-    	Page <Vacante> vac = vacanteRepository.findAllByEstatusAndNombreVacante(true, nombre, pageable); 
+    	Page <Vacante> vac = vacanteRepository.findAllByEstatusAndNombreVacanteIgnoreCase(true, nombre, pageable);
     	 
     for(Vacante vacante:vac){
         vacante.setCandidatos(null);

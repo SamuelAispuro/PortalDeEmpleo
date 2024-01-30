@@ -25,10 +25,17 @@ public interface VacanteRepository extends JpaRepository<Vacante, Integer> {
     public Page<Vacante> findAllByEstatus(Boolean estatus,Pageable pageable);
     
     
-    public Page<Vacante> findAllByEstatusAndNombreVacante(Boolean estatus,String nombreVacante,Pageable pageable);
+    //public Page<Vacante> findAllByEstatusAndNombreVacante(Boolean estatus,String nombreVacante,Pageable pageable);
     public Page<Vacante> findAllByEstadoAndEstatusAndNombreVacante(Estado estado,Boolean estatus, String nombreVacante, Pageable pageable);
     public Page<Vacante> findAllByMunicipioAndEstatusAndNombreVacante(Municipio municipio, Boolean estatus, String nombreVacante, Pageable pageable);
 
+
+    @Query("SELECT v FROM Vacante v WHERE LOWER(v.nombreVacante) = LOWER(:nombreVacante) AND v.estatus = :estatus")
+    Page<Vacante> findAllByEstatusAndNombreVacanteIgnoreCase(
+            @Param("estatus") Boolean estatus,
+            @Param("nombreVacante") String nombreVacante,
+            Pageable pageable
+    );
   
 
     @Modifying
